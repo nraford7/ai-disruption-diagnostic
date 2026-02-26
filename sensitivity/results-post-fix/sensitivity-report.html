@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Disruption Diagnostic — Sensitivity Analysis</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #0a0a0f;
+      color: #e0e0e0;
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar navigation */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 260px;
+      height: 100vh;
+      background: #12121a;
+      border-right: 1px solid #1e1e2e;
+      padding: 24px 16px;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .sidebar h1 {
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #6366f1;
+      margin-bottom: 8px;
+    }
+
+    .sidebar .subtitle {
+      font-size: 11px;
+      color: #8888a0;
+      margin-bottom: 24px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 8px 12px;
+      margin-bottom: 2px;
+      color: #8888a0;
+      text-decoration: none;
+      font-size: 13px;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-link:hover {
+      color: #e0e0e0;
+      background: #0a0a0f;
+    }
+
+    /* Main content */
+    .main {
+      margin-left: 260px;
+      flex: 1;
+      padding: 40px 48px;
+      max-width: 1400px;
+    }
+
+    .report-header {
+      margin-bottom: 48px;
+    }
+
+    .report-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .report-header .meta {
+      font-size: 13px;
+      color: #8888a0;
+    }
+
+    .report-section {
+      margin-bottom: 56px;
+    }
+
+    .report-section h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #e0e0e0;
+      margin-bottom: 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #1e1e2e;
+    }
+
+    /* Data tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 10px 12px;
+      background: #12121a;
+      color: #8888a0;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid #1e1e2e;
+    }
+
+    .data-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #1e1e2e33;
+    }
+
+    .data-table tr:hover td {
+      background: #12121a88;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .key-badge {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      border-radius: 4px;
+      background: #6366f122;
+      color: #818cf8;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .muted { color: #8888a0; }
+
+    /* Heatmap tables */
+    .heatmap-scroll { overflow-x: auto; }
+
+    .heatmap-table {
+      border-collapse: collapse;
+      font-size: 12px;
+      width: 100%;
+    }
+
+    .heatmap-table th {
+      padding: 8px 10px;
+      background: #12121a;
+      color: #8888a0;
+      font-weight: 600;
+      font-size: 11px;
+      text-align: center;
+      border-bottom: 1px solid #1e1e2e;
+    }
+
+    .heatmap-table .sector-label {
+      text-align: left;
+      padding: 6px 10px;
+      font-weight: 500;
+      color: #e0e0e0;
+      white-space: nowrap;
+    }
+
+    .heat-cell {
+      text-align: center;
+      padding: 6px 8px;
+      font-weight: 600;
+      font-size: 11px;
+      min-width: 56px;
+    }
+
+    .dom-cell {
+      background: #12121a;
+      color: #818cf8;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .margin-label {
+      display: block;
+      font-size: 9px;
+      font-weight: 400;
+      color: #8888a0;
+      margin-top: 2px;
+    }
+
+    /* Tornado grid */
+    .tornado-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 20px;
+    }
+
+    .tornado-card {
+      background: #12121a;
+      border: 1px solid #1e1e2e;
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    .tornado-card h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e0e0e0;
+      margin-bottom: 12px;
+    }
+
+    /* Trigger title */
+    .trigger-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #818cf8;
+      margin: 20px 0 10px 0;
+    }
+
+    /* Chart containers */
+    .chart-container {
+      background: #12121a;
+      border: 1px solid #1e1e2e;
+      border-radius: 8px;
+      padding: 24px;
+      position: relative;
+    }
+
+    /* Calibration flags */
+    .flags-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .flag-card {
+      background: #12121a;
+      border: 1px solid #1e1e2e;
+      border-radius: 8px;
+      padding: 16px 20px;
+    }
+
+    .flag-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .flag-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .flag-detail {
+      font-size: 13px;
+      color: #8888a0;
+      line-height: 1.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 24px 16px; }
+      .tornado-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="sidebar">
+    <h1>Sensitivity Analysis</h1>
+    <div class="subtitle">AI Disruption Diagnostic</div>
+    <a href="#exec-summary" class="nav-link">1. Executive Summary</a>
+<a href="#param-leverage" class="nav-link">2. Parameter Leverage</a>
+<a href="#sector-heatmap" class="nav-link">3. Sector x Tier Heatmap</a>
+<a href="#weight-tornado" class="nav-link">4. Weight Sensitivity Tornados</a>
+<a href="#impact-influence" class="nav-link">5. Impact Score Influence</a>
+<a href="#monte-carlo" class="nav-link">6. Monte Carlo Distributions</a>
+<a href="#threshold-map" class="nav-link">7. Threshold Proximity Map</a>
+<a href="#dominant-stability" class="nav-link">8. Dominant Impact Stability</a>
+<a href="#calibration" class="nav-link">9. Calibration Flags</a>
+
+  </nav>
+  <main class="main">
+    <header class="report-header">
+      <h1>Sensitivity Analysis Report</h1>
+      <div class="meta">Generated 2026-02-26T12:29:32.642Z &mdash; 107516 total engine runs</div>
+    </header>
+    
+      <section id="exec-summary" class="report-section">
+        <h2>1. Executive Summary</h2>
+        
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Sector</th>
+          <th>Score</th>
+          <th>Zone</th>
+          <th>Dominant Impact</th>
+          <th>Higher-Order Triggers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Financial Services &amp; Insurance</td>
+          <td style="color:#f97316;font-weight:600">51.2</td>
+          <td><span class="badge" style="background:#f9731620;color:#f97316">Transforming</span></td>
+          <td>T/A</td>
+          <td class="muted">Scarce knowledge → zero value, Coordination costs → zero</td>
+        </tr>
+        <tr>
+          <td>Healthcare &amp; Life Sciences</td>
+          <td style="color:#eab308;font-weight:600">44.8</td>
+          <td><span class="badge" style="background:#eab30820;color:#eab308">Transforming</span></td>
+          <td>D/T</td>
+          <td class="muted">Coordination costs → zero</td>
+        </tr>
+        <tr>
+          <td>Information Technology &amp; Software</td>
+          <td style="color:#f97316;font-weight:600">54.6</td>
+          <td><span class="badge" style="background:#f9731620;color:#f97316">Transforming</span></td>
+          <td>T/P</td>
+          <td class="muted">Coordination costs → zero</td>
+        </tr>
+        <tr>
+          <td>Media, Entertainment &amp; Creative</td>
+          <td style="color:#f97316;font-weight:600">55.1</td>
+          <td><span class="badge" style="background:#f9731620;color:#f97316">Transforming</span></td>
+          <td>T/P</td>
+          <td class="muted">Scarce knowledge → zero value, Coordination costs → zero</td>
+        </tr>
+        <tr>
+          <td>Professional Services (Legal, Consulting, Accounting)</td>
+          <td style="color:#eab308;font-weight:600">49.6</td>
+          <td><span class="badge" style="background:#eab30820;color:#eab308">Transforming</span></td>
+          <td>T</td>
+          <td class="muted">Coordination costs → zero</td>
+        </tr>
+        <tr>
+          <td>Education &amp; Training</td>
+          <td style="color:#eab308;font-weight:600">47.8</td>
+          <td><span class="badge" style="background:#eab30820;color:#eab308">Transforming</span></td>
+          <td>P/T</td>
+          <td class="muted">Coordination costs → zero</td>
+        </tr>
+        <tr>
+          <td>Government &amp; Public Administration</td>
+          <td style="color:#eab308;font-weight:600">46.0</td>
+          <td><span class="badge" style="background:#eab30820;color:#eab308">Transforming</span></td>
+          <td>A/C</td>
+          <td class="muted">Scarce knowledge → zero value</td>
+        </tr>
+        <tr>
+          <td>Manufacturing &amp; Industrial</td>
+          <td style="color:#eab308;font-weight:600">43.8</td>
+          <td><span class="badge" style="background:#eab30820;color:#eab308">Transforming</span></td>
+          <td>D</td>
+          <td class="muted">None</td>
+        </tr>
+        <tr>
+          <td>Energy &amp; Utilities</td>
+          <td style="color:#eab308;font-weight:600">44.3</td>
+          <td><span class="badge" style="background:#eab30820;color:#eab308">Transforming</span></td>
+          <td>D</td>
+          <td class="muted">None</td>
+        </tr>
+        <tr>
+          <td>Construction &amp; Real Estate</td>
+          <td style="color:#eab308;font-weight:600">44.5</td>
+          <td><span class="badge" style="background:#eab30820;color:#eab308">Transforming</span></td>
+          <td>D</td>
+          <td class="muted">None</td>
+        </tr>
+        <tr>
+          <td>Transportation &amp; Logistics</td>
+          <td style="color:#eab308;font-weight:600">42.4</td>
+          <td><span class="badge" style="background:#eab30820;color:#eab308">Transforming</span></td>
+          <td>A/C</td>
+          <td class="muted">None</td>
+        </tr>
+        <tr>
+          <td>Retail &amp; Consumer Services</td>
+          <td style="color:#eab308;font-weight:600">49.8</td>
+          <td><span class="badge" style="background:#eab30820;color:#eab308">Transforming</span></td>
+          <td>A/C</td>
+          <td class="muted">Coordination costs → zero</td>
+        </tr>
+        <tr>
+          <td>Agriculture &amp; Food Production</td>
+          <td style="color:#eab308;font-weight:600">41.1</td>
+          <td><span class="badge" style="background:#eab30820;color:#eab308">Transforming</span></td>
+          <td>D/A</td>
+          <td class="muted">None</td>
+        </tr>
+        <tr>
+          <td>Mining &amp; Natural Resources</td>
+          <td style="color:#eab308;font-weight:600">40.6</td>
+          <td><span class="badge" style="background:#eab30820;color:#eab308">Transforming</span></td>
+          <td>D</td>
+          <td class="muted">None</td>
+        </tr>
+        <tr>
+          <td>Telecommunications</td>
+          <td style="color:#f97316;font-weight:600">50.2</td>
+          <td><span class="badge" style="background:#f9731620;color:#f97316">Transforming</span></td>
+          <td>T/D</td>
+          <td class="muted">Coordination costs → zero</td>
+        </tr>
+        <tr>
+          <td>Defense &amp; Aerospace</td>
+          <td style="color:#eab308;font-weight:600">47.8</td>
+          <td><span class="badge" style="background:#eab30820;color:#eab308">Transforming</span></td>
+          <td>D/P</td>
+          <td class="muted">None</td>
+        </tr></tbody></table>
+      </section>
+
+      <section id="param-leverage" class="report-section">
+        <h2>2. Parameter Leverage</h2>
+        
+    <div class="chart-container">
+      <canvas id="paramLeverageChart"></canvas>
+    </div>
+    <script>
+      new Chart(document.getElementById('paramLeverageChart'), {
+        type: 'bar',
+        data: {
+          labels: ["tier","sector","adoption","horizon"],
+          datasets: [{
+            label: 'Average Leverage (score range)',
+            data: [28.67,9.4,4.13,0],
+            backgroundColor: '#6366f1',
+            borderColor: '#818cf8',
+            borderWidth: 1,
+            borderRadius: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          indexAxis: 'x',
+          plugins: {
+            legend: { display: false },
+            title: { display: true, text: 'Parameter Leverage (avg max-min across baselines)', color: '#e0e0e0', font: { size: 14 } }
+          },
+          scales: {
+            x: { ticks: { color: '#8888a0' }, grid: { color: '#1e1e2e' } },
+            y: { ticks: { color: '#8888a0' }, grid: { color: '#1e1e2e' }, title: { display: true, text: 'Score Range', color: '#8888a0' } }
+          }
+        }
+      });
+    </script>
+      </section>
+
+      <section id="sector-heatmap" class="report-section">
+        <h2>3. Sector x Tier Heatmap</h2>
+        
+    <div class="heatmap-scroll">
+    <table class="heatmap-table">
+      <thead>
+        <tr>
+          <th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">Financial Services &amp; Insurance</td><td class="heat-cell" style="background:#93e796;color:#000">28.3</td><td class="heat-cell" style="background:#d6bf29;color:#000">45.0</td><td class="heat-cell" style="background:#ebb009;color:#000">51.2</td><td class="heat-cell" style="background:#ecaa0a;color:#000">53.3</td><td class="heat-cell" style="background:#e2b816;color:#000">47.9</td></tr><tr><td class="sector-label">Healthcare &amp; Life Sciences</td><td class="heat-cell" style="background:#82eaa8;color:#000">24.1</td><td class="heat-cell" style="background:#b5d35e;color:#000">36.8</td><td class="heat-cell" style="background:#d5bf2a;color:#000">44.8</td><td class="heat-cell" style="background:#eda60b;color:#000">55.0</td><td class="heat-cell" style="background:#eab208;color:#000">50.6</td></tr><tr><td class="sector-label">Information Technology &amp; Software</td><td class="heat-cell" style="background:#90e99c;color:#000">27.5</td><td class="heat-cell" style="background:#d1c232;color:#000">43.6</td><td class="heat-cell" style="background:#eda70b;color:#000">54.6</td><td class="heat-cell" style="background:#eea10c;color:#000">57.1</td><td class="heat-cell" style="background:#eab308;color:#000">50.2</td></tr><tr><td class="sector-label">Media, Entertainment &amp; Creative</td><td class="heat-cell" style="background:#92e898;color:#000">28.1</td><td class="heat-cell" style="background:#d0c332;color:#000">43.5</td><td class="heat-cell" style="background:#eda60b;color:#000">55.1</td><td class="heat-cell" style="background:#eda40b;color:#000">55.8</td><td class="heat-cell" style="background:#dfba1a;color:#000">47.3</td></tr><tr><td class="sector-label">Professional Services (Legal, Consulting, Accounting)</td><td class="heat-cell" style="background:#84edaa;color:#000">24.6</td><td class="heat-cell" style="background:#c4ca47;color:#000">40.4</td><td class="heat-cell" style="background:#e8b40b;color:#000">49.6</td><td class="heat-cell" style="background:#eda70b;color:#000">54.8</td><td class="heat-cell" style="background:#e3b714;color:#000">48.2</td></tr><tr><td class="sector-label">Education &amp; Training</td><td class="heat-cell" style="background:#7fe7a5;color:#000">23.5</td><td class="heat-cell" style="background:#b1d565;color:#000">35.8</td><td class="heat-cell" style="background:#e1b816;color:#000">47.8</td><td class="heat-cell" style="background:#eda70b;color:#000">54.6</td><td class="heat-cell" style="background:#eab208;color:#000">50.4</td></tr><tr><td class="sector-label">Government &amp; Public Administration</td><td class="heat-cell" style="background:#8beca4;color:#000">26.2</td><td class="heat-cell" style="background:#c2cb49;color:#000">40.0</td><td class="heat-cell" style="background:#dabd22;color:#000">46.0</td><td class="heat-cell" style="background:#eab309;color:#000">49.9</td><td class="heat-cell" style="background:#d6bf2a;color:#000">44.9</td></tr><tr><td class="sector-label">Manufacturing &amp; Industrial</td><td class="heat-cell" style="background:#7ae09f;color:#000">22.3</td><td class="heat-cell" style="background:#b1d565;color:#000">35.8</td><td class="heat-cell" style="background:#d1c231;color:#000">43.8</td><td class="heat-cell" style="background:#ebae09;color:#000">52.0</td><td class="heat-cell" style="background:#eab308;color:#000">50.2</td></tr><tr><td class="sector-label">Energy &amp; Utilities</td><td class="heat-cell" style="background:#83eba8;color:#000">24.3</td><td class="heat-cell" style="background:#b9d058;color:#000">37.9</td><td class="heat-cell" style="background:#d3c12e;color:#000">44.3</td><td class="heat-cell" style="background:#ecab0a;color:#000">53.0</td><td class="heat-cell" style="background:#ebb009;color:#000">51.2</td></tr><tr><td class="sector-label">Construction &amp; Real Estate</td><td class="heat-cell" style="background:#72d797;color:#000">20.6</td><td class="heat-cell" style="background:#a5dd79;color:#000">32.7</td><td class="heat-cell" style="background:#d4c02c;color:#000">44.5</td><td class="heat-cell" style="background:#ecac09;color:#000">52.5</td><td class="heat-cell" style="background:#dfba1a;color:#000">47.3</td></tr><tr><td class="sector-label">Transportation &amp; Logistics</td><td class="heat-cell" style="background:#81e9a7;color:#000">24.0</td><td class="heat-cell" style="background:#b8d159;color:#000">37.6</td><td class="heat-cell" style="background:#ccc53a;color:#000">42.4</td><td class="heat-cell" style="background:#e8b40b;color:#000">49.5</td><td class="heat-cell" style="background:#e5b610;color:#000">48.8</td></tr><tr><td class="sector-label">Retail &amp; Consumer Services</td><td class="heat-cell" style="background:#8eea9f;color:#000">27.0</td><td class="heat-cell" style="background:#cec435;color:#000">43.1</td><td class="heat-cell" style="background:#e9b309;color:#000">49.8</td><td class="heat-cell" style="background:#ebaf09;color:#000">51.5</td><td class="heat-cell" style="background:#e4b611;color:#000">48.6</td></tr><tr><td class="sector-label">Agriculture &amp; Food Production</td><td class="heat-cell" style="background:#7ee5a3;color:#000">23.1</td><td class="heat-cell" style="background:#acd86e;color:#000">34.5</td><td class="heat-cell" style="background:#c7c842;color:#000">41.1</td><td class="heat-cell" style="background:#e1b817;color:#000">47.7</td><td class="heat-cell" style="background:#eab308;color:#000">50.0</td></tr><tr><td class="sector-label">Mining &amp; Natural Resources</td><td class="heat-cell" style="background:#76db9b;color:#000">21.4</td><td class="heat-cell" style="background:#a3dd7c;color:#000">32.3</td><td class="heat-cell" style="background:#c5c945;color:#000">40.6</td><td class="heat-cell" style="background:#e2b816;color:#000">47.9</td><td class="heat-cell" style="background:#e4b712;color:#000">48.5</td></tr><tr><td class="sector-label">Telecommunications</td><td class="heat-cell" style="background:#8ceba2;color:#000">26.6</td><td class="heat-cell" style="background:#ccc539;color:#000">42.5</td><td class="heat-cell" style="background:#eab208;color:#000">50.2</td><td class="heat-cell" style="background:#ecab0a;color:#000">53.2</td><td class="heat-cell" style="background:#e8b40b;color:#000">49.5</td></tr><tr><td class="sector-label">Defense &amp; Aerospace</td><td class="heat-cell" style="background:#7ee6a4;color:#000">23.3</td><td class="heat-cell" style="background:#b7d15b;color:#000">37.4</td><td class="heat-cell" style="background:#e1b816;color:#000">47.8</td><td class="heat-cell" style="background:#eea40b;color:#000">55.9</td><td class="heat-cell" style="background:#eab108;color:#000">50.7</td></tr></tbody></table></div>
+      </section>
+
+      <section id="weight-tornado" class="report-section">
+        <h2>4. Weight Sensitivity Tornados</h2>
+        <div class="tornado-grid">
+      <div class="tornado-card">
+        <h4>Financial Services &amp; Insurance</h4>
+        <canvas id="tornado_0" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_0'), {
+            type: 'bar',
+            data: {
+              labels: ["Financial analysis & risk mo...","Data analysis & business int...","People management & team lea...","Negotiation & deal structuring","Bookkeeping & financial repo...","Transaction processing","Sales & client relationship ...","Customer service & support"],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [1.56,1.46,0.83,0.94,0.86,1.33,1.25,0.88],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-1.56,-1.17,-2.08,-1.56,-1.22,-1.33,-1.12,-1.19],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Healthcare &amp; Life Sciences</h4>
+        <canvas id="tornado_1" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_1'), {
+            type: 'bar',
+            data: {
+              labels: ["Caregiving & patient interac...","Data entry & record-keeping","Diagnostics & troubleshooting","Document review & classifica...","Research & knowledge synthesis","People management & team lea...","Strategic planning & executi...","Stakeholder communication & PR"],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [1.99,1.45,1.26,1.15,1.06,0.49,0.37,0.44],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-1.99,-1.45,-1.26,-1.39,-0.95,-1.23,-1.22,-1.47],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Information Technology &amp; Software</h4>
+        <canvas id="tornado_2" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_2'), {
+            type: 'bar',
+            data: {
+              labels: ["People management & team lea...","Strategic planning & executi...","Data analysis & business int...","Stakeholder communication & PR","Customer service & support","Software development & engin...","Diagnostics & troubleshooting","Teaching, training & mentoring"],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [0.98,0.98,1.15,0.63,1.14,1.34,0.98,0.54],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-1.96,-1.96,-1.15,-1.58,-1.63,-1.34,-0.98,-1.35],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Media, Entertainment &amp; Creative</h4>
+        <canvas id="tornado_3" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_3'), {
+            type: 'bar',
+            data: {
+              labels: ["People management & team lea...","Strategic planning & executi...","Creative direction & content...","Market research & competitiv...","Stakeholder communication & PR","Data analysis & business int...","Bookkeeping & financial repo...","Negotiation & deal structuring"],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [1.2,0.99,1.31,1.3,1.37,1.27,0.86,1.09],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-2,-1.97,-1.31,-1.3,-1.52,-1.02,-1.44,-1.55],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Professional Services (Legal, Consulting, Accounting)</h4>
+        <canvas id="tornado_4" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_4'), {
+            type: 'bar',
+            data: {
+              labels: ["Data analysis & business int...","Bookkeeping & financial repo...","Document review & classifica...","People management & team lea...","Strategic planning & executi...","Customer service & support","Research & knowledge synthesis","Negotiation & deal structuring"],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [1.64,1.25,1.5,0.81,0.81,1.33,1.26,1.22],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-1.31,-1.36,-1.5,-1.62,-1.62,-1.31,-1.26,-1.22],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Education &amp; Training</h4>
+        <canvas id="tornado_5" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_5'), {
+            type: 'bar',
+            data: {
+              labels: ["Creative direction & content...","Data analysis & business int...","Data entry & record-keeping","Caregiving & patient interac...","Bookkeeping & financial repo...","Research & knowledge synthesis","People management & team lea...","Strategic planning & executi..."],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [1.86,1.8,1.38,1.43,1.32,1.18,0.6,0.48],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-1.12,-0.54,-1.36,-1.79,-1.3,-1.18,-1.21,-1.2],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Government &amp; Public Administration</h4>
+        <canvas id="tornado_6" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_6'), {
+            type: 'bar',
+            data: {
+              labels: ["Data analysis & business int...","Emergency response & crisis ...","People management & team lea...","Strategic planning & executi...","Customer service & support","Negotiation & deal structuring","Bookkeeping & financial repo...","Cybersecurity & threat monit..."],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [1.95,0.79,1.13,0.96,1.4,0.95,1.07,1.46],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-0.78,-1.58,-1.61,-1.6,-0.83,-1.3,-0.83,-0.44],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Manufacturing &amp; Industrial</h4>
+        <canvas id="tornado_7" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_7'), {
+            type: 'bar',
+            data: {
+              labels: ["Cleaning, maintenance & faci...","Data analysis & business int...","Skilled trades & craft work","Assembly & fabrication","Engineering design & simulat...","Diagnostics & troubleshooting","Supply chain optimization","Bookkeeping & financial repo..."],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [1.42,2.17,1.24,1.31,1.69,1.36,1.32,1.44],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-2.84,-0.87,-2.07,-1.31,-1.69,-0.95,-1.32,-1.03],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Energy &amp; Utilities</h4>
+        <canvas id="tornado_8" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_8'), {
+            type: 'bar',
+            data: {
+              labels: ["Cleaning, maintenance & faci...","Data analysis & business int...","Vehicle / equipment operatio...","Emergency response & crisis ...","Diagnostics & troubleshooting","Engineering design & simulat...","Bookkeeping & financial repo...","Field work in unstructured e..."],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [3.12,2.19,1.18,0.62,1.32,1.6,1.24,0.97],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-3.12,-1.53,-1.48,-1.55,-1.32,-1.28,-1.14,-1.38],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Construction &amp; Real Estate</h4>
+        <canvas id="tornado_9" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_9'), {
+            type: 'bar',
+            data: {
+              labels: ["Skilled trades & craft work","Cleaning, maintenance & faci...","Data analysis & business int...","Engineering design & simulat...","Bookkeeping & financial repo...","Quality control / inspection...","Scheduling & resource alloca...","Field work in unstructured e..."],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [2.02,1.15,2.13,1.64,1.64,1.24,1.3,0.71],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-2.02,-2.87,-0.64,-1.64,-1.1,-0.62,-1.3,-0.89],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Transportation &amp; Logistics</h4>
+        <canvas id="tornado_10" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_10'), {
+            type: 'bar',
+            data: {
+              labels: ["Cleaning, maintenance & faci...","Data analysis & business int...","Diagnostics & troubleshooting","Supply chain optimization","Customer service & support","Vehicle / equipment operatio...","Bookkeeping & financial repo...","Material handling & warehous..."],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [1.57,2.34,1.63,1.16,1.68,1.47,1.27,0.89],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-2.61,-1.17,-1.14,-1.16,-1.01,-1.47,-0.78,-0.89],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Retail &amp; Consumer Services</h4>
+        <canvas id="tornado_11" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_11'), {
+            type: 'bar',
+            data: {
+              labels: ["Cleaning, maintenance & faci...","Market research & competitiv...","Data analysis & business int...","Material handling & warehous...","Creative direction & content...","People management & team lea...","Customer service & support","Strategic planning & executi..."],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [1.1,1.61,1.58,1.38,1.56,0.75,1.25,0.37],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-2.76,-1.29,-0.95,-1.38,-0.78,-1.88,-1.25,-1.84],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Agriculture &amp; Food Production</h4>
+        <canvas id="tornado_12" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_12'), {
+            type: 'bar',
+            data: {
+              labels: ["Data analysis & business int...","Cleaning, maintenance & faci...","Harvesting & extraction","Diagnostics & troubleshooting","Supply chain optimization","Engineering design & simulat...","Vehicle / equipment operatio...","Bookkeeping & financial repo..."],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [2.48,1.45,2.08,1.78,1.44,1.84,1.17,1.36],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-1.24,-2.42,-2.08,-0.89,-1.15,-0.55,-1.17,-0.82],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Mining &amp; Natural Resources</h4>
+        <canvas id="tornado_13" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_13'), {
+            type: 'bar',
+            data: {
+              labels: ["Data analysis & business int...","Cleaning, maintenance & faci...","Diagnostics & troubleshooting","Engineering design & simulat...","Harvesting & extraction","Skilled trades & craft work","Regulatory compliance filing","Quality control / inspection..."],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [2.53,1.72,1.82,1.97,2.05,0.74,1.17,1.18],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-1.26,-2.46,-1.46,-1.38,-2.05,-1.85,-0.68,-0.71],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Telecommunications</h4>
+        <canvas id="tornado_14" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_14'), {
+            type: 'bar',
+            data: {
+              labels: ["Cleaning, maintenance & faci...","Data analysis & business int...","Customer service & support","People management & team lea...","Software development & engin...","Strategic planning & executi...","Diagnostics & troubleshooting","Bookkeeping & financial repo..."],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [2.45,1.55,1.31,0.73,1.59,0.54,1.31,1],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-3.06,-1.09,-1.31,-1.82,-1.43,-1.8,-1.31,-1.15],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div>
+      <div class="tornado-card">
+        <h4>Defense &amp; Aerospace</h4>
+        <canvas id="tornado_15" height="200"></canvas>
+        <script>
+          new Chart(document.getElementById('tornado_15'), {
+            type: 'bar',
+            data: {
+              labels: ["Skilled trades & craft work","Emergency response & crisis ...","Assembly & fabrication","Software development & engin...","Field work in unstructured e...","Engineering design & simulat...","Cybersecurity & threat monit...","Strategic planning & executi..."],
+              datasets: [
+                {
+                  label: 'Positive delta',
+                  data: [0.62,1.25,0.73,1.83,1.37,1.3,1.15,0.65],
+                  backgroundColor: '#6366f1',
+                  borderRadius: 2
+                },
+                {
+                  label: 'Negative delta',
+                  data: [-2.07,-1.56,-1.47,-1.46,-1.37,-1.3,-1.15,-1.3],
+                  backgroundColor: '#ef4444',
+                  borderRadius: 2
+                }
+              ]
+            },
+            options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { display: true, labels: { color: '#8888a0', boxWidth: 10, font: { size: 10 } } },
+                title: { display: false }
+              },
+              scales: {
+                x: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { color: '#1e1e2e' },
+                  title: { display: true, text: 'Score Change', color: '#8888a0', font: { size: 10 } }
+                },
+                y: {
+                  ticks: { color: '#8888a0', font: { size: 9 } },
+                  grid: { display: false }
+                }
+              }
+            }
+          });
+        </script>
+      </div></div>
+      </section>
+
+      <section id="impact-influence" class="report-section">
+        <h2>5. Impact Score Influence</h2>
+        
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Task</th>
+          <th>Tier</th>
+          <th>Key</th>
+          <th>Original</th>
+          <th>Max Cross-Sector Change</th>
+          <th>Most Affected Sectors</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="muted">1</td>
+          <td>Teaching, training &amp; mentoring</td>
+          <td>T3</td>
+          <td><span class="key-badge">A</span></td>
+          <td>1</td>
+          <td style="color:#e0e0e0">1.700</td>
+          <td class="muted" style="font-size:0.8rem">Education &amp; Training (+1.70); Healthcare &amp; Life Sciences (+0.28); Information Technology &amp; Software (+0.23)</td>
+        </tr>
+        <tr>
+          <td class="muted">2</td>
+          <td>Teaching, training &amp; mentoring</td>
+          <td>T3</td>
+          <td><span class="key-badge">C</span></td>
+          <td>0</td>
+          <td style="color:#e0e0e0">1.700</td>
+          <td class="muted" style="font-size:0.8rem">Education &amp; Training (+1.70); Healthcare &amp; Life Sciences (+0.28); Information Technology &amp; Software (+0.23)</td>
+        </tr>
+        <tr>
+          <td class="muted">3</td>
+          <td>Teaching, training &amp; mentoring</td>
+          <td>T3</td>
+          <td><span class="key-badge">P</span></td>
+          <td>3</td>
+          <td style="color:#e0e0e0">1.700</td>
+          <td class="muted" style="font-size:0.8rem">Education &amp; Training (-1.70); Healthcare &amp; Life Sciences (-0.28); Information Technology &amp; Software (-0.23)</td>
+        </tr>
+        <tr>
+          <td class="muted">4</td>
+          <td>Teaching, training &amp; mentoring</td>
+          <td>T3</td>
+          <td><span class="key-badge">T</span></td>
+          <td>3</td>
+          <td style="color:#e0e0e0">1.700</td>
+          <td class="muted" style="font-size:0.8rem">Education &amp; Training (-1.70); Healthcare &amp; Life Sciences (-0.28); Information Technology &amp; Software (-0.23)</td>
+        </tr>
+        <tr>
+          <td class="muted">5</td>
+          <td>Teaching, training &amp; mentoring</td>
+          <td>T3</td>
+          <td><span class="key-badge">D</span></td>
+          <td>0</td>
+          <td style="color:#e0e0e0">1.700</td>
+          <td class="muted" style="font-size:0.8rem">Education &amp; Training (+1.70); Healthcare &amp; Life Sciences (+0.28); Information Technology &amp; Software (+0.23)</td>
+        </tr>
+        <tr>
+          <td class="muted">6</td>
+          <td>Software development &amp; engineering</td>
+          <td>T3</td>
+          <td><span class="key-badge">A</span></td>
+          <td>2</td>
+          <td style="color:#e0e0e0">1.417</td>
+          <td class="muted" style="font-size:0.8rem">Information Technology &amp; Software (+1.42); Telecommunications (+0.51); Defense &amp; Aerospace (+0.45)</td>
+        </tr>
+        <tr>
+          <td class="muted">7</td>
+          <td>Software development &amp; engineering</td>
+          <td>T3</td>
+          <td><span class="key-badge">C</span></td>
+          <td>2</td>
+          <td style="color:#e0e0e0">1.417</td>
+          <td class="muted" style="font-size:0.8rem">Information Technology &amp; Software (+1.42); Telecommunications (+0.51); Defense &amp; Aerospace (+0.45)</td>
+        </tr>
+        <tr>
+          <td class="muted">8</td>
+          <td>Software development &amp; engineering</td>
+          <td>T3</td>
+          <td><span class="key-badge">P</span></td>
+          <td>3</td>
+          <td style="color:#e0e0e0">1.417</td>
+          <td class="muted" style="font-size:0.8rem">Information Technology &amp; Software (-1.42); Telecommunications (-0.51); Defense &amp; Aerospace (-0.45)</td>
+        </tr>
+        <tr>
+          <td class="muted">9</td>
+          <td>Software development &amp; engineering</td>
+          <td>T3</td>
+          <td><span class="key-badge">T</span></td>
+          <td>3</td>
+          <td style="color:#e0e0e0">1.417</td>
+          <td class="muted" style="font-size:0.8rem">Information Technology &amp; Software (-1.42); Telecommunications (-0.51); Defense &amp; Aerospace (-0.45)</td>
+        </tr>
+        <tr>
+          <td class="muted">10</td>
+          <td>Software development &amp; engineering</td>
+          <td>T3</td>
+          <td><span class="key-badge">D</span></td>
+          <td>0</td>
+          <td style="color:#e0e0e0">1.417</td>
+          <td class="muted" style="font-size:0.8rem">Information Technology &amp; Software (+1.42); Telecommunications (+0.51); Defense &amp; Aerospace (+0.45)</td>
+        </tr>
+        <tr>
+          <td class="muted">11</td>
+          <td>Creative direction &amp; content creation</td>
+          <td>T3</td>
+          <td><span class="key-badge">A</span></td>
+          <td>2</td>
+          <td style="color:#e0e0e0">1.417</td>
+          <td class="muted" style="font-size:0.8rem">Media, Entertainment &amp; Creative (+1.42); Education &amp; Training (+0.34); Retail &amp; Consumer Services (+0.28)</td>
+        </tr>
+        <tr>
+          <td class="muted">12</td>
+          <td>Creative direction &amp; content creation</td>
+          <td>T3</td>
+          <td><span class="key-badge">C</span></td>
+          <td>2</td>
+          <td style="color:#e0e0e0">1.417</td>
+          <td class="muted" style="font-size:0.8rem">Media, Entertainment &amp; Creative (+1.42); Education &amp; Training (+0.34); Retail &amp; Consumer Services (+0.28)</td>
+        </tr>
+        <tr>
+          <td class="muted">13</td>
+          <td>Creative direction &amp; content creation</td>
+          <td>T3</td>
+          <td><span class="key-badge">P</span></td>
+          <td>3</td>
+          <td style="color:#e0e0e0">1.417</td>
+          <td class="muted" style="font-size:0.8rem">Media, Entertainment &amp; Creative (-1.42); Education &amp; Training (-0.34); Retail &amp; Consumer Services (-0.28)</td>
+        </tr>
+        <tr>
+          <td class="muted">14</td>
+          <td>Creative direction &amp; content creation</td>
+          <td>T3</td>
+          <td><span class="key-badge">T</span></td>
+          <td>3</td>
+          <td style="color:#e0e0e0">1.417</td>
+          <td class="muted" style="font-size:0.8rem">Media, Entertainment &amp; Creative (-1.42); Education &amp; Training (-0.34); Retail &amp; Consumer Services (-0.28)</td>
+        </tr>
+        <tr>
+          <td class="muted">15</td>
+          <td>Creative direction &amp; content creation</td>
+          <td>T3</td>
+          <td><span class="key-badge">D</span></td>
+          <td>0</td>
+          <td style="color:#e0e0e0">1.417</td>
+          <td class="muted" style="font-size:0.8rem">Media, Entertainment &amp; Creative (+1.42); Education &amp; Training (+0.34); Retail &amp; Consumer Services (+0.28)</td>
+        </tr>
+        <tr>
+          <td class="muted">16</td>
+          <td>Vehicle / equipment operation (fixed route)</td>
+          <td>T3</td>
+          <td><span class="key-badge">A</span></td>
+          <td>2</td>
+          <td style="color:#e0e0e0">1.133</td>
+          <td class="muted" style="font-size:0.8rem">Transportation &amp; Logistics (+1.13); Mining &amp; Natural Resources (+0.68); Agriculture &amp; Food Production (+0.57)</td>
+        </tr>
+        <tr>
+          <td class="muted">17</td>
+          <td>Vehicle / equipment operation (fixed route)</td>
+          <td>T3</td>
+          <td><span class="key-badge">C</span></td>
+          <td>2</td>
+          <td style="color:#e0e0e0">1.133</td>
+          <td class="muted" style="font-size:0.8rem">Transportation &amp; Logistics (+1.13); Mining &amp; Natural Resources (+0.68); Agriculture &amp; Food Production (+0.57)</td>
+        </tr>
+        <tr>
+          <td class="muted">18</td>
+          <td>Vehicle / equipment operation (fixed route)</td>
+          <td>T3</td>
+          <td><span class="key-badge">P</span></td>
+          <td>0</td>
+          <td style="color:#e0e0e0">1.133</td>
+          <td class="muted" style="font-size:0.8rem">Transportation &amp; Logistics (+1.13); Mining &amp; Natural Resources (+0.68); Agriculture &amp; Food Production (+0.57)</td>
+        </tr>
+        <tr>
+          <td class="muted">19</td>
+          <td>Vehicle / equipment operation (fixed route)</td>
+          <td>T3</td>
+          <td><span class="key-badge">T</span></td>
+          <td>0</td>
+          <td style="color:#e0e0e0">1.133</td>
+          <td class="muted" style="font-size:0.8rem">Transportation &amp; Logistics (+1.13); Mining &amp; Natural Resources (+0.68); Agriculture &amp; Food Production (+0.57)</td>
+        </tr>
+        <tr>
+          <td class="muted">20</td>
+          <td>Vehicle / equipment operation (fixed route)</td>
+          <td>T3</td>
+          <td><span class="key-badge">D</span></td>
+          <td>0</td>
+          <td style="color:#e0e0e0">1.133</td>
+          <td class="muted" style="font-size:0.8rem">Transportation &amp; Logistics (+1.13); Mining &amp; Natural Resources (+0.68); Agriculture &amp; Food Production (+0.57)</td>
+        </tr></tbody></table>
+      </section>
+
+      <section id="monte-carlo" class="report-section">
+        <h2>6. Monte Carlo Distributions</h2>
+        
+    <div class="chart-container" style="height:500px">
+      <canvas id="monteCarloChart"></canvas>
+    </div>
+    <script>
+      (function() {
+        const labels = ["Financial Services...","Healthcare & Life ...","Information Techno...","Media, Entertainme...","Professional Servi...","Education & Training","Government & Publi...","Manufacturing & In...","Energy & Utilities","Construction & Rea...","Transportation & L...","Retail & Consumer ...","Agriculture & Food...","Mining & Natural R...","Telecommunications","Defense & Aerospace"];
+        const whiskerData = [[48.27,55.18],[42.73,49.47],[50.55,58.33],[51.04,59.04],[47.08,53.68],[44.44,52.48],[44.21,50.21],[41.66,49.34],[42.57,48.94],[42.55,49.7],[40.63,48.45],[47.16,54.18],[39.63,47.27],[39.09,46.58],[47.37,53.94],[45.41,52]];
+        const iqrData = [[50.32,53.09],[44.71,47.48],[52.75,56.04],[53.32,56.57],[48.94,51.64],[46.81,50.1],[45.9,48.42],[44,47.14],[44.46,47.09],[44.67,47.62],[42.81,46.12],[49.21,52.01],[41.76,44.98],[41.28,44.29],[49.32,51.98],[47.35,50.01]];
+        const medians = [51.73,46.09,54.43,54.9,50.28,48.46,47.17,45.53,45.77,46.11,44.5,50.6,43.31,42.72,50.64,48.71];
+        const baselines = [51.23666666666666,44.833333333333336,54.57999999999999,55.08999999999999,49.593333333333334,47.83666666666666,45.96666666666667,43.81333333333334,44.266666666666666,44.55,42.39666666666667,49.81999999999999,41.15,40.64,50.216666666666676,47.836666666666666];
+
+        new Chart(document.getElementById('monteCarloChart'), {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'p5-p95 range',
+                data: whiskerData,
+                backgroundColor: '#6366f122',
+                borderColor: '#6366f166',
+                borderWidth: 1,
+                borderSkipped: false,
+                barPercentage: 0.3
+              },
+              {
+                label: 'IQR (p25-p75)',
+                data: iqrData,
+                backgroundColor: '#6366f166',
+                borderColor: '#818cf8',
+                borderWidth: 1,
+                borderSkipped: false,
+                barPercentage: 0.6
+              },
+              {
+                label: 'Median',
+                type: 'line',
+                data: medians,
+                borderColor: '#e0e0e0',
+                backgroundColor: '#e0e0e0',
+                pointStyle: 'dash',
+                pointRadius: 6,
+                pointBorderWidth: 2,
+                showLine: false,
+                order: 0
+              },
+              {
+                label: 'Baseline',
+                type: 'line',
+                data: baselines,
+                borderColor: '#22c55e',
+                backgroundColor: '#22c55e',
+                pointStyle: 'circle',
+                pointRadius: 5,
+                pointBorderWidth: 2,
+                showLine: false,
+                order: 0
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#8888a0', font: { size: 11 } } },
+              title: { display: true, text: 'Monte Carlo Score Distributions (5,000 iterations)', color: '#e0e0e0', font: { size: 14 } }
+            },
+            scales: {
+              x: { ticks: { color: '#8888a0', maxRotation: 45, font: { size: 10 } }, grid: { color: '#1e1e2e' } },
+              y: { ticks: { color: '#8888a0' }, grid: { color: '#1e1e2e' }, title: { display: true, text: 'Disruption Score', color: '#8888a0' } }
+            }
+          }
+        });
+      })();
+    </script>
+      </section>
+
+      <section id="threshold-map" class="report-section">
+        <h2>7. Threshold Proximity Map</h2>
+        <h4 class="trigger-title">0</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">1</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">2</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">3</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">4</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">5</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">6</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">7</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">8</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">9</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">10</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">11</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">12</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">13</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">14</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">15</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">16</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">17</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">18</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">19</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">20</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">21</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">22</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">23</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">24</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">25</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">26</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">27</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">28</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">29</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">30</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">31</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">32</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">33</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">34</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">35</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">36</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">37</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">38</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">39</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">40</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">41</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">42</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">43</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">44</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">45</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">46</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">47</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">48</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">49</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">50</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">51</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">52</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">53</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">54</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">55</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">56</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">57</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">58</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">59</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">60</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">61</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">62</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">63</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">64</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">65</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">66</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">67</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">68</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">69</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">70</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">71</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">72</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">73</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">74</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">75</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">76</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">77</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">78</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div><h4 class="trigger-title">79</h4><div class="heatmap-scroll"><table class="heatmap-table"><thead><tr><th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">undefined</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td><td class="heat-cell" style="background:#1a1a2a">-</td></tr></tbody></table></div>
+      </section>
+
+      <section id="dominant-stability" class="report-section">
+        <h2>8. Dominant Impact Stability</h2>
+        
+    <div class="heatmap-scroll">
+    <table class="heatmap-table">
+      <thead>
+        <tr>
+          <th>Sector</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead><tbody><tr><td class="sector-label">Financial Services &amp; Insurance</td><td class="heat-cell dom-cell" style="opacity:0.40">P<span class="margin-label">0.7</span></td><td class="heat-cell dom-cell" style="opacity:0.43">P<span class="margin-label">0.9</span></td><td class="heat-cell dom-cell" style="opacity:0.34">T/A<span class="margin-label">0.3</span></td><td class="heat-cell dom-cell" style="opacity:0.32">A/C<span class="margin-label">0.1</span></td><td class="heat-cell dom-cell" style="opacity:0.32">A/C<span class="margin-label">0.1</span></td></tr><tr><td class="sector-label">Healthcare &amp; Life Sciences</td><td class="heat-cell dom-cell" style="opacity:0.40">P<span class="margin-label">0.7</span></td><td class="heat-cell dom-cell" style="opacity:0.40">P<span class="margin-label">0.7</span></td><td class="heat-cell dom-cell" style="opacity:0.32">D/T<span class="margin-label">0.1</span></td><td class="heat-cell dom-cell" style="opacity:0.33">D/A<span class="margin-label">0.2</span></td><td class="heat-cell dom-cell" style="opacity:0.36">A<span class="margin-label">0.4</span></td></tr><tr><td class="sector-label">Information Technology &amp; Software</td><td class="heat-cell dom-cell" style="opacity:0.38">P<span class="margin-label">0.6</span></td><td class="heat-cell dom-cell" style="opacity:0.41">P<span class="margin-label">0.8</span></td><td class="heat-cell dom-cell" style="opacity:0.35">T<span class="margin-label">0.4</span></td><td class="heat-cell dom-cell" style="opacity:0.33">A/T<span class="margin-label">0.3</span></td><td class="heat-cell dom-cell" style="opacity:0.33">A/C<span class="margin-label">0.2</span></td></tr><tr><td class="sector-label">Media, Entertainment &amp; Creative</td><td class="heat-cell dom-cell" style="opacity:0.34">P<span class="margin-label">0.3</span></td><td class="heat-cell dom-cell" style="opacity:0.37">P<span class="margin-label">0.5</span></td><td class="heat-cell dom-cell" style="opacity:0.36">T<span class="margin-label">0.5</span></td><td class="heat-cell dom-cell" style="opacity:0.33">A/T<span class="margin-label">0.2</span></td><td class="heat-cell dom-cell" style="opacity:0.33">A/C<span class="margin-label">0.2</span></td></tr><tr><td class="sector-label">Professional Services (Legal, Consulting, Accounting)</td><td class="heat-cell dom-cell" style="opacity:0.38">P<span class="margin-label">0.6</span></td><td class="heat-cell dom-cell" style="opacity:0.39">P<span class="margin-label">0.7</span></td><td class="heat-cell dom-cell" style="opacity:0.40">T<span class="margin-label">0.7</span></td><td class="heat-cell dom-cell" style="opacity:0.32">T/D<span class="margin-label">0.1</span></td><td class="heat-cell dom-cell" style="opacity:0.34">A/C<span class="margin-label">0.3</span></td></tr><tr><td class="sector-label">Education &amp; Training</td><td class="heat-cell dom-cell" style="opacity:0.39">P<span class="margin-label">0.6</span></td><td class="heat-cell dom-cell" style="opacity:0.40">P<span class="margin-label">0.7</span></td><td class="heat-cell dom-cell" style="opacity:0.31">P/T<span class="margin-label">0.1</span></td><td class="heat-cell dom-cell" style="opacity:0.36">T<span class="margin-label">0.4</span></td><td class="heat-cell dom-cell" style="opacity:0.38">A<span class="margin-label">0.6</span></td></tr><tr><td class="sector-label">Government &amp; Public Administration</td><td class="heat-cell dom-cell" style="opacity:0.41">P<span class="margin-label">0.8</span></td><td class="heat-cell dom-cell" style="opacity:0.44">P<span class="margin-label">1.0</span></td><td class="heat-cell dom-cell" style="opacity:0.32">A/C<span class="margin-label">0.1</span></td><td class="heat-cell dom-cell" style="opacity:0.32">A/C<span class="margin-label">0.2</span></td><td class="heat-cell dom-cell" style="opacity:0.35">A<span class="margin-label">0.4</span></td></tr><tr><td class="sector-label">Manufacturing &amp; Industrial</td><td class="heat-cell dom-cell" style="opacity:0.38">P<span class="margin-label">0.6</span></td><td class="heat-cell dom-cell" style="opacity:0.42">P<span class="margin-label">0.8</span></td><td class="heat-cell dom-cell" style="opacity:0.37">D<span class="margin-label">0.5</span></td><td class="heat-cell dom-cell" style="opacity:0.32">A/C<span class="margin-label">0.1</span></td><td class="heat-cell dom-cell" style="opacity:0.31">A/C<span class="margin-label">0.1</span></td></tr><tr><td class="sector-label">Energy &amp; Utilities</td><td class="heat-cell dom-cell" style="opacity:0.36">P<span class="margin-label">0.4</span></td><td class="heat-cell dom-cell" style="opacity:0.35">P<span class="margin-label">0.3</span></td><td class="heat-cell dom-cell" style="opacity:0.38">D<span class="margin-label">0.6</span></td><td class="heat-cell dom-cell" style="opacity:0.32">A/D<span class="margin-label">0.1</span></td><td class="heat-cell dom-cell" style="opacity:0.34">A/C<span class="margin-label">0.3</span></td></tr><tr><td class="sector-label">Construction &amp; Real Estate</td><td class="heat-cell dom-cell" style="opacity:0.39">P<span class="margin-label">0.7</span></td><td class="heat-cell dom-cell" style="opacity:0.38">P<span class="margin-label">0.5</span></td><td class="heat-cell dom-cell" style="opacity:0.38">D<span class="margin-label">0.6</span></td><td class="heat-cell dom-cell" style="opacity:0.36">D<span class="margin-label">0.4</span></td><td class="heat-cell dom-cell" style="opacity:0.33">A/C<span class="margin-label">0.2</span></td></tr><tr><td class="sector-label">Transportation &amp; Logistics</td><td class="heat-cell dom-cell" style="opacity:0.35">P<span class="margin-label">0.4</span></td><td class="heat-cell dom-cell" style="opacity:0.40">P<span class="margin-label">0.7</span></td><td class="heat-cell dom-cell" style="opacity:0.32">A/C<span class="margin-label">0.1</span></td><td class="heat-cell dom-cell" style="opacity:0.31">A/C<span class="margin-label">0.1</span></td><td class="heat-cell dom-cell" style="opacity:0.31">A/C<span class="margin-label">0.1</span></td></tr><tr><td class="sector-label">Retail &amp; Consumer Services</td><td class="heat-cell dom-cell" style="opacity:0.42">P<span class="margin-label">0.8</span></td><td class="heat-cell dom-cell" style="opacity:0.48">P<span class="margin-label">1.3</span></td><td class="heat-cell dom-cell" style="opacity:0.31">A/C<span class="margin-label">0.0</span></td><td class="heat-cell dom-cell" style="opacity:0.33">A/C<span class="margin-label">0.2</span></td><td class="heat-cell dom-cell" style="opacity:0.31">A/C<span class="margin-label">0.1</span></td></tr><tr><td class="sector-label">Agriculture &amp; Food Production</td><td class="heat-cell dom-cell" style="opacity:0.35">P<span class="margin-label">0.4</span></td><td class="heat-cell dom-cell" style="opacity:0.36">P<span class="margin-label">0.5</span></td><td class="heat-cell dom-cell" style="opacity:0.35">D<span class="margin-label">0.4</span></td><td class="heat-cell dom-cell" style="opacity:0.35">A<span class="margin-label">0.3</span></td><td class="heat-cell dom-cell" style="opacity:0.33">A/C<span class="margin-label">0.2</span></td></tr><tr><td class="sector-label">Mining &amp; Natural Resources</td><td class="heat-cell dom-cell" style="opacity:0.34">P/D<span class="margin-label">0.3</span></td><td class="heat-cell dom-cell" style="opacity:0.33">P/D<span class="margin-label">0.3</span></td><td class="heat-cell dom-cell" style="opacity:0.38">D<span class="margin-label">0.6</span></td><td class="heat-cell dom-cell" style="opacity:0.34">A<span class="margin-label">0.3</span></td><td class="heat-cell dom-cell" style="opacity:0.34">A<span class="margin-label">0.3</span></td></tr><tr><td class="sector-label">Telecommunications</td><td class="heat-cell dom-cell" style="opacity:0.42">P<span class="margin-label">0.8</span></td><td class="heat-cell dom-cell" style="opacity:0.44">P<span class="margin-label">1.0</span></td><td class="heat-cell dom-cell" style="opacity:0.33">T/D<span class="margin-label">0.2</span></td><td class="heat-cell dom-cell" style="opacity:0.34">A/C<span class="margin-label">0.3</span></td><td class="heat-cell dom-cell" style="opacity:0.32">A/C<span class="margin-label">0.1</span></td></tr><tr><td class="sector-label">Defense &amp; Aerospace</td><td class="heat-cell dom-cell" style="opacity:0.36">P<span class="margin-label">0.5</span></td><td class="heat-cell dom-cell" style="opacity:0.36">P<span class="margin-label">0.4</span></td><td class="heat-cell dom-cell" style="opacity:0.33">D/P<span class="margin-label">0.2</span></td><td class="heat-cell dom-cell" style="opacity:0.37">D<span class="margin-label">0.5</span></td><td class="heat-cell dom-cell" style="opacity:0.33">A/D<span class="margin-label">0.2</span></td></tr></tbody></table></div>
+      </section>
+
+      <section id="calibration" class="report-section">
+        <h2>9. Calibration Flags</h2>
+        <div class="flags-list">
+      <div class="flag-card" style="border-left:3px solid #6366f1">
+        <div class="flag-header">
+          <span class="flag-icon" style="background:#6366f120;color:#6366f1">i</span>
+          <strong>Normalization Anchors</strong>
+        </div>
+        <p class="flag-detail">Min anchor: Construction &amp; Real Estate (14.87), Max anchor: Energy &amp; Utilities (50.80). No near-boundary competitors detected.</p>
+      </div>
+      <div class="flag-card" style="border-left:3px solid #f97316">
+        <div class="flag-header">
+          <span class="flag-icon" style="background:#f9731620;color:#f97316">!</span>
+          <strong>Disproportionate Influence</strong>
+        </div>
+        <p class="flag-detail">These 5 impact values produce the largest cross-sector score swings from a single +/-1 change: Teaching, training & mentoring/T3/A (1.70); Teaching, training & mentoring/T3/C (1.70); Teaching, training & mentoring/T3/P (1.70); Teaching, training & mentoring/T3/T (1.70); Teaching, training & mentoring/T3/D (1.70).</p>
+      </div>
+      <div class="flag-card" style="border-left:3px solid #ef4444">
+        <div class="flag-header">
+          <span class="flag-icon" style="background:#ef444420;color:#ef4444">!!</span>
+          <strong>Fragile Zone Boundaries</strong>
+        </div>
+        <p class="flag-detail">116 configuration(s) sit within 2 points of a zone boundary. Small input changes could shift their classification. Examples: Healthcare & Life Sciences @ T1/H1/high (19.0, boundary 20); Healthcare & Life Sciences @ T1/H2/high (19.0, boundary 20); Healthcare & Life Sciences @ T1/H3/high (19.0, boundary 20); Healthcare & Life Sciences @ T1/H4/high (19.0, boundary 20); Healthcare & Life Sciences @ T2/H1/low (38.8, boundary 40); Healthcare & Life Sciences @ T2/H2/low (38.8, boundary 40); Healthcare & Life Sciences @ T2/H3/low (38.8, boundary 40); Healthcare & Life Sciences @ T2/H4/low (38.8, boundary 40) ... and 108 more.</p>
+      </div>
+      <div class="flag-card" style="border-left:3px solid #ef4444">
+        <div class="flag-header">
+          <span class="flag-icon" style="background:#ef444420;color:#ef4444">!!</span>
+          <strong>Trigger Cliffs</strong>
+        </div>
+        <p class="flag-detail">74 sector-tier combination(s) are near a higher-order trigger boundary. Financial Services & Insurance @ T2: undefined (margin 0.00); Healthcare & Life Sciences @ T2: undefined (margin 0.00); Media, Entertainment & Creative @ T1: undefined (margin 0.00); Professional Services (Legal, Consulting, Accounting) @ T2: undefined (margin 0.00); Government & Public Administration @ T1: undefined (margin 0.00); Manufacturing & Industrial @ T1: undefined (margin 0.00).</p>
+      </div>
+      <div class="flag-card" style="border-left:3px solid #f97316">
+        <div class="flag-header">
+          <span class="flag-icon" style="background:#f9731620;color:#f97316">!</span>
+          <strong>Narrative Instability</strong>
+        </div>
+        <p class="flag-detail">33 sector-tier combination(s) have a dominant impact that could flip with minor weight or score changes. Financial Services & Insurance @ T3: margin 0.27; Financial Services & Insurance @ T4: margin 0.12; Financial Services & Insurance @ T5: margin 0.14; Healthcare & Life Sciences @ T3: margin 0.14; Healthcare & Life Sciences @ T4: margin 0.19; Information Technology & Software @ T4: margin 0.25.</p>
+      </div></div>
+      </section>
+
+  </main>
+</body>
+</html>

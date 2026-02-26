@@ -170,3 +170,230 @@ Notable cliff edges:
 - At T3+, most triggers have positive margins (already triggered), making them unfalsifiable
 
 This density of cliff edges at low tiers indicates thresholds are set near the natural resting point of the data, creating noisy on/off behavior rather than meaningful structural signals.
+
+---
+
+## Section C: Changes Made
+
+Five fixes applied to `js/engine.js`. No data file changes.
+
+### Fix 1: Fixed Theoretical Max Normalization
+
+**Location:** `computeTaskScore` (was lines 127–153)
+
+**Before:**
+```javascript
+// Find peak sum across all tiers
+var peakSum = 0;
+for (var t = 0; t < TIERS.length; t++) {
+  var s = impactSum(task, TIERS[t]);
+  if (s > peakSum) peakSum = s;
+}
+if (peakSum === 0) return 0;
+// ... iterate through tiers with monotonic floor ...
+var raw = impactSum(task, TIERS[i]) / peakSum;
+```
+
+**After:**
+```javascript
+var THEORETICAL_MAX = 15; // 5 dimensions × 3 max intensity
+var sum = impactSum(task, selectedTier);
+return sum / THEORETICAL_MAX;
+```
+
+**Rationale:** Dynamic `peakSum` guaranteed every task reaches 1.0 at its peak tier, erasing sector differentiation at T4–T5. Fixed denominator of 15 means a task only scores 1.0 if *all five* impact dimensions are at maximum (3) — which rarely happens. Sectors now differentiate based on how intense their task impacts actually are, not just their relative position against their own peak.
+
+### Fix 2: Remove Monotonic Floor
+
+**Location:** `computeTaskScore` (was line 147)
+
+**Before:**
+```javascript
+var score = Math.max(raw, prevScore); // Monotonic floor: never decrease
+```
+
+**After:** Removed entirely. Task scores are computed directly for the selected tier.
+
+**Rationale:** The monotonic floor prevented tasks from scoring lower at higher tiers, even when their impact profile genuinely dips. This masked real signal (some tasks are less relevant at higher capability levels) and accelerated the convergence artifact. With the floor removed, the function no longer needs to iterate from T1 up — it computes directly for the requested tier.
+
+### Fix 3: Fixed-Range Normalization
+
+**Location:** `computeGlobalRange` (was lines 85–104)
+
+**Before:**
+```javascript
+function computeGlobalRange() {
+  if (_globalRange) return _globalRange;
+  var minRaw = Infinity, maxRaw = -Infinity;
+  data.SECTORS.forEach(function (sector) {
+    var rawT1 = rawSectorScore(sector, 'T1');
+    if (rawT1 < minRaw) minRaw = rawT1;
+    var rawT5 = rawSectorScore(sector, 'T5');
+    if (rawT5 > maxRaw) maxRaw = rawT5;
+  });
+  _globalRange = { min: minRaw, max: maxRaw };
+  return _globalRange;
+}
+```
+
+**After:**
+```javascript
+function computeGlobalRange() {
+  return { min: 0, max: 1.0 };
+}
+```
+
+**Rationale:** Cross-sector normalization created a ripple effect — changing one sector's data altered every other sector's score via the global min/max. With fixed range [0, 1.0], `score = raw * 100` before adoption modifier. Each sector's score depends only on its own task weights and impact values. `resetCache()` retained for API compatibility.
+
+### Fix 4: Raise Trigger Thresholds
+
+**Locations:** Three conditions across `evaluateHigherOrderImpacts`
+
+| Trigger | Condition | Before | After |
+|---------|-----------|--------|-------|
+| Scarce knowledge | `hwmAvgT >= ` | 2.0 | 2.5 |
+| Scarce knowledge | `avgA >= ` | 1.5 | 2.0 |
+| Coordination zero | `avgMaxAP >= ` | 2.0 | 2.5 |
+| Unbundling | `avgA >= ` | 1.5 | 2.0 |
+
+`verifyA <= 1 && stratA <= 1` unchanged (different logic — these are low-score checks, not threshold checks).
+
+**Rationale:** Previous thresholds sat at the natural resting point of T2–T3 impact profiles, causing triggers to fire for nearly every sector at moderate capability levels. Raised thresholds require genuinely high impact values, restoring discriminating power. The intent is structural *shift* detection, not "above average" detection.
+
+### Fix 5: Widen Co-Dominance Threshold
+
+**Location:** `computeDominantImpact` (was line 451)
+
+**Before:**
+```javascript
+if (scores[top] - scores[second] >= 0.3) {
+```
+
+**After:**
+```javascript
+if (scores[top] - scores[second] >= 0.5) {
+```
+
+**Rationale:** On a 0–3 scale, a 0.3 gap between impact types is noise-level. A 0.5 gap represents a meaningful ~17% difference. This reduces false "single dominant" calls where two impact types are effectively co-dominant.
+
+---
+
+## Section D: Before/After Comparison
+
+### Score Distribution Shift
+
+| Zone | Before | After | Change |
+|------|--------|-------|--------|
+| Resilient (0–20) | 120 | 40 | −80 |
+| Adapting (21–40) | 92 | 276 | +184 |
+| Transforming (41–60) | 148 | 644 | +496 |
+| Disrupting (61–80) | 196 | 0 | −196 |
+| Restructuring (81–100) | 404 | 0 | −404 |
+
+The distribution shifted from top-heavy (63% in Disrupting/Restructuring) to center-weighted (67% Transforming). No scenarios now reach Disrupting or Restructuring — scores cap around 50–57 at T5 because typical tasks achieve ~50–70% of the theoretical maximum impact across all five dimensions. This is mathematically honest: even at peak AI capability, most work tasks are not maximally impacted on *every* dimension simultaneously.
+
+**Note:** Zone boundaries (20/40/60/80) may warrant recalibration to the post-fix score distribution. This is a presentation decision, not a scoring bug.
+
+### Score Spread by Tier (High Adoption)
+
+| Tier | Before Range | Before Spread | After Range | After Spread |
+|------|-------------|---------------|-------------|--------------|
+| T1 | 0.00–21.78 | 21.78 | 14.87–23.93 | 9.07 |
+| T2 | 34.83–68.88 | 34.05 | 28.60–43.53 | 14.93 |
+| T3 | 63.68–88.03 | 24.35 | 38.40–55.40 | 17.00 |
+| T4 | 89.16–100.00 | 10.84 | 46.73–57.80 | 11.07 |
+| T5 | 100.00–100.00 | **0.00** | 43.40–50.80 | **7.40** |
+
+The critical fix: T5 now has a 7.4-point spread vs the previous 0. Sectors differentiate at every tier. T4 spread held steady at ~11 points. T1–T3 spreads are narrower in absolute terms but more meaningful — they reflect genuine data differences, not normalization artifacts.
+
+### T5 Sector Differentiation (High Adoption)
+
+| Sector | Before | After |
+|--------|--------|-------|
+| Energy & Utilities | 100.00 | 50.80 |
+| Healthcare & Life Sciences | 100.00 | 50.07 |
+| Defense & Aerospace | 100.00 | 50.27 |
+| Education & Training | 100.00 | 49.93 |
+| IT & Software | 100.00 | 49.60 |
+| Manufacturing | 100.00 | 49.60 |
+| Agriculture | 100.00 | 49.40 |
+| Telecom | 100.00 | 48.80 |
+| Transportation | 100.00 | 48.00 |
+| Retail | 100.00 | 47.73 |
+| Mining | 100.00 | 47.60 |
+| Professional Services | 100.00 | 47.27 |
+| Financial Services | 100.00 | 46.93 |
+| Media & Creative | 100.00 | 46.20 |
+| Construction | 100.00 | 46.20 |
+| Government | 100.00 | 43.40 |
+
+All 16 sectors were previously identical at T5. Now they span 43.40–50.80, with Energy/Healthcare/Defense at top (high multi-dimensional impact) and Government/Construction at bottom (more concentrated impact profiles).
+
+### Trigger Firing Rates
+
+| Trigger | Before | After | Reduction |
+|---------|--------|-------|-----------|
+| Coordination costs → zero | 840 (87.5%) | 588 (61.3%) | −30% |
+| Scarce knowledge → zero value | 504 (52.5%) | 276 (28.8%) | −45% |
+| Unbundling & new bottlenecks | 432 (45.0%) | 300 (31.3%) | −31% |
+
+Meaningful reductions across all three triggers. Scarce knowledge dropped the most (−45%), now firing for fewer than a third of scenarios. Coordination remains the most common trigger (61%), which is defensible — coordination disruption is the broadest structural shift.
+
+**Cliff edges:** 74 before, 74 after. The cliff count didn't change because raising thresholds shifts *which* scenarios are near the edge, not *how many*. This is expected — the triggers are binary by design, so cliff edges are structural.
+
+### Dominant Impact Stability
+
+| Impact Type | Before | After |
+|-------------|--------|-------|
+| Single-dominant (any) | 552 (57.5%) | 336 (35.0%) |
+| Co-dominant (any pair) | 408 (42.5%) | 624 (65.0%) |
+
+The wider threshold correctly reclassified many near-ties as co-dominant. Before: 57.5% single-dominant. After: 35% single-dominant. This is more honest — most sectors genuinely face multiple impact types, and the model now says so.
+
+Top dominant types shifted:
+| Type | Before | After |
+|------|--------|-------|
+| P (single) | 360 (37.5%) | 252 (26.3%) |
+| A/C (co-dom) | 252 (26.3%) | 288 (30.0%) |
+| P/D (co-dom) | 24 (2.5%) | 108 (11.3%) |
+
+P (Productivity) remains the most common single dominant. A/C (Automation/Cost) is the most common co-dominant pair — reflecting the reality that automation and cost disruption typically travel together.
+
+### Monte Carlo Volatility
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Cross-sector mean range | 66.8–82.3 (15.5 spread) | 42.8–55.0 (12.2 spread) |
+| CV range across sectors | 4.2%–8.8% | 3.9%–5.4% |
+
+CV narrowed from a 4.6pp range to a 1.5pp range — sectors are now comparably stable under perturbation. The most volatile sectors (Agriculture, Mining, Education at 8.7–8.8% CV) dropped to 5.0–5.4%, indicating that the previous high volatility was amplified by the normalization mechanics, not genuine data instability.
+
+### Cross-Sector Normalization Ripple: Eliminated
+
+Before: Changing one sector's data would shift `computeGlobalRange()` boundaries, rippling into every other sector's score. A weight change in Financial Services could alter Agriculture's score.
+
+After: `computeGlobalRange()` returns `{min: 0, max: 1.0}` unconditionally. Each sector's score depends only on its own data. Zero cross-sector coupling.
+
+### OAT Parameter Leverage
+
+| Parameter | Before | After |
+|-----------|--------|-------|
+| Tier | 73.1 | 28.7 |
+| Adoption | 12.4 | 4.1 |
+| Sector | 12.0 | 9.4 |
+| Horizon | 0.0 | 0.0 |
+
+Tier leverage dropped from 73 to 29 — still the strongest parameter (as designed), but no longer overwhelming. Sector's *relative* importance increased from 14% of non-horizon leverage to 22%. The model now gives more weight to *what industry you're in* vs *what tier you selected*.
+
+### Traffic Light Re-Assessment
+
+| Area | Before | After | Notes |
+|------|--------|-------|-------|
+| **Sector scores at T4–T5** | 🔴 Red | 🟢 Green | T5 spread: 0 → 7.4 pts. Sectors differentiate at every tier. |
+| **Structural shift triggers** | 🔴 Red | 🟡 Yellow | Firing rates cut 30–45%. Still somewhat aggressive — further tuning possible but no longer universal. |
+| **Dominant impact type** | 🟡 Yellow | 🟢 Green | 65% co-dominant (was 42.5%). Near-ties correctly reported. |
+| **Monte Carlo robustness** | 🟡 Yellow | 🟢 Green | CV range tightened to 3.9–5.4%. Cross-sector coupling eliminated. |
+| **Score scale utilization** | 🟢 Green | 🟡 Yellow | Scores now cap at ~57. Zone boundaries may need recalibration. No scenarios reach Disrupting/Restructuring. |
+| **Adoption & timeline** | 🟢 Green | 🟢 Green | Unchanged — no fixes touched these mechanics. |
+
+**Overall assessment:** Three reds eliminated. One new yellow (score scale) created — this is a presentation concern, not a validity concern. The engine now produces honest, differentiated, stable scores. The diagnostic is trustworthy for executive decision-making, with the caveat that the 0–100 zone labels should be reviewed to match the post-fix score distribution.
