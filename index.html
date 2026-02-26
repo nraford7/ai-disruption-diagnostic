@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Disruption Diagnostic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- SECTION 1: LANDING / INPUT                         -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section id="input-section" class="section section--input">
+
+        <header class="hero">
+            <div class="container">
+                <div class="hero__badge">Strategic Intelligence Tool</div>
+                <h1 class="hero__title">AI Disruption Diagnostic</h1>
+                <p class="hero__subtitle">How will AI reshape your industry? Set your beliefs. See the impact.</p>
+                <p class="hero__attribution">
+                    Grounded in Autor, Levy &amp; Murnane (2003) &middot; Acemoglu (2024) &middot;
+                    Hampole, Papanikolaou, Schmidt &amp; Seegmiller (2025) &middot; Catalini, Hui &amp; Wu (2026)
+                </p>
+            </div>
+        </header>
+
+        <!-- STEP 1: Capability Level -->
+        <div class="step" id="step-capability">
+            <div class="container">
+                <div class="step__header">
+                    <span class="step__number">01</span>
+                    <div>
+                        <h2 class="step__title">AI Capability Level</h2>
+                        <p class="step__desc">What level of AI capability are you planning for?</p>
+                    </div>
+                </div>
+
+                <div class="card-row card-row--5" id="capability-cards">
+                    <button class="input-card" data-capability="T1">
+                        <div class="input-card__tier">T1</div>
+                        <h3 class="input-card__label">Current Tools</h3>
+                        <p class="input-card__desc">Better autocomplete, chatbots, narrow ML &mdash; improved versions of today&rsquo;s tools</p>
+                    </button>
+                    <button class="input-card" data-capability="T2">
+                        <div class="input-card__tier">T2</div>
+                        <h3 class="input-card__label">Enhanced Copilots</h3>
+                        <p class="input-card__desc">AI assists across domains, human drives all decisions</p>
+                    </button>
+                    <button class="input-card" data-capability="T3">
+                        <div class="input-card__tier">T3</div>
+                        <h3 class="input-card__label">Domain-Autonomous Agents</h3>
+                        <p class="input-card__desc">AI executes whole tasks independently in bounded domains</p>
+                    </button>
+                    <button class="input-card" data-capability="T4">
+                        <div class="input-card__tier">T4</div>
+                        <h3 class="input-card__label">AGI</h3>
+                        <p class="input-card__desc">Human-level capability across all cognitive domains</p>
+                    </button>
+                    <button class="input-card" data-capability="T5">
+                        <div class="input-card__tier">T5</div>
+                        <h3 class="input-card__label">Superintelligence</h3>
+                        <p class="input-card__desc">Beyond human capability across everything</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 2: Time Horizon -->
+        <div class="step step--locked" id="step-horizon">
+            <div class="container">
+                <div class="step__header">
+                    <span class="step__number">02</span>
+                    <div>
+                        <h2 class="step__title">Time Horizon</h2>
+                        <p class="step__desc">How soon does this capability become widely available?</p>
+                    </div>
+                </div>
+
+                <div class="card-row card-row--4" id="horizon-cards">
+                    <button class="input-card input-card--compact" data-horizon="H1">
+                        <h3 class="input-card__label">2&ndash;5 years</h3>
+                        <p class="input-card__desc">Near-term arrival</p>
+                    </button>
+                    <button class="input-card input-card--compact" data-horizon="H2">
+                        <h3 class="input-card__label">5&ndash;10 years</h3>
+                        <p class="input-card__desc">Medium-term arrival</p>
+                    </button>
+                    <button class="input-card input-card--compact" data-horizon="H3">
+                        <h3 class="input-card__label">10&ndash;20 years</h3>
+                        <p class="input-card__desc">Long-term arrival</p>
+                    </button>
+                    <button class="input-card input-card--compact" data-horizon="H4">
+                        <h3 class="input-card__label">20+ years</h3>
+                        <p class="input-card__desc">Distant arrival</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 3: Adoption Speed -->
+        <div class="step step--locked" id="step-adoption">
+            <div class="container">
+                <div class="step__header">
+                    <span class="step__number">03</span>
+                    <div>
+                        <h2 class="step__title">Adoption Speed</h2>
+                        <p class="step__desc">How fast does capability actually penetrate industries once available?</p>
+                    </div>
+                </div>
+
+                <div class="card-row card-row--3" id="adoption-cards">
+                    <button class="input-card input-card--compact" data-adoption="low">
+                        <h3 class="input-card__label">Slow</h3>
+                        <p class="input-card__desc">Regulatory friction, organizational inertia, trust barriers</p>
+                    </button>
+                    <button class="input-card input-card--compact" data-adoption="medium">
+                        <h3 class="input-card__label">Moderate</h3>
+                        <p class="input-card__desc">Competitive pressure drives steady rollout</p>
+                    </button>
+                    <button class="input-card input-card--compact" data-adoption="high">
+                        <h3 class="input-card__label">Rapid</h3>
+                        <p class="input-card__desc">First-mover dynamics, low switching costs, market pressure</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4: Sector Selection -->
+        <div class="step step--locked" id="step-sector">
+            <div class="container">
+                <div class="step__header">
+                    <span class="step__number">04</span>
+                    <div>
+                        <h2 class="step__title">Your Sector</h2>
+                        <p class="step__desc">Select your industry to run the diagnostic.</p>
+                    </div>
+                </div>
+
+                <div class="sector-grid" id="sector-cards">
+                    <button class="sector-card" data-sector="1">
+                        <span class="sector-card__icon">🏦</span>
+                        <span class="sector-card__label">Financial Services &amp; Insurance</span>
+                    </button>
+                    <button class="sector-card" data-sector="2">
+                        <span class="sector-card__icon">🏥</span>
+                        <span class="sector-card__label">Healthcare &amp; Life Sciences</span>
+                    </button>
+                    <button class="sector-card" data-sector="3">
+                        <span class="sector-card__icon">💻</span>
+                        <span class="sector-card__label">Information Technology &amp; Software</span>
+                    </button>
+                    <button class="sector-card" data-sector="4">
+                        <span class="sector-card__icon">🎬</span>
+                        <span class="sector-card__label">Media, Entertainment &amp; Creative</span>
+                    </button>
+                    <button class="sector-card" data-sector="5">
+                        <span class="sector-card__icon">⚖️</span>
+                        <span class="sector-card__label">Professional Services</span>
+                    </button>
+                    <button class="sector-card" data-sector="6">
+                        <span class="sector-card__icon">🎓</span>
+                        <span class="sector-card__label">Education &amp; Training</span>
+                    </button>
+                    <button class="sector-card" data-sector="7">
+                        <span class="sector-card__icon">🏛️</span>
+                        <span class="sector-card__label">Government &amp; Public Admin</span>
+                    </button>
+                    <button class="sector-card" data-sector="8">
+                        <span class="sector-card__icon">🏭</span>
+                        <span class="sector-card__label">Manufacturing &amp; Industrial</span>
+                    </button>
+                    <button class="sector-card" data-sector="9">
+                        <span class="sector-card__icon">⚡</span>
+                        <span class="sector-card__label">Energy &amp; Utilities</span>
+                    </button>
+                    <button class="sector-card" data-sector="10">
+                        <span class="sector-card__icon">🏗️</span>
+                        <span class="sector-card__label">Construction &amp; Real Estate</span>
+                    </button>
+                    <button class="sector-card" data-sector="11">
+                        <span class="sector-card__icon">🚛</span>
+                        <span class="sector-card__label">Transportation &amp; Logistics</span>
+                    </button>
+                    <button class="sector-card" data-sector="12">
+                        <span class="sector-card__icon">🛒</span>
+                        <span class="sector-card__label">Retail &amp; Consumer Services</span>
+                    </button>
+                    <button class="sector-card" data-sector="13">
+                        <span class="sector-card__icon">🌾</span>
+                        <span class="sector-card__label">Agriculture &amp; Food Production</span>
+                    </button>
+                    <button class="sector-card" data-sector="14">
+                        <span class="sector-card__icon">⛏️</span>
+                        <span class="sector-card__label">Mining &amp; Natural Resources</span>
+                    </button>
+                    <button class="sector-card" data-sector="15">
+                        <span class="sector-card__icon">📡</span>
+                        <span class="sector-card__label">Telecommunications</span>
+                    </button>
+                    <button class="sector-card" data-sector="16">
+                        <span class="sector-card__icon">🛡️</span>
+                        <span class="sector-card__label">Defense &amp; Aerospace</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- SECTION 2: RESULTS (hidden until computed)         -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <section id="results-section" class="section section--results" style="display:none;">
+
+        <!-- LAYER 1: Headline Score -->
+        <div class="results-layer" id="layer-headline">
+            <div class="container">
+
+                <div class="headline-grid">
+                    <!-- Gauge -->
+                    <div class="gauge-container">
+                        <div class="gauge" id="score-gauge">
+                            <svg viewBox="0 0 200 120" class="gauge__svg">
+                                <defs>
+                                    <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" style="stop-color:#22c55e"/>
+                                        <stop offset="25%" style="stop-color:#eab308"/>
+                                        <stop offset="50%" style="stop-color:#f97316"/>
+                                        <stop offset="75%" style="stop-color:#ef4444"/>
+                                        <stop offset="100%" style="stop-color:#991b1b"/>
+                                    </linearGradient>
+                                </defs>
+                                <!-- Track -->
+                                <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="12" stroke-linecap="round"/>
+                                <!-- Fill -->
+                                <path id="gauge-fill" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gauge-gradient)" stroke-width="12" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
+                                <!-- Needle -->
+                                <line id="gauge-needle" x1="100" y1="100" x2="100" y2="28" stroke="#fff" stroke-width="2" stroke-linecap="round" transform="rotate(-90, 100, 100)"/>
+                                <circle cx="100" cy="100" r="5" fill="#fff"/>
+                            </svg>
+                            <div class="gauge__score" id="gauge-score-value">0</div>
+                        </div>
+                        <div class="gauge__zone" id="gauge-zone-label">--</div>
+                    </div>
+
+                    <!-- Narrative + Timeline -->
+                    <div class="headline-detail">
+                        <p class="narrative" id="narrative-text"></p>
+
+                        <div class="timeline-sparkline">
+                            <h4 class="timeline-sparkline__title">Score Progression</h4>
+                            <div class="sparkline-row">
+                                <div class="sparkline-point" data-year="2yr">
+                                    <div class="sparkline-bar-wrap">
+                                        <div class="sparkline-bar" id="spark-2yr"></div>
+                                    </div>
+                                    <span class="sparkline-label">2 yr</span>
+                                    <span class="sparkline-value" id="spark-val-2yr">--</span>
+                                </div>
+                                <div class="sparkline-point" data-year="5yr">
+                                    <div class="sparkline-bar-wrap">
+                                        <div class="sparkline-bar" id="spark-5yr"></div>
+                                    </div>
+                                    <span class="sparkline-label">5 yr</span>
+                                    <span class="sparkline-value" id="spark-val-5yr">--</span>
+                                </div>
+                                <div class="sparkline-point" data-year="10yr">
+                                    <div class="sparkline-bar-wrap">
+                                        <div class="sparkline-bar" id="spark-10yr"></div>
+                                    </div>
+                                    <span class="sparkline-label">10 yr</span>
+                                    <span class="sparkline-value" id="spark-val-10yr">--</span>
+                                </div>
+                                <div class="sparkline-point" data-year="20yr">
+                                    <div class="sparkline-bar-wrap">
+                                        <div class="sparkline-bar" id="spark-20yr"></div>
+                                    </div>
+                                    <span class="sparkline-label">20 yr</span>
+                                    <span class="sparkline-value" id="spark-val-20yr">--</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn--ghost" id="btn-change-assumptions">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 11.5V14h2.5l7.37-7.37-2.5-2.5L2 11.5zM14.71 3.29a1 1 0 000-1.42l-1.58-1.58a1 1 0 00-1.42 0L10.42 1.58l2.5 2.5 1.79-1.79z" fill="currentColor"/></svg>
+                            Change Assumptions
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Scenario summary pill -->
+                <div class="scenario-pills" id="scenario-pills"></div>
+
+            </div>
+        </div>
+
+        <!-- LAYER 2: Impact Breakdown (collapsible) -->
+        <div class="results-layer" id="layer-impact">
+            <div class="container">
+                <button class="collapse-toggle" data-target="impact-content" aria-expanded="true">
+                    <span class="collapse-toggle__title">Impact Breakdown</span>
+                    <svg class="collapse-toggle__icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <div class="collapse-content collapse-content--open" id="impact-content">
+                    <div class="impact-grid">
+                        <div class="impact-grid__chart">
+                            <h4 class="subsection-title">Immediate Impacts</h4>
+                            <div class="radar-wrap">
+                                <canvas id="radar-chart" width="360" height="360"></canvas>
+                            </div>
+                        </div>
+                        <div class="impact-grid__shifts">
+                            <h4 class="subsection-title">Structural Shifts</h4>
+                            <div id="structural-shifts">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYER 3: Risk Assessment (collapsible) -->
+        <div class="results-layer" id="layer-risk">
+            <div class="container">
+                <button class="collapse-toggle" data-target="risk-content" aria-expanded="true">
+                    <span class="collapse-toggle__title">Risk Assessment &amp; Actions</span>
+                    <svg class="collapse-toggle__icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <div class="collapse-content collapse-content--open" id="risk-content">
+                    <div class="risk-grid">
+                        <div class="risk-block risk-block--exposed">
+                            <div class="risk-block__header">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v5M10 13.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                <h4>Why You're Exposed</h4>
+                            </div>
+                            <ul id="risk-exposed">
+                                <!-- Populated by JS -->
+                            </ul>
+                        </div>
+                        <div class="risk-block risk-block--shifting">
+                            <div class="risk-block__header">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10h14M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <h4>What's Shifting</h4>
+                            </div>
+                            <ul id="risk-shifting">
+                                <!-- Populated by JS -->
+                            </ul>
+                        </div>
+                        <div class="risk-block risk-block--action">
+                            <div class="risk-block__header">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l8 16H2L10 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 8v4M10 14.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                <h4>What To Do About It</h4>
+                            </div>
+                            <ul id="risk-actions">
+                                <!-- Populated by JS -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LAYER 4: Task Detail (collapsible) -->
+        <div class="results-layer" id="layer-tasks">
+            <div class="container">
+                <button class="collapse-toggle" data-target="tasks-content" aria-expanded="false">
+                    <span class="collapse-toggle__title">Task Detail</span>
+                    <span class="collapse-toggle__badge">For strategy teams</span>
+                    <svg class="collapse-toggle__icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <div class="collapse-content" id="tasks-content">
+                    <div class="table-wrap">
+                        <table class="task-table" id="task-table">
+                            <thead>
+                                <tr>
+                                    <th class="task-table__sortable" data-sort="name">Task <span class="sort-icon"></span></th>
+                                    <th class="task-table__sortable" data-sort="category">Category <span class="sort-icon"></span></th>
+                                    <th class="task-table__sortable task-table__num" data-sort="weight">Weight <span class="sort-icon"></span></th>
+                                    <th class="task-table__num">A</th>
+                                    <th class="task-table__num">C</th>
+                                    <th class="task-table__num">P</th>
+                                    <th class="task-table__num">T</th>
+                                    <th class="task-table__num">D</th>
+                                    <th class="task-table__sortable task-table__num" data-sort="total">Total <span class="sort-icon"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="task-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer" id="site-footer">
+        <div class="container">
+            <p>AI Disruption Diagnostic &mdash; A strategic tool grounded in peer-reviewed research.</p>
+            <p class="site-footer__small">All computation runs locally in your browser. No data is transmitted.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>

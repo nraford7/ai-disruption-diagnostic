@@ -1,0 +1,961 @@
+sectorId,sectorName,tier,horizon,adoption,score,zone,dominant,trigger_scarce_knowledge,trigger_coordination_zero,trigger_unbundling
+1,Financial Services & Insurance,T1,H1,low,30.1020,Adapting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T1,H1,medium,26.3382,Adapting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T1,H1,high,21.5743,Adapting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T1,H2,low,30.1020,Adapting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T1,H2,medium,26.3382,Adapting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T1,H2,high,21.5743,Adapting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T1,H3,low,30.1020,Adapting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T1,H3,medium,26.3382,Adapting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T1,H3,high,21.5743,Adapting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T1,H4,low,30.1020,Adapting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T1,H4,medium,26.3382,Adapting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T1,H4,high,21.5743,Adapting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T2,H1,low,63.2178,Disrupting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T2,H1,medium,66.5502,Disrupting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T2,H1,high,68.8826,Disrupting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T2,H2,low,63.2178,Disrupting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T2,H2,medium,66.5502,Disrupting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T2,H2,high,68.8826,Disrupting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T2,H3,low,63.2178,Disrupting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T2,H3,medium,66.5502,Disrupting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T2,H3,high,68.8826,Disrupting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T2,H4,low,63.2178,Disrupting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T2,H4,medium,66.5502,Disrupting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T2,H4,high,68.8826,Disrupting,P,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T3,H1,low,76.6214,Disrupting,T/A,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T3,H1,medium,82.8260,Restructuring,T/A,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T3,H1,high,88.0306,Restructuring,T/A,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T3,H2,low,76.6214,Disrupting,T/A,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T3,H2,medium,82.8260,Restructuring,T/A,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T3,H2,high,88.0306,Restructuring,T/A,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T3,H3,low,76.6214,Disrupting,T/A,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T3,H3,medium,82.8260,Restructuring,T/A,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T3,H3,high,88.0306,Restructuring,T/A,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T3,H4,low,76.6214,Disrupting,T/A,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T3,H4,medium,82.8260,Restructuring,T/A,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T3,H4,high,88.0306,Restructuring,T/A,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T4,H1,low,84.6806,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T4,H1,medium,92.6122,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T4,H1,high,99.5437,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T4,H2,low,84.6806,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T4,H2,medium,92.6122,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T4,H2,high,99.5437,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T4,H3,low,84.6806,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T4,H3,medium,92.6122,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T4,H3,high,99.5437,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T4,H4,low,84.6806,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T4,H4,medium,92.6122,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T4,H4,high,99.5437,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T5,H1,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T5,H1,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T5,H1,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T5,H2,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T5,H2,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T5,H2,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T5,H3,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T5,H3,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T5,H3,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T5,H4,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T5,H4,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+1,Financial Services & Insurance,T5,H4,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T1,H1,low,23.0128,Adapting,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T1,H1,medium,17.7298,Resilient,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T1,H1,high,11.4469,Resilient,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T1,H2,low,23.0128,Adapting,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T1,H2,medium,17.7298,Resilient,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T1,H2,high,11.4469,Resilient,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T1,H3,low,23.0128,Adapting,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T1,H3,medium,17.7298,Resilient,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T1,H3,high,11.4469,Resilient,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T1,H4,low,23.0128,Adapting,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T1,H4,medium,17.7298,Resilient,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T1,H4,high,11.4469,Resilient,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T2,H1,low,48.1865,Transforming,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T2,H1,medium,48.2979,Transforming,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T2,H1,high,47.4093,Transforming,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T2,H2,low,48.1865,Transforming,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T2,H2,medium,48.2979,Transforming,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T2,H2,high,47.4093,Transforming,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T2,H3,low,48.1865,Transforming,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T2,H3,medium,48.2979,Transforming,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T2,H3,high,47.4093,Transforming,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T2,H4,low,48.1865,Transforming,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T2,H4,medium,48.2979,Transforming,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T2,H4,high,47.4093,Transforming,P,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T3,H1,low,64.3730,Disrupting,D/T,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T3,H1,medium,67.9529,Disrupting,D/T,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T3,H1,high,70.5328,Disrupting,D/T,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T3,H2,low,64.3730,Disrupting,D/T,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T3,H2,medium,67.9529,Disrupting,D/T,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T3,H2,high,70.5328,Disrupting,D/T,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T3,H3,low,64.3730,Disrupting,D/T,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T3,H3,medium,67.9529,Disrupting,D/T,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T3,H3,high,70.5328,Disrupting,D/T,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T3,H4,low,64.3730,Disrupting,D/T,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T3,H4,medium,67.9529,Disrupting,D/T,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T3,H4,high,70.5328,Disrupting,D/T,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T4,H1,low,85.0000,Restructuring,D/A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T4,H1,medium,93.0000,Restructuring,D/A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T4,H1,high,100.0000,Restructuring,D/A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T4,H2,low,85.0000,Restructuring,D/A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T4,H2,medium,93.0000,Restructuring,D/A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T4,H2,high,100.0000,Restructuring,D/A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T4,H3,low,85.0000,Restructuring,D/A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T4,H3,medium,93.0000,Restructuring,D/A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T4,H3,high,100.0000,Restructuring,D/A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T4,H4,low,85.0000,Restructuring,D/A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T4,H4,medium,93.0000,Restructuring,D/A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T4,H4,high,100.0000,Restructuring,D/A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T5,H1,low,85.0000,Restructuring,A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T5,H1,medium,93.0000,Restructuring,A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T5,H1,high,100.0000,Restructuring,A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T5,H2,low,85.0000,Restructuring,A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T5,H2,medium,93.0000,Restructuring,A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T5,H2,high,100.0000,Restructuring,A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T5,H3,low,85.0000,Restructuring,A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T5,H3,medium,93.0000,Restructuring,A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T5,H3,high,100.0000,Restructuring,A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T5,H4,low,85.0000,Restructuring,A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T5,H4,medium,93.0000,Restructuring,A,FALSE,FALSE,FALSE
+2,Healthcare & Life Sciences,T5,H4,high,100.0000,Restructuring,A,FALSE,FALSE,FALSE
+3,Information Technology & Software,T1,H1,low,24.3356,Adapting,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T1,H1,medium,19.3361,Resilient,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T1,H1,high,13.3366,Resilient,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T1,H2,low,24.3356,Adapting,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T1,H2,medium,19.3361,Resilient,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T1,H2,high,13.3366,Resilient,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T1,H3,low,24.3356,Adapting,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T1,H3,medium,19.3361,Resilient,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T1,H3,high,13.3366,Resilient,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T1,H4,low,24.3356,Adapting,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T1,H4,medium,19.3361,Resilient,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T1,H4,high,13.3366,Resilient,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T2,H1,low,53.7815,Transforming,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T2,H1,medium,55.0918,Transforming,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T2,H1,high,55.4021,Transforming,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T2,H2,low,53.7815,Transforming,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T2,H2,medium,55.0918,Transforming,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T2,H2,high,55.4021,Transforming,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T2,H3,low,53.7815,Transforming,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T2,H3,medium,55.0918,Transforming,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T2,H3,high,55.4021,Transforming,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T2,H4,low,53.7815,Transforming,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T2,H4,medium,55.0918,Transforming,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T2,H4,high,55.4021,Transforming,P,FALSE,FALSE,FALSE
+3,Information Technology & Software,T3,H1,low,73.6245,Disrupting,T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T3,H1,medium,79.1869,Disrupting,T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T3,H1,high,83.7493,Restructuring,T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T3,H2,low,73.6245,Disrupting,T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T3,H2,medium,79.1869,Disrupting,T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T3,H2,high,83.7493,Restructuring,T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T3,H3,low,73.6245,Disrupting,T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T3,H3,medium,79.1869,Disrupting,T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T3,H3,high,83.7493,Restructuring,T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T3,H4,low,73.6245,Disrupting,T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T3,H4,medium,79.1869,Disrupting,T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T3,H4,high,83.7493,Restructuring,T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T4,H1,low,84.1483,Restructuring,A/T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T4,H1,medium,91.9658,Restructuring,A/T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T4,H1,high,98.7833,Restructuring,A/T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T4,H2,low,84.1483,Restructuring,A/T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T4,H2,medium,91.9658,Restructuring,A/T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T4,H2,high,98.7833,Restructuring,A/T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T4,H3,low,84.1483,Restructuring,A/T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T4,H3,medium,91.9658,Restructuring,A/T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T4,H3,high,98.7833,Restructuring,A/T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T4,H4,low,84.1483,Restructuring,A/T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T4,H4,medium,91.9658,Restructuring,A/T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T4,H4,high,98.7833,Restructuring,A/T,FALSE,FALSE,FALSE
+3,Information Technology & Software,T5,H1,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+3,Information Technology & Software,T5,H1,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+3,Information Technology & Software,T5,H1,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+3,Information Technology & Software,T5,H2,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+3,Information Technology & Software,T5,H2,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+3,Information Technology & Software,T5,H2,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+3,Information Technology & Software,T5,H3,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+3,Information Technology & Software,T5,H3,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+3,Information Technology & Software,T5,H3,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+3,Information Technology & Software,T5,H4,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+3,Information Technology & Software,T5,H4,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+3,Information Technology & Software,T5,H4,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T1,H1,low,26.1534,Adapting,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T1,H1,medium,21.5435,Adapting,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T1,H1,high,15.9335,Resilient,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T1,H2,low,26.1534,Adapting,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T1,H2,medium,21.5435,Adapting,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T1,H2,high,15.9335,Resilient,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T1,H3,low,26.1534,Adapting,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T1,H3,medium,21.5435,Adapting,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T1,H3,high,15.9335,Resilient,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T1,H4,low,26.1534,Adapting,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T1,H4,medium,21.5435,Adapting,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T1,H4,high,15.9335,Resilient,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T2,H1,low,54.6670,Transforming,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T2,H1,medium,56.1671,Transforming,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T2,H1,high,56.6672,Transforming,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T2,H2,low,54.6670,Transforming,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T2,H2,medium,56.1671,Transforming,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T2,H2,high,56.6672,Transforming,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T2,H3,low,54.6670,Transforming,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T2,H3,medium,56.1671,Transforming,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T2,H3,high,56.6672,Transforming,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T2,H4,low,54.6670,Transforming,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T2,H4,medium,56.1671,Transforming,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T2,H4,high,56.6672,Transforming,P,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T3,H1,low,76.4085,Disrupting,T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T3,H1,medium,82.5675,Restructuring,T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T3,H1,high,87.7264,Restructuring,T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T3,H2,low,76.4085,Disrupting,T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T3,H2,medium,82.5675,Restructuring,T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T3,H2,high,87.7264,Restructuring,T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T3,H3,low,76.4085,Disrupting,T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T3,H3,medium,82.5675,Restructuring,T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T3,H3,high,87.7264,Restructuring,T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T3,H4,low,76.4085,Disrupting,T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T3,H4,medium,82.5675,Restructuring,T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T3,H4,high,87.7264,Restructuring,T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T4,H1,low,85.0000,Restructuring,A/T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T4,H1,medium,93.0000,Restructuring,A/T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T4,H1,high,100.0000,Restructuring,A/T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T4,H2,low,85.0000,Restructuring,A/T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T4,H2,medium,93.0000,Restructuring,A/T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T4,H2,high,100.0000,Restructuring,A/T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T4,H3,low,85.0000,Restructuring,A/T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T4,H3,medium,93.0000,Restructuring,A/T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T4,H3,high,100.0000,Restructuring,A/T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T4,H4,low,85.0000,Restructuring,A/T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T4,H4,medium,93.0000,Restructuring,A/T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T4,H4,high,100.0000,Restructuring,A/T,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T5,H1,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T5,H1,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T5,H1,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T5,H2,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T5,H2,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T5,H2,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T5,H3,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T5,H3,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T5,H3,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T5,H4,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T5,H4,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+4,"Media, Entertainment & Creative",T5,H4,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T1,H1,low,22.8147,Adapting,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T1,H1,medium,17.4893,Resilient,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T1,H1,high,11.1639,Resilient,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T1,H2,low,22.8147,Adapting,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T1,H2,medium,17.4893,Resilient,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T1,H2,high,11.1639,Resilient,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T1,H3,low,22.8147,Adapting,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T1,H3,medium,17.4893,Resilient,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T1,H3,high,11.1639,Resilient,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T1,H4,low,22.8147,Adapting,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T1,H4,medium,17.4893,Resilient,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T1,H4,high,11.1639,Resilient,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T2,H1,low,54.0370,Transforming,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T2,H1,medium,55.4021,Transforming,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T2,H1,high,55.7672,Transforming,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T2,H2,low,54.0370,Transforming,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T2,H2,medium,55.4021,Transforming,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T2,H2,high,55.7672,Transforming,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T2,H3,low,54.0370,Transforming,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T2,H3,medium,55.4021,Transforming,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T2,H3,high,55.7672,Transforming,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T2,H4,low,54.0370,Transforming,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T2,H4,medium,55.4021,Transforming,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T2,H4,high,55.7672,Transforming,P,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T3,H1,low,71.8360,Disrupting,T,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T3,H1,medium,77.0151,Disrupting,T,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T3,H1,high,81.1942,Restructuring,T,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T3,H2,low,71.8360,Disrupting,T,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T3,H2,medium,77.0151,Disrupting,T,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T3,H2,high,81.1942,Restructuring,T,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T3,H3,low,71.8360,Disrupting,T,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T3,H3,medium,77.0151,Disrupting,T,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T3,H3,high,81.1942,Restructuring,T,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T3,H4,low,71.8360,Disrupting,T,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T3,H4,medium,77.0151,Disrupting,T,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T3,H4,high,81.1942,Restructuring,T,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T4,H1,low,85.0000,Restructuring,T/D,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T4,H1,medium,93.0000,Restructuring,T/D,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T4,H1,high,100.0000,Restructuring,T/D,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T4,H2,low,85.0000,Restructuring,T/D,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T4,H2,medium,93.0000,Restructuring,T/D,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T4,H2,high,100.0000,Restructuring,T/D,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T4,H3,low,85.0000,Restructuring,T/D,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T4,H3,medium,93.0000,Restructuring,T/D,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T4,H3,high,100.0000,Restructuring,T/D,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T4,H4,low,85.0000,Restructuring,T/D,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T4,H4,medium,93.0000,Restructuring,T/D,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T4,H4,high,100.0000,Restructuring,T/D,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T5,H1,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T5,H1,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T5,H1,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T5,H2,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T5,H2,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T5,H2,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T5,H3,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T5,H3,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T5,H3,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T5,H4,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T5,H4,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+5,"Professional Services (Legal, Consulting, Accounting)",T5,H4,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+6,Education & Training,T1,H1,low,21.1969,Adapting,P,FALSE,FALSE,FALSE
+6,Education & Training,T1,H1,medium,15.5248,Resilient,P,FALSE,FALSE,FALSE
+6,Education & Training,T1,H1,high,8.8527,Resilient,P,FALSE,FALSE,FALSE
+6,Education & Training,T1,H2,low,21.1969,Adapting,P,FALSE,FALSE,FALSE
+6,Education & Training,T1,H2,medium,15.5248,Resilient,P,FALSE,FALSE,FALSE
+6,Education & Training,T1,H2,high,8.8527,Resilient,P,FALSE,FALSE,FALSE
+6,Education & Training,T1,H3,low,21.1969,Adapting,P,FALSE,FALSE,FALSE
+6,Education & Training,T1,H3,medium,15.5248,Resilient,P,FALSE,FALSE,FALSE
+6,Education & Training,T1,H3,high,8.8527,Resilient,P,FALSE,FALSE,FALSE
+6,Education & Training,T1,H4,low,21.1969,Adapting,P,FALSE,FALSE,FALSE
+6,Education & Training,T1,H4,medium,15.5248,Resilient,P,FALSE,FALSE,FALSE
+6,Education & Training,T1,H4,high,8.8527,Resilient,P,FALSE,FALSE,FALSE
+6,Education & Training,T2,H1,low,45.5364,Transforming,P,FALSE,FALSE,FALSE
+6,Education & Training,T2,H1,medium,45.0799,Transforming,P,FALSE,FALSE,FALSE
+6,Education & Training,T2,H1,high,43.6234,Transforming,P,FALSE,FALSE,FALSE
+6,Education & Training,T2,H2,low,45.5364,Transforming,P,FALSE,FALSE,FALSE
+6,Education & Training,T2,H2,medium,45.0799,Transforming,P,FALSE,FALSE,FALSE
+6,Education & Training,T2,H2,high,43.6234,Transforming,P,FALSE,FALSE,FALSE
+6,Education & Training,T2,H3,low,45.5364,Transforming,P,FALSE,FALSE,FALSE
+6,Education & Training,T2,H3,medium,45.0799,Transforming,P,FALSE,FALSE,FALSE
+6,Education & Training,T2,H3,high,43.6234,Transforming,P,FALSE,FALSE,FALSE
+6,Education & Training,T2,H4,low,45.5364,Transforming,P,FALSE,FALSE,FALSE
+6,Education & Training,T2,H4,medium,45.0799,Transforming,P,FALSE,FALSE,FALSE
+6,Education & Training,T2,H4,high,43.6234,Transforming,P,FALSE,FALSE,FALSE
+6,Education & Training,T3,H1,low,69.9755,Disrupting,P/T,FALSE,FALSE,FALSE
+6,Education & Training,T3,H1,medium,74.7560,Disrupting,P/T,FALSE,FALSE,FALSE
+6,Education & Training,T3,H1,high,78.5365,Disrupting,P/T,FALSE,FALSE,FALSE
+6,Education & Training,T3,H2,low,69.9755,Disrupting,P/T,FALSE,FALSE,FALSE
+6,Education & Training,T3,H2,medium,74.7560,Disrupting,P/T,FALSE,FALSE,FALSE
+6,Education & Training,T3,H2,high,78.5365,Disrupting,P/T,FALSE,FALSE,FALSE
+6,Education & Training,T3,H3,low,69.9755,Disrupting,P/T,FALSE,FALSE,FALSE
+6,Education & Training,T3,H3,medium,74.7560,Disrupting,P/T,FALSE,FALSE,FALSE
+6,Education & Training,T3,H3,high,78.5365,Disrupting,P/T,FALSE,FALSE,FALSE
+6,Education & Training,T3,H4,low,69.9755,Disrupting,P/T,FALSE,FALSE,FALSE
+6,Education & Training,T3,H4,medium,74.7560,Disrupting,P/T,FALSE,FALSE,FALSE
+6,Education & Training,T3,H4,high,78.5365,Disrupting,P/T,FALSE,FALSE,FALSE
+6,Education & Training,T4,H1,low,85.0000,Restructuring,T,FALSE,FALSE,FALSE
+6,Education & Training,T4,H1,medium,93.0000,Restructuring,T,FALSE,FALSE,FALSE
+6,Education & Training,T4,H1,high,100.0000,Restructuring,T,FALSE,FALSE,FALSE
+6,Education & Training,T4,H2,low,85.0000,Restructuring,T,FALSE,FALSE,FALSE
+6,Education & Training,T4,H2,medium,93.0000,Restructuring,T,FALSE,FALSE,FALSE
+6,Education & Training,T4,H2,high,100.0000,Restructuring,T,FALSE,FALSE,FALSE
+6,Education & Training,T4,H3,low,85.0000,Restructuring,T,FALSE,FALSE,FALSE
+6,Education & Training,T4,H3,medium,93.0000,Restructuring,T,FALSE,FALSE,FALSE
+6,Education & Training,T4,H3,high,100.0000,Restructuring,T,FALSE,FALSE,FALSE
+6,Education & Training,T4,H4,low,85.0000,Restructuring,T,FALSE,FALSE,FALSE
+6,Education & Training,T4,H4,medium,93.0000,Restructuring,T,FALSE,FALSE,FALSE
+6,Education & Training,T4,H4,high,100.0000,Restructuring,T,FALSE,FALSE,FALSE
+6,Education & Training,T5,H1,low,85.0000,Restructuring,A,FALSE,FALSE,FALSE
+6,Education & Training,T5,H1,medium,93.0000,Restructuring,A,FALSE,FALSE,FALSE
+6,Education & Training,T5,H1,high,100.0000,Restructuring,A,FALSE,FALSE,FALSE
+6,Education & Training,T5,H2,low,85.0000,Restructuring,A,FALSE,FALSE,FALSE
+6,Education & Training,T5,H2,medium,93.0000,Restructuring,A,FALSE,FALSE,FALSE
+6,Education & Training,T5,H2,high,100.0000,Restructuring,A,FALSE,FALSE,FALSE
+6,Education & Training,T5,H3,low,85.0000,Restructuring,A,FALSE,FALSE,FALSE
+6,Education & Training,T5,H3,medium,93.0000,Restructuring,A,FALSE,FALSE,FALSE
+6,Education & Training,T5,H3,high,100.0000,Restructuring,A,FALSE,FALSE,FALSE
+6,Education & Training,T5,H4,low,85.0000,Restructuring,A,FALSE,FALSE,FALSE
+6,Education & Training,T5,H4,medium,93.0000,Restructuring,A,FALSE,FALSE,FALSE
+6,Education & Training,T5,H4,high,100.0000,Restructuring,A,FALSE,FALSE,FALSE
+7,Government & Public Administration,T1,H1,low,30.2461,Adapting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T1,H1,medium,26.5132,Adapting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T1,H1,high,21.7802,Adapting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T1,H2,low,30.2461,Adapting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T1,H2,medium,26.5132,Adapting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T1,H2,high,21.7802,Adapting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T1,H3,low,30.2461,Adapting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T1,H3,medium,26.5132,Adapting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T1,H3,high,21.7802,Adapting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T1,H4,low,30.2461,Adapting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T1,H4,medium,26.5132,Adapting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T1,H4,high,21.7802,Adapting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T2,H1,low,59.8099,Transforming,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T2,H1,medium,62.4120,Disrupting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T2,H1,high,64.0142,Disrupting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T2,H2,low,59.8099,Transforming,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T2,H2,medium,62.4120,Disrupting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T2,H2,high,64.0142,Disrupting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T2,H3,low,59.8099,Transforming,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T2,H3,medium,62.4120,Disrupting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T2,H3,high,64.0142,Disrupting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T2,H4,low,59.8099,Transforming,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T2,H4,medium,62.4120,Disrupting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T2,H4,high,64.0142,Disrupting,P,FALSE,FALSE,FALSE
+7,Government & Public Administration,T3,H1,low,73.1048,Disrupting,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T3,H1,medium,78.5558,Disrupting,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T3,H1,high,83.0068,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T3,H2,low,73.1048,Disrupting,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T3,H2,medium,78.5558,Disrupting,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T3,H2,high,83.0068,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T3,H3,low,73.1048,Disrupting,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T3,H3,medium,78.5558,Disrupting,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T3,H3,high,83.0068,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T3,H4,low,73.1048,Disrupting,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T3,H4,medium,78.5558,Disrupting,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T3,H4,high,83.0068,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T4,H1,low,84.6806,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T4,H1,medium,92.6122,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T4,H1,high,99.5437,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T4,H2,low,84.6806,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T4,H2,medium,92.6122,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T4,H2,high,99.5437,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T4,H3,low,84.6806,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T4,H3,medium,92.6122,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T4,H3,high,99.5437,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T4,H4,low,84.6806,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T4,H4,medium,92.6122,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T4,H4,high,99.5437,Restructuring,A/C,FALSE,FALSE,FALSE
+7,Government & Public Administration,T5,H1,low,85.0000,Restructuring,A,FALSE,FALSE,FALSE
+7,Government & Public Administration,T5,H1,medium,93.0000,Restructuring,A,FALSE,FALSE,FALSE
+7,Government & Public Administration,T5,H1,high,100.0000,Restructuring,A,FALSE,FALSE,FALSE
+7,Government & Public Administration,T5,H2,low,85.0000,Restructuring,A,FALSE,FALSE,FALSE
+7,Government & Public Administration,T5,H2,medium,93.0000,Restructuring,A,FALSE,FALSE,FALSE
+7,Government & Public Administration,T5,H2,high,100.0000,Restructuring,A,FALSE,FALSE,FALSE
+7,Government & Public Administration,T5,H3,low,85.0000,Restructuring,A,FALSE,FALSE,FALSE
+7,Government & Public Administration,T5,H3,medium,93.0000,Restructuring,A,FALSE,FALSE,FALSE
+7,Government & Public Administration,T5,H3,high,100.0000,Restructuring,A,FALSE,FALSE,FALSE
+7,Government & Public Administration,T5,H4,low,85.0000,Restructuring,A,FALSE,FALSE,FALSE
+7,Government & Public Administration,T5,H4,medium,93.0000,Restructuring,A,FALSE,FALSE,FALSE
+7,Government & Public Administration,T5,H4,high,100.0000,Restructuring,A,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T1,H1,low,18.2201,Resilient,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T1,H1,medium,11.9101,Resilient,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T1,H1,high,4.6001,Resilient,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T1,H2,low,18.2201,Resilient,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T1,H2,medium,11.9101,Resilient,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T1,H2,high,4.6001,Resilient,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T1,H3,low,18.2201,Resilient,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T1,H3,medium,11.9101,Resilient,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T1,H3,high,4.6001,Resilient,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T1,H4,low,18.2201,Resilient,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T1,H4,medium,11.9101,Resilient,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T1,H4,high,4.6001,Resilient,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T2,H1,low,46.4767,Transforming,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T2,H1,medium,46.2217,Transforming,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T2,H1,high,44.9667,Transforming,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T2,H2,low,46.4767,Transforming,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T2,H2,medium,46.2217,Transforming,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T2,H2,high,44.9667,Transforming,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T2,H3,low,46.4767,Transforming,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T2,H3,medium,46.2217,Transforming,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T2,H3,high,44.9667,Transforming,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T2,H4,low,46.4767,Transforming,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T2,H4,medium,46.2217,Transforming,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T2,H4,high,44.9667,Transforming,P,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T3,H1,low,65.6612,Disrupting,D,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T3,H1,medium,69.5171,Disrupting,D,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T3,H1,high,72.3731,Disrupting,D,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T3,H2,low,65.6612,Disrupting,D,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T3,H2,medium,69.5171,Disrupting,D,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T3,H2,high,72.3731,Disrupting,D,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T3,H3,low,65.6612,Disrupting,D,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T3,H3,medium,69.5171,Disrupting,D,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T3,H3,high,72.3731,Disrupting,D,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T3,H4,low,65.6612,Disrupting,D,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T3,H4,medium,69.5171,Disrupting,D,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T3,H4,high,72.3731,Disrupting,D,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T4,H1,low,82.6046,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T4,H1,medium,90.0913,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T4,H1,high,96.5780,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T4,H2,low,82.6046,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T4,H2,medium,90.0913,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T4,H2,high,96.5780,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T4,H3,low,82.6046,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T4,H3,medium,90.0913,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T4,H3,high,96.5780,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T4,H4,low,82.6046,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T4,H4,medium,90.0913,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T4,H4,high,96.5780,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T5,H1,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T5,H1,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T5,H1,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T5,H2,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T5,H2,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T5,H2,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T5,H3,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T5,H3,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T5,H3,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T5,H4,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T5,H4,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+8,Manufacturing & Industrial,T5,H4,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+9,Energy & Utilities,T1,H1,low,20.8277,Adapting,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T1,H1,medium,15.0764,Resilient,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T1,H1,high,8.3252,Resilient,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T1,H2,low,20.8277,Adapting,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T1,H2,medium,15.0764,Resilient,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T1,H2,high,8.3252,Resilient,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T1,H3,low,20.8277,Adapting,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T1,H3,medium,15.0764,Resilient,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T1,H3,high,8.3252,Resilient,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T1,H4,low,20.8277,Adapting,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T1,H4,medium,15.0764,Resilient,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T1,H4,high,8.3252,Resilient,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T2,H1,low,47.5789,Transforming,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T2,H1,medium,47.5601,Transforming,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T2,H1,high,46.5413,Transforming,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T2,H2,low,47.5789,Transforming,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T2,H2,medium,47.5601,Transforming,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T2,H2,high,46.5413,Transforming,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T2,H3,low,47.5789,Transforming,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T2,H3,medium,47.5601,Transforming,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T2,H3,high,46.5413,Transforming,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T2,H4,low,47.5789,Transforming,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T2,H4,medium,47.5601,Transforming,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T2,H4,high,46.5413,Transforming,P,FALSE,FALSE,FALSE
+9,Energy & Utilities,T3,H1,low,60.6456,Disrupting,D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T3,H1,medium,63.4269,Disrupting,D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T3,H1,high,65.2081,Disrupting,D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T3,H2,low,60.6456,Disrupting,D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T3,H2,medium,63.4269,Disrupting,D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T3,H2,high,65.2081,Disrupting,D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T3,H3,low,60.6456,Disrupting,D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T3,H3,medium,63.4269,Disrupting,D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T3,H3,high,65.2081,Disrupting,D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T3,H4,low,60.6456,Disrupting,D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T3,H4,medium,63.4269,Disrupting,D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T3,H4,high,65.2081,Disrupting,D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T4,H1,low,78.9450,Disrupting,A/D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T4,H1,medium,85.6475,Restructuring,A/D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T4,H1,high,91.3500,Restructuring,A/D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T4,H2,low,78.9450,Disrupting,A/D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T4,H2,medium,85.6475,Restructuring,A/D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T4,H2,high,91.3500,Restructuring,A/D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T4,H3,low,78.9450,Disrupting,A/D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T4,H3,medium,85.6475,Restructuring,A/D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T4,H3,high,91.3500,Restructuring,A/D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T4,H4,low,78.9450,Disrupting,A/D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T4,H4,medium,85.6475,Restructuring,A/D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T4,H4,high,91.3500,Restructuring,A/D,FALSE,FALSE,FALSE
+9,Energy & Utilities,T5,H1,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+9,Energy & Utilities,T5,H1,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+9,Energy & Utilities,T5,H1,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+9,Energy & Utilities,T5,H2,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+9,Energy & Utilities,T5,H2,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+9,Energy & Utilities,T5,H2,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+9,Energy & Utilities,T5,H3,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+9,Energy & Utilities,T5,H3,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+9,Energy & Utilities,T5,H3,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+9,Energy & Utilities,T5,H4,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+9,Energy & Utilities,T5,H4,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+9,Energy & Utilities,T5,H4,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T1,H1,low,15.0000,Resilient,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T1,H1,medium,8.0000,Resilient,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T1,H1,high,0.0000,Resilient,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T1,H2,low,15.0000,Resilient,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T1,H2,medium,8.0000,Resilient,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T1,H2,high,0.0000,Resilient,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T1,H3,low,15.0000,Resilient,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T1,H3,medium,8.0000,Resilient,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T1,H3,high,0.0000,Resilient,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T1,H4,low,15.0000,Resilient,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T1,H4,medium,8.0000,Resilient,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T1,H4,high,0.0000,Resilient,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T2,H1,low,39.3836,Adapting,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T2,H1,medium,37.6087,Adapting,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T2,H1,high,34.8338,Adapting,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T2,H2,low,39.3836,Adapting,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T2,H2,medium,37.6087,Adapting,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T2,H2,high,34.8338,Adapting,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T2,H3,low,39.3836,Adapting,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T2,H3,medium,37.6087,Adapting,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T2,H3,high,34.8338,Adapting,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T2,H4,low,39.3836,Adapting,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T2,H4,medium,37.6087,Adapting,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T2,H4,high,34.8338,Adapting,P,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T3,H1,low,65.5786,Disrupting,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T3,H1,medium,69.4169,Disrupting,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T3,H1,high,72.2552,Disrupting,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T3,H2,low,65.5786,Disrupting,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T3,H2,medium,69.4169,Disrupting,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T3,H2,high,72.2552,Disrupting,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T3,H3,low,65.5786,Disrupting,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T3,H3,medium,69.4169,Disrupting,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T3,H3,high,72.2552,Disrupting,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T3,H4,low,65.5786,Disrupting,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T3,H4,medium,69.4169,Disrupting,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T3,H4,high,72.2552,Disrupting,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T4,H1,low,82.1255,Restructuring,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T4,H1,medium,89.5096,Restructuring,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T4,H1,high,95.8936,Restructuring,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T4,H2,low,82.1255,Restructuring,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T4,H2,medium,89.5096,Restructuring,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T4,H2,high,95.8936,Restructuring,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T4,H3,low,82.1255,Restructuring,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T4,H3,medium,89.5096,Restructuring,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T4,H3,high,95.8936,Restructuring,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T4,H4,low,82.1255,Restructuring,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T4,H4,medium,89.5096,Restructuring,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T4,H4,high,95.8936,Restructuring,D,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T5,H1,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T5,H1,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T5,H1,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T5,H2,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T5,H2,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T5,H2,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T5,H3,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T5,H3,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T5,H3,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T5,H4,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T5,H4,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+10,Construction & Real Estate,T5,H4,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T1,H1,low,23.5432,Adapting,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T1,H1,medium,18.3739,Resilient,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T1,H1,high,12.2046,Resilient,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T1,H2,low,23.5432,Adapting,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T1,H2,medium,18.3739,Resilient,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T1,H2,high,12.2046,Resilient,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T1,H3,low,23.5432,Adapting,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T1,H3,medium,18.3739,Resilient,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T1,H3,high,12.2046,Resilient,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T1,H4,low,23.5432,Adapting,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T1,H4,medium,18.3739,Resilient,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T1,H4,high,12.2046,Resilient,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T2,H1,low,53.4180,Transforming,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T2,H1,medium,54.6504,Transforming,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T2,H1,high,54.8829,Transforming,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T2,H2,low,53.4180,Transforming,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T2,H2,medium,54.6504,Transforming,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T2,H2,high,54.8829,Transforming,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T2,H3,low,53.4180,Transforming,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T2,H3,medium,54.6504,Transforming,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T2,H3,high,54.8829,Transforming,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T2,H4,low,53.4180,Transforming,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T2,H4,medium,54.6504,Transforming,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T2,H4,high,54.8829,Transforming,P,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T3,H1,low,64.7562,Disrupting,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T3,H1,medium,68.4183,Disrupting,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T3,H1,high,71.0803,Disrupting,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T3,H2,low,64.7562,Disrupting,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T3,H2,medium,68.4183,Disrupting,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T3,H2,high,71.0803,Disrupting,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T3,H3,low,64.7562,Disrupting,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T3,H3,medium,68.4183,Disrupting,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T3,H3,high,71.0803,Disrupting,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T3,H4,low,64.7562,Disrupting,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T3,H4,medium,68.4183,Disrupting,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T3,H4,high,71.0803,Disrupting,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T4,H1,low,82.1255,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T4,H1,medium,89.5096,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T4,H1,high,95.8936,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T4,H2,low,82.1255,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T4,H2,medium,89.5096,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T4,H2,high,95.8936,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T4,H3,low,82.1255,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T4,H3,medium,89.5096,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T4,H3,high,95.8936,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T4,H4,low,82.1255,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T4,H4,medium,89.5096,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T4,H4,high,95.8936,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T5,H1,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T5,H1,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T5,H1,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T5,H2,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T5,H2,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T5,H2,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T5,H3,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T5,H3,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T5,H3,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T5,H4,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T5,H4,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+11,Transportation & Logistics,T5,H4,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T1,H1,low,27.4215,Adapting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T1,H1,medium,23.0832,Adapting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T1,H1,high,17.7450,Resilient,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T1,H2,low,27.4215,Adapting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T1,H2,medium,23.0832,Adapting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T1,H2,high,17.7450,Resilient,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T1,H3,low,27.4215,Adapting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T1,H3,medium,23.0832,Adapting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T1,H3,high,17.7450,Resilient,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T1,H4,low,27.4215,Adapting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T1,H4,medium,23.0832,Adapting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T1,H4,high,17.7450,Resilient,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T2,H1,low,59.7738,Transforming,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T2,H1,medium,62.3682,Disrupting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T2,H1,high,63.9626,Disrupting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T2,H2,low,59.7738,Transforming,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T2,H2,medium,62.3682,Disrupting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T2,H2,high,63.9626,Disrupting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T2,H3,low,59.7738,Transforming,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T2,H3,medium,62.3682,Disrupting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T2,H3,high,63.9626,Disrupting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T2,H4,low,59.7738,Transforming,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T2,H4,medium,62.3682,Disrupting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T2,H4,high,63.9626,Disrupting,P,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T3,H1,low,74.1994,Disrupting,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T3,H1,medium,79.8850,Disrupting,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T3,H1,high,84.5706,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T3,H2,low,74.1994,Disrupting,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T3,H2,medium,79.8850,Disrupting,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T3,H2,high,84.5706,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T3,H3,low,74.1994,Disrupting,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T3,H3,medium,79.8850,Disrupting,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T3,H3,high,84.5706,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T3,H4,low,74.1994,Disrupting,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T3,H4,medium,79.8850,Disrupting,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T3,H4,high,84.5706,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T4,H1,low,83.0837,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T4,H1,medium,90.6730,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T4,H1,high,97.2624,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T4,H2,low,83.0837,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T4,H2,medium,90.6730,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T4,H2,high,97.2624,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T4,H3,low,83.0837,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T4,H3,medium,90.6730,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T4,H3,high,97.2624,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T4,H4,low,83.0837,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T4,H4,medium,90.6730,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T4,H4,high,97.2624,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T5,H1,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T5,H1,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T5,H1,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T5,H2,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T5,H2,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T5,H2,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T5,H3,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T5,H3,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T5,H3,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T5,H4,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T5,H4,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+12,Retail & Consumer Services,T5,H4,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T1,H1,low,21.6162,Adapting,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T1,H1,medium,16.0340,Resilient,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T1,H1,high,9.4518,Resilient,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T1,H2,low,21.6162,Adapting,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T1,H2,medium,16.0340,Resilient,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T1,H2,high,9.4518,Resilient,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T1,H3,low,21.6162,Adapting,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T1,H3,medium,16.0340,Resilient,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T1,H3,high,9.4518,Resilient,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T1,H4,low,21.6162,Adapting,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T1,H4,medium,16.0340,Resilient,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T1,H4,high,9.4518,Resilient,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T2,H1,low,45.6835,Transforming,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T2,H1,medium,45.2586,Transforming,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T2,H1,high,43.8336,Transforming,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T2,H2,low,45.6835,Transforming,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T2,H2,medium,45.2586,Transforming,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T2,H2,high,43.8336,Transforming,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T2,H3,low,45.6835,Transforming,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T2,H3,medium,45.2586,Transforming,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T2,H3,high,43.8336,Transforming,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T2,H4,low,45.6835,Transforming,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T2,H4,medium,45.2586,Transforming,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T2,H4,high,43.8336,Transforming,P,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T3,H1,low,61.4506,Disrupting,D,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T3,H1,medium,64.4043,Disrupting,D,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T3,H1,high,66.3580,Disrupting,D,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T3,H2,low,61.4506,Disrupting,D,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T3,H2,medium,64.4043,Disrupting,D,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T3,H2,high,66.3580,Disrupting,D,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T3,H3,low,61.4506,Disrupting,D,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T3,H3,medium,64.4043,Disrupting,D,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T3,H3,high,66.3580,Disrupting,D,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T3,H4,low,61.4506,Disrupting,D,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T3,H4,medium,64.4043,Disrupting,D,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T3,H4,high,66.3580,Disrupting,D,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T4,H1,low,77.5743,Disrupting,A,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T4,H1,medium,83.9830,Restructuring,A,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T4,H1,high,89.3918,Restructuring,A,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T4,H2,low,77.5743,Disrupting,A,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T4,H2,medium,83.9830,Restructuring,A,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T4,H2,high,89.3918,Restructuring,A,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T4,H3,low,77.5743,Disrupting,A,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T4,H3,medium,83.9830,Restructuring,A,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T4,H3,high,89.3918,Restructuring,A,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T4,H4,low,77.5743,Disrupting,A,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T4,H4,medium,83.9830,Restructuring,A,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T4,H4,high,89.3918,Restructuring,A,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T5,H1,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T5,H1,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T5,H1,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T5,H2,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T5,H2,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T5,H2,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T5,H3,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T5,H3,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T5,H3,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T5,H4,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T5,H4,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+13,Agriculture & Food Production,T5,H4,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T1,H1,low,17.6060,Resilient,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T1,H1,medium,11.1645,Resilient,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T1,H1,high,3.7229,Resilient,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T1,H2,low,17.6060,Resilient,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T1,H2,medium,11.1645,Resilient,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T1,H2,high,3.7229,Resilient,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T1,H3,low,17.6060,Resilient,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T1,H3,medium,11.1645,Resilient,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T1,H3,high,3.7229,Resilient,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T1,H4,low,17.6060,Resilient,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T1,H4,medium,11.1645,Resilient,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T1,H4,high,3.7229,Resilient,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T2,H1,low,40.7920,Transforming,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T2,H1,medium,39.3188,Adapting,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T2,H1,high,36.8457,Adapting,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T2,H2,low,40.7920,Transforming,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T2,H2,medium,39.3188,Adapting,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T2,H2,high,36.8457,Adapting,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T2,H3,low,40.7920,Transforming,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T2,H3,medium,39.3188,Adapting,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T2,H3,high,36.8457,Adapting,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T2,H4,low,40.7920,Transforming,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T2,H4,medium,39.3188,Adapting,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T2,H4,high,36.8457,Adapting,P/D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T3,H1,low,59.5757,Transforming,D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T3,H1,medium,62.1276,Disrupting,D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T3,H1,high,63.6796,Disrupting,D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T3,H2,low,59.5757,Transforming,D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T3,H2,medium,62.1276,Disrupting,D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T3,H2,high,63.6796,Disrupting,D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T3,H3,low,59.5757,Transforming,D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T3,H3,medium,62.1276,Disrupting,D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T3,H3,high,63.6796,Disrupting,D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T3,H4,low,59.5757,Transforming,D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T3,H4,medium,62.1276,Disrupting,D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T3,H4,high,63.6796,Disrupting,D,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T4,H1,low,77.4146,Disrupting,A,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T4,H1,medium,83.7891,Restructuring,A,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T4,H1,high,89.1637,Restructuring,A,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T4,H2,low,77.4146,Disrupting,A,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T4,H2,medium,83.7891,Restructuring,A,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T4,H2,high,89.1637,Restructuring,A,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T4,H3,low,77.4146,Disrupting,A,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T4,H3,medium,83.7891,Restructuring,A,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T4,H3,high,89.1637,Restructuring,A,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T4,H4,low,77.4146,Disrupting,A,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T4,H4,medium,83.7891,Restructuring,A,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T4,H4,high,89.1637,Restructuring,A,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T5,H1,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T5,H1,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T5,H1,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T5,H2,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T5,H2,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T5,H2,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T5,H3,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T5,H3,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T5,H3,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T5,H4,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T5,H4,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+14,Mining & Natural Resources,T5,H4,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T1,H1,low,24.5542,Adapting,P,FALSE,FALSE,FALSE
+15,Telecommunications,T1,H1,medium,19.6015,Resilient,P,FALSE,FALSE,FALSE
+15,Telecommunications,T1,H1,high,13.6489,Resilient,P,FALSE,FALSE,FALSE
+15,Telecommunications,T1,H2,low,24.5542,Adapting,P,FALSE,FALSE,FALSE
+15,Telecommunications,T1,H2,medium,19.6015,Resilient,P,FALSE,FALSE,FALSE
+15,Telecommunications,T1,H2,high,13.6489,Resilient,P,FALSE,FALSE,FALSE
+15,Telecommunications,T1,H3,low,24.5542,Adapting,P,FALSE,FALSE,FALSE
+15,Telecommunications,T1,H3,medium,19.6015,Resilient,P,FALSE,FALSE,FALSE
+15,Telecommunications,T1,H3,high,13.6489,Resilient,P,FALSE,FALSE,FALSE
+15,Telecommunications,T1,H4,low,24.5542,Adapting,P,FALSE,FALSE,FALSE
+15,Telecommunications,T1,H4,medium,19.6015,Resilient,P,FALSE,FALSE,FALSE
+15,Telecommunications,T1,H4,high,13.6489,Resilient,P,FALSE,FALSE,FALSE
+15,Telecommunications,T2,H1,low,54.9362,Transforming,P,FALSE,FALSE,FALSE
+15,Telecommunications,T2,H1,medium,56.4940,Transforming,P,FALSE,FALSE,FALSE
+15,Telecommunications,T2,H1,high,57.0518,Transforming,P,FALSE,FALSE,FALSE
+15,Telecommunications,T2,H2,low,54.9362,Transforming,P,FALSE,FALSE,FALSE
+15,Telecommunications,T2,H2,medium,56.4940,Transforming,P,FALSE,FALSE,FALSE
+15,Telecommunications,T2,H2,high,57.0518,Transforming,P,FALSE,FALSE,FALSE
+15,Telecommunications,T2,H3,low,54.9362,Transforming,P,FALSE,FALSE,FALSE
+15,Telecommunications,T2,H3,medium,56.4940,Transforming,P,FALSE,FALSE,FALSE
+15,Telecommunications,T2,H3,high,57.0518,Transforming,P,FALSE,FALSE,FALSE
+15,Telecommunications,T2,H4,low,54.9362,Transforming,P,FALSE,FALSE,FALSE
+15,Telecommunications,T2,H4,medium,56.4940,Transforming,P,FALSE,FALSE,FALSE
+15,Telecommunications,T2,H4,high,57.0518,Transforming,P,FALSE,FALSE,FALSE
+15,Telecommunications,T3,H1,low,69.6774,Disrupting,T/D,FALSE,FALSE,FALSE
+15,Telecommunications,T3,H1,medium,74.3940,Disrupting,T/D,FALSE,FALSE,FALSE
+15,Telecommunications,T3,H1,high,78.1106,Disrupting,T/D,FALSE,FALSE,FALSE
+15,Telecommunications,T3,H2,low,69.6774,Disrupting,T/D,FALSE,FALSE,FALSE
+15,Telecommunications,T3,H2,medium,74.3940,Disrupting,T/D,FALSE,FALSE,FALSE
+15,Telecommunications,T3,H2,high,78.1106,Disrupting,T/D,FALSE,FALSE,FALSE
+15,Telecommunications,T3,H3,low,69.6774,Disrupting,T/D,FALSE,FALSE,FALSE
+15,Telecommunications,T3,H3,medium,74.3940,Disrupting,T/D,FALSE,FALSE,FALSE
+15,Telecommunications,T3,H3,high,78.1106,Disrupting,T/D,FALSE,FALSE,FALSE
+15,Telecommunications,T3,H4,low,69.6774,Disrupting,T/D,FALSE,FALSE,FALSE
+15,Telecommunications,T3,H4,medium,74.3940,Disrupting,T/D,FALSE,FALSE,FALSE
+15,Telecommunications,T3,H4,high,78.1106,Disrupting,T/D,FALSE,FALSE,FALSE
+15,Telecommunications,T4,H1,low,80.1027,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T4,H1,medium,87.0533,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T4,H1,high,93.0039,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T4,H2,low,80.1027,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T4,H2,medium,87.0533,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T4,H2,high,93.0039,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T4,H3,low,80.1027,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T4,H3,medium,87.0533,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T4,H3,high,93.0039,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T4,H4,low,80.1027,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T4,H4,medium,87.0533,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T4,H4,high,93.0039,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T5,H1,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T5,H1,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T5,H1,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T5,H2,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T5,H2,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T5,H2,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T5,H3,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T5,H3,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T5,H3,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T5,H4,low,85.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T5,H4,medium,93.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+15,Telecommunications,T5,H4,high,100.0000,Restructuring,A/C,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T1,H1,low,17.7703,Resilient,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T1,H1,medium,11.3639,Resilient,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T1,H1,high,3.9576,Resilient,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T1,H2,low,17.7703,Resilient,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T1,H2,medium,11.3639,Resilient,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T1,H2,high,3.9576,Resilient,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T1,H3,low,17.7703,Resilient,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T1,H3,medium,11.3639,Resilient,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T1,H3,high,3.9576,Resilient,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T1,H4,low,17.7703,Resilient,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T1,H4,medium,11.3639,Resilient,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T1,H4,high,3.9576,Resilient,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T2,H1,low,44.6702,Transforming,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T2,H1,medium,44.0281,Transforming,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T2,H1,high,42.3861,Transforming,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T2,H2,low,44.6702,Transforming,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T2,H2,medium,44.0281,Transforming,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T2,H2,high,42.3861,Transforming,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T2,H3,low,44.6702,Transforming,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T2,H3,medium,44.0281,Transforming,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T2,H3,high,42.3861,Transforming,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T2,H4,low,44.6702,Transforming,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T2,H4,medium,44.0281,Transforming,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T2,H4,high,42.3861,Transforming,P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T3,H1,low,65.5817,Disrupting,D/P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T3,H1,medium,69.4206,Disrupting,D/P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T3,H1,high,72.2596,Disrupting,D/P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T3,H2,low,65.5817,Disrupting,D/P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T3,H2,medium,69.4206,Disrupting,D/P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T3,H2,high,72.2596,Disrupting,D/P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T3,H3,low,65.5817,Disrupting,D/P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T3,H3,medium,69.4206,Disrupting,D/P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T3,H3,high,72.2596,Disrupting,D/P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T3,H4,low,65.5817,Disrupting,D/P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T3,H4,medium,69.4206,Disrupting,D/P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T3,H4,high,72.2596,Disrupting,D/P,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T4,H1,low,82.7377,Restructuring,D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T4,H1,medium,90.2529,Restructuring,D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T4,H1,high,96.7681,Restructuring,D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T4,H2,low,82.7377,Restructuring,D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T4,H2,medium,90.2529,Restructuring,D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T4,H2,high,96.7681,Restructuring,D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T4,H3,low,82.7377,Restructuring,D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T4,H3,medium,90.2529,Restructuring,D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T4,H3,high,96.7681,Restructuring,D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T4,H4,low,82.7377,Restructuring,D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T4,H4,medium,90.2529,Restructuring,D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T4,H4,high,96.7681,Restructuring,D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T5,H1,low,85.0000,Restructuring,A/D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T5,H1,medium,93.0000,Restructuring,A/D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T5,H1,high,100.0000,Restructuring,A/D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T5,H2,low,85.0000,Restructuring,A/D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T5,H2,medium,93.0000,Restructuring,A/D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T5,H2,high,100.0000,Restructuring,A/D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T5,H3,low,85.0000,Restructuring,A/D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T5,H3,medium,93.0000,Restructuring,A/D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T5,H3,high,100.0000,Restructuring,A/D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T5,H4,low,85.0000,Restructuring,A/D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T5,H4,medium,93.0000,Restructuring,A/D,FALSE,FALSE,FALSE
+16,Defense & Aerospace,T5,H4,high,100.0000,Restructuring,A/D,FALSE,FALSE,FALSE
