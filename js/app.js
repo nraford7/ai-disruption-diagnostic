@@ -98,6 +98,18 @@
     }
   }
 
+  // ─── Narrative Resolution ───────────────────────────────────────
+
+  function getNarrative(sectorId, category, key) {
+    if (!sectorId) return null;
+    var sector = Data.SECTORS.find(function (s) { return s.id === sectorId; });
+    if (!sector || !sector.narratives) return null;
+    var cat = sector.narratives[category];
+    if (!cat) return null;
+    var val = cat[key];
+    return (val !== undefined && val !== null) ? val : null;
+  }
+
   // ─── Collapse Toggles ──────────────────────────────────────
 
   function bindCollapseToggles() {
@@ -150,7 +162,7 @@
     renderSparkline(r.timeline, r.score);
     renderScenarioPills(r);
     renderRadar(r.dominantImpact.scores);
-    renderStructuralShifts(r.higherOrderImpacts);
+    renderStructuralShifts(r.higherOrderImpacts, r.sectorId);
     renderRiskBlocks(r);
     renderTaskTable(r.taskDetails, r.selectedTier);
   }
@@ -225,7 +237,21 @@
       '<strong>' + r.sectorName + '</strong> faces a Disruption score of <strong>' +
       Math.round(r.score) + '</strong>. ';
 
-    sentence += getDominantSentence(r.dominantImpact.dominant);
+    // Try sector-specific dominant narrative first
+    var dom = r.dominantImpact.dominant;
+    var domKey = Array.isArray(dom) ? dom[0] : dom;
+    var sectorNarrative = getNarrative(r.sectorId, 'dominant', domKey);
+    if (sectorNarrative) {
+      sentence += sectorNarrative;
+      if (Array.isArray(dom) && dom[1]) {
+        var second = getNarrative(r.sectorId, 'dominant', dom[1]);
+        if (second) {
+          sentence += ' Meanwhile, ' + second.charAt(0).toLowerCase() + second.slice(1);
+        }
+      }
+    } else {
+      sentence += getDominantSentence(r.dominantImpact.dominant);
+    }
 
     el.innerHTML = sentence;
   }
@@ -372,7 +398,7 @@
 
   // ─── Structural Shifts ─────────────────────────────────────
 
-  function renderStructuralShifts(higherOrder) {
+  function renderStructuralShifts(higherOrder, sectorId) {
     var container = $('#structural-shifts');
     if (!container) return;
     container.innerHTML = '';
@@ -391,10 +417,11 @@
     };
 
     triggered.forEach(function (h) {
+      var desc = getNarrative(sectorId, 'shifts', h.id) || descriptions[h.id] || '';
       var card = document.createElement('div');
       card.className = 'shift-card';
       card.innerHTML = '<div class="shift-card__title">' + h.label + '</div>' +
-        '<div class="shift-card__desc">' + (descriptions[h.id] || '') + '</div>';
+        '<div class="shift-card__desc">' + desc + '</div>';
       container.appendChild(card);
     });
   }
@@ -412,19 +439,22 @@
     if (!ul) return;
     ul.innerHTML = '';
 
-    // Top 2-3 tasks by weighted impact
     var sorted = r.taskDetails.slice().sort(function (a, b) {
       return (b.score * b.weight) - (a.score * a.weight);
     });
     var top = sorted.slice(0, 3);
 
     top.forEach(function (task) {
-      var pct = (task.weight * 100).toFixed(0);
-      var impactSum = task.impacts.A + task.impacts.C + task.impacts.P + task.impacts.T + task.impacts.D;
-      var impactWord = impactSum >= 10 ? 'near-complete disruption' : impactSum >= 6 ? 'significant disruption' : 'meaningful impact';
-
+      var sectorNarrative = getNarrative(r.sectorId, 'exposure', task.id);
       var li = document.createElement('li');
-      li.textContent = task.name + ' represents ' + pct + '% of workforce time and faces ' + impactWord + ' under this scenario.';
+      if (sectorNarrative) {
+        li.textContent = sectorNarrative;
+      } else {
+        var pct = (task.weight * 100).toFixed(0);
+        var impactSum = task.impacts.A + task.impacts.C + task.impacts.P + task.impacts.T + task.impacts.D;
+        var impactWord = impactSum >= 10 ? 'near-complete disruption' : impactSum >= 6 ? 'significant disruption' : 'meaningful impact';
+        li.textContent = task.name + ' represents ' + pct + '% of workforce time and faces ' + impactWord + ' under this scenario.';
+      }
       ul.appendChild(li);
     });
   }
@@ -443,7 +473,6 @@
     var triggered = r.higherOrderImpacts.filter(function (h) { return h.triggered; });
 
     if (triggered.length === 0) {
-      // Fallback: derive from dominant impact
       var dom = r.dominantImpact.dominant;
       var domArr = Array.isArray(dom) ? dom : [dom];
       var fallbacks = {
@@ -454,17 +483,21 @@
         D: 'Decision quality is improving faster than decision-making culture \u2014 the bottleneck shifts from analysis to action.'
       };
       domArr.forEach(function (d) {
-        if (fallbacks[d]) {
+        var sectorMsg = getNarrative(r.sectorId, 'shiftingFallback', d);
+        var msg = sectorMsg || fallbacks[d];
+        if (msg) {
           var li = document.createElement('li');
-          li.textContent = fallbacks[d];
+          li.textContent = msg;
           ul.appendChild(li);
         }
       });
     } else {
       triggered.forEach(function (h) {
-        if (shiftMessages[h.id]) {
+        var sectorMsg = getNarrative(r.sectorId, 'shifting', h.id);
+        var msg = sectorMsg || shiftMessages[h.id];
+        if (msg) {
           var li = document.createElement('li');
-          li.textContent = shiftMessages[h.id];
+          li.textContent = msg;
           ul.appendChild(li);
         }
       });
@@ -476,11 +509,52 @@
     if (!ul) return;
     ul.innerHTML = '';
 
-    r.recommendations.forEach(function (rec) {
-      var li = document.createElement('li');
-      li.textContent = rec;
-      ul.appendChild(li);
-    });
+    // Check if this sector has narrative recommendations
+    var sectorHasRecs = getNarrative(r.sectorId, 'recommendations', 'A') !== null;
+
+    if (sectorHasRecs) {
+      // Build rec list from signals, using sector-specific text
+      var recs = [];
+
+      // Dominant impact recs
+      var dom = r.dominantImpact.dominant;
+      var domArr = Array.isArray(dom) ? dom : [dom];
+      domArr.forEach(function (d) {
+        var rec = getNarrative(r.sectorId, 'recommendations', d);
+        if (rec) recs.push(rec);
+      });
+
+      // Higher-order trigger recs
+      r.higherOrderImpacts.forEach(function (h) {
+        if (h.triggered) {
+          var rec = getNarrative(r.sectorId, 'recommendations', h.id);
+          if (rec) recs.push(rec);
+        }
+      });
+
+      // Verification rec
+      var verRec = getNarrative(r.sectorId, 'recommendations', 'verification');
+      if (verRec) recs.push(verRec);
+
+      // Adoption speed rec
+      var adoptionKey = 'adoption_' + (r.adoptionLevel || 'medium').toLowerCase();
+      var adoptionRec = getNarrative(r.sectorId, 'recommendations', adoptionKey);
+      if (adoptionRec) recs.push(adoptionRec);
+
+      // Render sector recs
+      recs.forEach(function (rec) {
+        var li = document.createElement('li');
+        li.textContent = rec;
+        ul.appendChild(li);
+      });
+    } else {
+      // Fallback: use engine recommendations
+      r.recommendations.forEach(function (rec) {
+        var li = document.createElement('li');
+        li.textContent = rec;
+        ul.appendChild(li);
+      });
+    }
   }
 
   // ─── Task Table ────────────────────────────────────────────

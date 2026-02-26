@@ -557,6 +557,54 @@
         24: 0.05,  // Customer service & support
         25: 0.04,  // People management & team leadership
         35: 0.03   // Cybersecurity & threat monitoring
+      },
+      narratives: {
+        dominant: {
+          A: 'Your underwriters, claims adjusters, and compliance analysts are being replaced by models that process applications, flag fraud, and file regulatory reports without coffee breaks or error rates. The humans become exception handlers for the machines.',
+          C: 'AI is consolidating what used to take a team of junior analysts, a compliance officer, and an underwriter into a single automated pipeline. Your org chart is about to compress by two layers.',
+          P: 'Every portfolio manager, loan officer, and relationship banker now has an AI co-pilot that drafts risk memos, pre-fills KYC checks, and models deal structures in seconds. The ones who adopt it double their book. The ones who don\'t become expensive bottlenecks.',
+          T: 'Your credit risk models, actuarial tables, and fraud detection systems are being rebuilt from scratch by AI that spots patterns no human quant ever could. The old models aren\'t just outdated — they\'re liabilities.',
+          D: 'AI is enabling fintech startups to offer underwriting, lending, and insurance products that bypass your entire institutional infrastructure. Your moat was regulatory complexity. AI just drained it.'
+        },
+        shifts: {
+          scarce_knowledge: 'Actuarial expertise, credit risk modeling, and regulatory interpretation — the knowledge that took decades to accumulate and commanded $400/hour — is being encoded into systems that any competitor can deploy. Your senior analysts\' institutional memory is no longer a competitive advantage; it\'s a training dataset.',
+          coordination_zero: 'Deal structuring that required a banker, a lawyer, a compliance officer, and an underwriter in a room can now be orchestrated by a single person with AI tools. The coordination cost that justified your headcount just evaporated.',
+          unbundling: 'AI lets a solo financial advisor offer institutional-grade risk modeling, compliance filing, and portfolio optimization. The bundled service model — where clients paid for the firm\'s infrastructure — collapses when a two-person shop can match your output.'
+        },
+        exposure: {
+          2: 'Transaction processing — payment reconciliation, trade settlement, claims intake — runs 24/7 with near-zero error rates. Your operations floor becomes a monitoring dashboard.',                           // Transaction processing
+          16: 'AI builds credit risk models, stress-tests portfolios, and prices derivatives faster than your quant team can open their Jupyter notebooks. The analyst who spent three days on a risk memo watches AI do it in three minutes.',  // Financial analysis & risk modeling
+          4: 'Regulatory filings, SAR reports, and compliance documentation get auto-generated from transaction data. Your compliance team shifts from producing reports to auditing AI output.',                          // Regulatory compliance filing
+          34: 'Financial audits, KYC/AML verification, and internal controls run continuously instead of quarterly. AI doesn\'t just find discrepancies — it finds them before they compound.',                            // Verification & audit
+          21: 'Client relationship management gets supercharged: AI pre-briefs your bankers with portfolio insights, flags cross-sell opportunities, and drafts pitch materials. The best RMs adopt it instantly. The rest wonder why their pipeline dried up.'  // Sales & client relationship mgmt
+        },
+        shifting: {
+          scarce_knowledge: 'Actuarial and credit risk expertise — your $400/hour advantage — becomes a commodity overnight.',
+          coordination_zero: 'Deal teams of five collapse to one person with AI orchestrating the rest.',
+          unbundling: 'Two-person shops deliver institutional-grade financial services. Your overhead becomes your obituary.'
+        },
+        shiftingFallback: {
+          A: 'Routine financial operations — transaction processing, compliance filing, claims adjudication — are being automated at a pace that will halve your operations headcount within three years.',
+          C: 'AI is compressing the layers between raw financial data and executive decisions. Middle-office roles that existed to translate, verify, and route information are being eliminated.',
+          P: 'AI tools are making every financial professional 3-5x more productive, which means you need 3-5x fewer of them to maintain current output levels.',
+          T: 'The analytical frameworks your firm was built on — risk models, valuation methods, compliance heuristics — are being rebuilt by AI systems that learn and adapt faster than any team.',
+          D: 'New entrants with AI-native architectures are offering financial services at a fraction of your cost structure. Your legacy infrastructure isn\'t heritage — it\'s drag.'
+        },
+        recommendations: {
+          A: 'Redeploy your operations and compliance staff now — not after the quarterly review. Build an internal AI operations center where former analysts become AI supervisors, exception handlers, and model validators. The transition window is 18 months, not 5 years.',
+          C: 'Redesign your org around AI-augmented pods: one senior professional + AI tools replacing teams of 4-6. Start with credit analysis and compliance, where the ROI is immediate and measurable. Your middle management layer needs a new reason to exist — find it or lose it.',
+          P: 'Mandate AI tool adoption across your advisory and analysis teams within 90 days. Track AI-assisted vs. unassisted productivity per banker. The gap will be so stark it makes the business case for you. Bankers who resist aren\'t being traditional — they\'re being uncompetitive.',
+          T: 'Commission an AI rebuild of your core risk models, pricing engines, and fraud detection systems. Run them in parallel with legacy systems for one quarter, then cut over. Every month you wait, your models drift further from reality.',
+          D: 'Launch a skunkworks fintech unit that operates with AI-native infrastructure and zero legacy constraints. Let it cannibalize your own products. Better you than the startup that\'s already building it.',
+          scarce_knowledge: 'Your actuaries and senior risk analysts need to become AI model trainers and validators, not manual calculators. Capture their expertise in AI systems now, while they\'re still on payroll. Once they retire, that knowledge walks out the door — or into a competitor\'s training data.',
+          coordination_zero: 'Restructure deal teams around AI-orchestrated workflows where one senior professional manages what five people used to coordinate. Retrain coordinators as AI workflow designers. The alternative is paying five salaries for one person\'s output.',
+          unbundling: 'Build modular service offerings that can compete at every price point — from AI-automated basic services to human-led premium advisory. If you only sell the bundle, unbundlers will cherry-pick your most profitable lines.',
+          verification: 'Deploy continuous AI-powered audit and compliance monitoring. Move from quarterly reviews to real-time assurance. Your regulators will love it. Your competitors will be forced to match it.',
+          physical: null,
+          adoption_high: 'Your competitors are already deploying AI across trading, underwriting, and compliance. You\'re not early — you\'re on time. Accelerate hard or watch market share erode quarterly.',
+          adoption_medium: 'AI adoption in financial services is accelerating fast. The firms moving now will lock in talent, data advantages, and client trust. Second movers in this space don\'t catch up — they get acquired.',
+          adoption_low: 'Your sector hasn\'t moved yet, which means the first mover advantage is enormous. The firm that deploys AI-native financial services first will set the standard everyone else has to match.'
+        }
       }
     },
     {
@@ -596,6 +644,54 @@
         34: 0.04,  // Verification & audit
         3: 0.04,   // Scheduling & resource allocation
         26: 0.04   // Stakeholder communication & PR
+      },
+      narratives: {
+        dominant: {
+          A: 'AI writes production code, resolves support tickets, patches vulnerabilities, and deploys to prod — all without a standup. Your junior and mid-level engineers aren\'t being augmented. They\'re being outperformed by their own tools.',
+          C: 'The roles that stitched your engineering org together — project managers, QA testers, DevOps engineers, tier-1 support — are being absorbed into AI-powered pipelines. Your 50-person team delivers what used to require 200.',
+          P: 'Senior engineers with AI tools are shipping features at 5-10x the velocity of entire teams without them. Sprint planning becomes a formality when one person can do the sprint.',
+          T: 'AI isn\'t just writing code — it\'s designing architectures, identifying security vulnerabilities, and refactoring technical debt faster than your best staff engineers. The craft of software engineering is being redefined in real time.',
+          D: 'A solo developer with AI ships a production SaaS product in a weekend. Your 18-month roadmap with 40 engineers just became a competitive joke. The barrier to building software collapsed and took your moat with it.'
+        },
+        shifts: {
+          scarce_knowledge: '10x engineers, principal architects, and security specialists — the people you couldn\'t hire and couldn\'t afford to lose — their pattern recognition is now embedded in AI tools available to everyone. Your talent moat just became a public utility.',
+          coordination_zero: 'Cross-functional teams with PMs, designers, frontend, backend, QA, and DevOps collapse into single engineers orchestrating AI agents. The coordination overhead that justified your org structure vanishes.',
+          unbundling: 'AI enables solo developers and micro-teams to build, ship, and operate software that previously required full engineering orgs. Your enterprise clients don\'t need your 200-person team when a 5-person startup delivers the same product in half the time.'
+        },
+        exposure: {
+          14: 'AI writes, reviews, tests, and deploys code. Your engineers\' job shifts from writing software to directing AI that writes software. The ones who can\'t make that shift are writing code that\'s slower and buggier than what the machine produces.',  // Software development & engineering
+          13: 'Data pipelines, dashboards, and analytical queries that took your BI team days get built in minutes. The data engineer who spent a week on an ETL pipeline watches AI do it during a coffee break.',  // Data analysis & business intelligence
+          18: 'Incident response, root cause analysis, and system diagnostics run on AI that correlates logs, traces, and metrics faster than your best SRE. Mean time to resolution drops from hours to minutes.',  // Diagnostics & troubleshooting
+          35: 'AI-powered security scanning finds vulnerabilities, writes patches, and monitors threat surfaces continuously. Your penetration testers are competing with tools that never sleep and never miss a CVE.',  // Cybersecurity & threat monitoring
+          24: 'Tier-1 and tier-2 support tickets get resolved by AI that reads docs, reproduces issues, and pushes fixes — all before a human sees the ticket. Your support engineers handle only the cases that actually require a brain.'  // Customer service & support
+        },
+        shifting: {
+          scarce_knowledge: '10x engineers and principal architects — your unfillable roles — become AI-accessible commodities.',
+          coordination_zero: 'Cross-functional teams of 8 collapse into one engineer orchestrating AI agents.',
+          unbundling: 'Solo devs ship production SaaS in a weekend. Your 40-engineer roadmap is a punchline.'
+        },
+        shiftingFallback: {
+          A: 'Code generation, testing, deployment, and support resolution are being automated. The roles that made up 60% of your engineering headcount are being absorbed into AI pipelines.',
+          C: 'AI is eliminating the coordination layers in software development — PMs, QA, DevOps, tier-1 support — by consolidating their functions into automated workflows that a single engineer can manage.',
+          P: 'Engineers with AI tools are 5-10x more productive. That math means you need 80% fewer engineers — or you ship 5x more product with the same team. Either way, the org chart changes.',
+          T: 'AI is rewriting how software gets built — from architecture design to code review to security hardening. The engineering practices you spent years perfecting are being superseded by AI-native workflows.',
+          D: 'The cost and complexity of building software just dropped by an order of magnitude. Every non-tech company can now build what they used to buy from you. Your addressable market is shrinking from the bottom up.'
+        },
+        recommendations: {
+          A: 'Restructure your engineering org around AI-augmented development now. Redefine roles: junior engineers become AI code reviewers, mid-levels become AI orchestrators, seniors become system architects. The old career ladder doesn\'t exist anymore — build the new one before your best people leave for companies that already have.',
+          C: 'Collapse your cross-functional teams into AI-augmented pods. One senior engineer + AI replaces the PM/dev/QA/DevOps squad. Retrain your PMs as product strategists and your QA engineers as AI output validators. The people who coordinated work need new work to do.',
+          P: 'Set a 90-day mandate: every engineer uses AI coding tools for every task. Measure output per engineer before and after. The productivity gains will be so dramatic they\'ll reshape your headcount planning, your hiring strategy, and your competitive positioning simultaneously.',
+          T: 'Rebuild your development pipeline around AI-native practices: AI-generated code, AI-reviewed PRs, AI-monitored production, AI-driven incident response. Run legacy and AI pipelines in parallel for 30 days, then cut over. Technical debt that would take your team years to fix gets resolved in weeks.',
+          D: 'Launch AI-native product lines that compete with your own offerings at 10x lower cost. If a two-person startup can build your product in a month, you need to be that startup — inside your own company — before someone else is.',
+          scarce_knowledge: 'Capture your senior engineers\' architectural knowledge and security expertise in AI-accessible systems before the talent market reprices their skills downward. Their value shifts from doing the work to teaching AI to do the work.',
+          coordination_zero: 'Redesign your team topology for AI-native coordination: async AI handoffs replace standups, AI-generated status reports replace PM check-ins, automated testing replaces QA sprints. The humans focus on judgment calls, not information routing.',
+          unbundling: 'Build and sell modular AI-powered development tools alongside your monolithic products. If customers can unbundle your offering, be the one selling the pieces. Your platform advantage only lasts if you weaponize it before someone routes around it.',
+          verification: 'Deploy AI-powered code review, security scanning, and production monitoring as continuous automated processes. Shift your verification culture from periodic audits to real-time assurance. Bugs and vulnerabilities found in production are now inexcusable.',
+          physical: null,
+          adoption_high: 'AI-assisted development is already table stakes in your sector. If your engineers aren\'t using AI tools daily, they\'re competing with one hand tied behind their back against engineers at every other company who are.',
+          adoption_medium: 'The best engineering orgs are adopting AI aggressively. Within 12 months, AI-augmented teams will be the baseline expectation. Companies still debating adoption will be hiring from companies that already adopted — and losing.',
+          adoption_low: 'Your sector hasn\'t fully embraced AI-native development yet. The first engineering org to go all-in will set velocity standards that force everyone else to follow or fall behind. Be the standard-setter.'
+        }
       }
     },
     {
@@ -634,6 +730,54 @@
         23: 0.04,  // Teaching, training & mentoring
         26: 0.04,  // Stakeholder communication & PR
         24: 0.03   // Customer service & support
+      },
+      narratives: {
+        dominant: {
+          A: 'AI reviews contracts, drafts legal briefs, completes audit workpapers, and generates consulting deliverables at a pace that makes your junior associates look like they\'re working in slow motion. The billable hour model collapses when the work takes minutes instead of weeks.',
+          C: 'The pyramid staffing model — partners on top, armies of associates and paralegals below — gets crushed when AI does the base work. You\'re paying for 50 associates to produce what AI delivers before lunch.',
+          P: 'Partners and senior consultants with AI tools produce client-ready work at 5x the pace. Due diligence that took a team of eight now takes one lawyer and an afternoon. The question isn\'t whether to adopt — it\'s whether your best people leave for firms that already have.',
+          T: 'AI is rewriting how professional judgment gets applied — synthesizing case law, identifying audit risks, modeling tax scenarios, and pressure-testing consulting hypotheses faster and more thoroughly than any human team. The expertise isn\'t obsolete, but the old way of deploying it is.',
+          D: 'AI-powered legal tech, automated audit platforms, and algorithmic consulting tools let clients do in-house what they used to hire you for. Your $800/hour partner rate now competes with a $200/month subscription.'
+        },
+        shifts: {
+          scarce_knowledge: 'Decades of legal precedent knowledge, audit methodology expertise, and consulting frameworks — the institutional wisdom that justified partner-track compensation — is being encoded into AI systems that any first-year associate can access. The knowledge asymmetry that built your firm\'s pricing power is dissolving.',
+          coordination_zero: 'A due diligence process that required partners, associates, paralegals, and support staff coordinating across weeks now gets orchestrated by one senior professional with AI tools in days. The coordination overhead that justified your staffing pyramid just disappeared.',
+          unbundling: 'Clients no longer need to buy the full-service engagement. AI lets them unbundle: automated contract review here, AI-assisted tax filing there, algorithmic audit for routine entities. Your premium pricing depended on bundled complexity. The bundle is breaking apart.'
+        },
+        exposure: {
+          7: 'Contract review, document classification, and due diligence document processing — the work that kept your junior associates billing 80-hour weeks — gets done by AI in hours. The associate who spent two weeks reviewing a data room watches AI surface every red flag in an afternoon.',  // Document review & classification
+          15: 'Legal research, case law synthesis, regulatory analysis, and consulting knowledge work — the intellectual core of professional services — gets turbocharged by AI that reads and synthesizes faster than any team. Your researchers become curators, not hunters.',  // Research & knowledge synthesis
+          22: 'AI pre-structures deals, models negotiation scenarios, and drafts term sheets before your partners sit down at the table. The preparation that used to take a team a week happens overnight.',  // Negotiation & deal structuring
+          34: 'Audit workpapers, compliance verification, and quality reviews run continuously with AI flagging anomalies in real time. Annual audits start to look like a quaint artifact when AI monitors everything, always.',  // Verification & audit
+          21: 'AI pre-briefs your partners with client intelligence, drafts proposals, and identifies cross-sell opportunities before the client meeting. The partner who walks in cold loses to the one whose AI already mapped the engagement.'  // Sales & client relationship mgmt
+        },
+        shifting: {
+          scarce_knowledge: 'Partner-level expertise — your $800/hour moat — becomes an AI-accessible commodity.',
+          coordination_zero: 'Due diligence teams of 10 collapse to one senior professional with AI. Your pyramid inverts.',
+          unbundling: 'Clients cherry-pick automated legal, audit, and consulting modules. Your bundled engagement model fractures.'
+        },
+        shiftingFallback: {
+          A: 'Document review, research synthesis, audit procedures, and compliance filing — the work that occupied 70% of your professional staff hours — is being automated. The pyramid model doesn\'t survive when the base disappears.',
+          C: 'AI is eliminating the coordination layers in professional services — the associates who gathered information, the managers who synthesized it, the support staff who formatted it. Those layers don\'t get thinner. They get deleted.',
+          P: 'AI-augmented professionals are 5x more productive across research, drafting, analysis, and client preparation. Your top performers will adopt or leave. Your average performers will be outproduced by AI before they notice.',
+          T: 'AI is fundamentally changing how professional judgment gets applied — from case law analysis to audit risk assessment to consulting diagnostics. The methodologies your firm spent decades refining are being rebuilt in months.',
+          D: 'AI-native competitors are offering professional services at a fraction of your cost with comparable quality. The market is learning that it doesn\'t need a white-shoe firm for every engagement. It just needs AI and a senior expert.'
+        },
+        recommendations: {
+          A: 'Redesign your staffing model now. Junior associates and paralegals need to become AI-output reviewers and client-facing advisors, not manual document processors. Every month you delay, your cost structure becomes more indefensible against AI-native competitors.',
+          C: 'Flatten your pyramid. Build AI-augmented practice groups where one partner and one senior associate, backed by AI, deliver what a team of eight used to. Redeploy displaced professionals into client advisory, AI oversight, and business development — roles the machines can\'t fill.',
+          P: 'Mandate AI adoption across all practice areas within 60 days. Track AI-assisted billable output vs. traditional methods. The productivity gap will force a billing model conversation: move to value-based pricing before clients demand it.',
+          T: 'Rebuild your practice methodologies around AI-native workflows: AI-drafted briefs reviewed by partners, AI-generated audit workpapers verified by seniors, AI-modeled consulting scenarios validated by experts. The human role shifts from production to judgment.',
+          D: 'Launch a separate AI-native service line that competes at lower price points. Offer AI-automated contract review, compliance monitoring, and audit services directly. Cannibalize your own commodity work before legal tech startups do it for you.',
+          scarce_knowledge: 'Capture your partners\' expertise in AI systems immediately. Build proprietary AI tools trained on your firm\'s institutional knowledge — your case histories, audit findings, consulting frameworks. That knowledge becomes exponentially more valuable as AI training data than as partner intuition.',
+          coordination_zero: 'Redesign engagement models for AI-orchestrated delivery. One senior professional managing AI workflows replaces the multi-tier team. Retrain your coordination layer — project managers, senior associates who managed junior teams — as AI workflow architects.',
+          unbundling: 'Build modular service offerings at every price point: fully automated for routine work, AI-augmented for complex matters, partner-led for bet-the-company situations. If you only sell the premium bundle, unbundlers will take your bread-and-butter work first.',
+          verification: 'Deploy continuous AI-powered quality assurance across all client deliverables. Every brief, workpaper, and slide deck gets AI-reviewed for accuracy, consistency, and risk before it leaves the building. Quality becomes a differentiator when AI makes it cheap.',
+          physical: null,
+          adoption_high: 'AI is already reshaping legal tech, audit automation, and consulting delivery. Firms that haven\'t adopted are losing associates to firms that have, and losing clients to platforms that cost less.',
+          adoption_medium: 'The professional services firms moving on AI now will lock in a structural advantage in talent, efficiency, and client trust. The window to be a leader instead of a follower is measured in quarters, not years.',
+          adoption_low: 'Your sector has been slow to adopt AI, which means the first firm to go all-in will redefine client expectations for every competitor. That firm sets the new standard for speed, cost, and quality. Be that firm.'
+        }
       }
     },
     {
