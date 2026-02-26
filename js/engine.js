@@ -83,24 +83,9 @@
   var _globalRange = null;
 
   function computeGlobalRange() {
-    if (_globalRange) return _globalRange;
-
-    var data = getData();
-    var minRaw = Infinity;
-    var maxRaw = -Infinity;
-
-    data.SECTORS.forEach(function (sector) {
-      // Check T1 for potential global min
-      var rawT1 = rawSectorScore(sector, 'T1');
-      if (rawT1 < minRaw) minRaw = rawT1;
-
-      // Check T5 for potential global max
-      var rawT5 = rawSectorScore(sector, 'T5');
-      if (rawT5 > maxRaw) maxRaw = rawT5;
-    });
-
-    _globalRange = { min: minRaw, max: maxRaw };
-    return _globalRange;
+    // Fix 3: Fixed-range normalization — eliminates cross-sector normalization ripple.
+    // Score = raw * 100 before adoption modifier. No sector iteration needed.
+    return { min: 0, max: 1.0 };
   }
 
   /** Reset cached global range (call if data changes). */
@@ -126,30 +111,16 @@
    */
   function computeTaskScore(taskId, selectedTier) {
     var task = getTask(taskId);
-    var selIdx = tierIndex(selectedTier);
 
-    // Find peak sum across all tiers
-    var peakSum = 0;
-    for (var t = 0; t < TIERS.length; t++) {
-      var s = impactSum(task, TIERS[t]);
-      if (s > peakSum) peakSum = s;
-    }
+    // Fix 1: Fixed theoretical max of 15 (5 dimensions × 3 max intensity)
+    // Tasks no longer guaranteed to reach 1.0 at their peak tier.
+    var THEORETICAL_MAX = 15;
 
-    // Edge case: task has zero impact across all tiers
-    if (peakSum === 0) return 0;
+    var sum = impactSum(task, selectedTier);
 
-    // Build monotonic scores from T1 up to selectedTier
-    var prevScore = 0;
-    var result = 0;
-    for (var i = 0; i <= selIdx; i++) {
-      var raw = impactSum(task, TIERS[i]) / peakSum;
-      // Monotonic floor: never decrease
-      var score = Math.max(raw, prevScore);
-      prevScore = score;
-      if (i === selIdx) result = score;
-    }
-
-    return result;
+    // Fix 2: No monotonic floor — tasks can score lower at higher tiers
+    // if their impact profile genuinely dips. Direct computation.
+    return sum / THEORETICAL_MAX;
   }
 
   // ---------------------------------------------------------------------------
@@ -342,7 +313,8 @@
       }
       var avgA = sumA / analyticalInSector.length;
 
-      return hwmAvgT >= 2.0 && avgA >= 1.5;
+      // Fix 4: Raised thresholds — triggers discriminate instead of firing universally
+      return hwmAvgT >= 2.5 && avgA >= 2.0;
     })();
 
     // --- "Coordination costs -> zero" ---
@@ -363,7 +335,8 @@
       }
       var avgMaxAP = sumMaxAP / coordInSector.length;
 
-      return avgMaxAP >= 2.0;
+      // Fix 4: Raised threshold
+      return avgMaxAP >= 2.5;
     })();
 
     // --- "Unbundling & new bottlenecks" ---
@@ -385,7 +358,8 @@
       var verifyA = impactValue(task34, selectedTier, 'A');
       var stratA = impactValue(task27, selectedTier, 'A');
 
-      return avgA >= 1.5 && verifyA <= 1 && stratA <= 1;
+      // Fix 4: Raised threshold (verifyA/stratA conditions unchanged — different logic)
+      return avgA >= 2.0 && verifyA <= 1 && stratA <= 1;
     })();
 
     return [
@@ -448,7 +422,8 @@
     var second = sorted[1];
 
     var dominant;
-    if (scores[top] - scores[second] >= 0.3) {
+    // Fix 5: Widened co-dominance threshold — fewer false single-dominant calls
+    if (scores[top] - scores[second] >= 0.5) {
       dominant = top;
     } else {
       // Co-dominant: top two
