@@ -1,0 +1,7 @@
+{
+  "name": "ai-disruption-diagnostic",
+  "private": true,
+  "scripts": {
+    "start": "node serve.js"
+  }
+}
