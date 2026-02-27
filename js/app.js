@@ -1,6 +1,6 @@
 /**
- * AI Disruption Diagnostic — App Controller (v3: Strategic Briefing)
- * Wires inputs, engine, and streaming briefing together.
+ * AI Disruption Diagnostic — App Controller (v4: View Router)
+ * Single-view-at-a-time architecture with animated transitions.
  */
 (function () {
   'use strict';
@@ -20,42 +20,136 @@
   var $ = function (sel) { return document.querySelector(sel); };
   var $$ = function (sel) { return document.querySelectorAll(sel); };
 
-  // ─── Init ───────────────────────────────────────────────────
-  function init() {
-    bindInputCards();
-    bindChangeAssumptions();
+  // ─── View Router ────────────────────────────────────────────
+
+  var VIEW_ORDER = ['landing', 'capability', 'horizon', 'adoption', 'sector', 'results'];
+  var currentView = 'landing';
+
+  function showView(viewName) {
+    showViewDirect(viewName);
+
+    // Update history
+    if (viewName === 'landing') {
+      history.pushState({ view: viewName }, '', '/');
+    } else {
+      history.pushState({ view: viewName }, '', '#' + viewName);
+    }
   }
 
-  // ─── Input Binding ──────────────────────────────────────────
+  function showViewDirect(viewName) {
+    var currentEl = document.querySelector('.view--active');
+    var targetEl = document.getElementById('view-' + viewName);
+    if (!targetEl || (currentEl && currentEl === targetEl)) return;
 
-  function bindInputCards() {
+    // Animate out
+    if (currentEl) {
+      currentEl.classList.add('view--leaving');
+      currentEl.classList.remove('view--active');
+      setTimeout(function () {
+        currentEl.classList.remove('view--leaving');
+      }, 300);
+    }
+
+    // Animate in
+    targetEl.classList.add('view--active', 'view--entering');
+    setTimeout(function () {
+      targetEl.classList.remove('view--entering');
+    }, 300);
+
+    // Scroll to top
+    window.scrollTo(0, 0);
+
+    currentView = viewName;
+
+    // Update progress indicators on all question views
+    updateProgress(viewName);
+  }
+
+  window.addEventListener('popstate', function (e) {
+    if (e.state && e.state.view) {
+      showViewDirect(e.state.view);
+    } else {
+      showViewDirect('landing');
+    }
+  });
+
+  // ─── Progress Indicator ─────────────────────────────────────
+
+  function updateProgress(viewName) {
+    var stepMap = { capability: 1, horizon: 2, adoption: 3, sector: 4 };
+    var activeStep = stepMap[viewName] || 0;
+
+    // Update step numbers
+    $$('.progress-step').forEach(function (el) {
+      var step = parseInt(el.dataset.step, 10);
+      el.classList.remove('progress-step--active', 'progress-step--completed');
+      if (step === activeStep) {
+        el.classList.add('progress-step--active');
+      } else if (step < activeStep) {
+        el.classList.add('progress-step--completed');
+      }
+    });
+
+    // Update separators between completed steps
+    $$('.progress-indicator').forEach(function (indicator) {
+      var steps = indicator.querySelectorAll('.progress-step');
+      var seps = indicator.querySelectorAll('.progress-separator');
+      seps.forEach(function (sep, i) {
+        var beforeStep = parseInt(steps[i].dataset.step, 10);
+        sep.classList.toggle('progress-separator--completed', beforeStep < activeStep);
+      });
+    });
+  }
+
+  // ─── Init ───────────────────────────────────────────────────
+
+  function init() {
+    bindCardClicks();
+    bindBackButtons();
+    bindGetStarted();
+    bindChangeAssumptions();
+
+    // Handle initial hash
+    var hash = window.location.hash.slice(1);
+    if (hash && hash !== 'results') {
+      showView(hash);
+    } else if (hash === 'results' && !state.results) {
+      showView('landing');
+    }
+    // Default: landing is already visible via view--active class
+  }
+
+  // ─── Card Click Handlers ────────────────────────────────────
+
+  function bindCardClicks() {
+    // Capability cards
     $$('#capability-cards .input-card').forEach(function (card) {
       card.addEventListener('click', function () {
         state.capability = card.dataset.capability;
         highlightCard('#capability-cards .input-card', card);
-        unlockStep('step-horizon');
-        scrollTo('#step-horizon');
+        showView('horizon');
       });
     });
 
+    // Horizon cards
     $$('#horizon-cards .input-card').forEach(function (card) {
       card.addEventListener('click', function () {
         state.horizon = card.dataset.horizon;
         highlightCard('#horizon-cards .input-card', card);
-        unlockStep('step-adoption');
-        scrollTo('#step-adoption');
+        showView('adoption');
       });
     });
 
+    // Adoption cards
     $$('#adoption-cards .input-card').forEach(function (card) {
       card.addEventListener('click', function () {
         state.adoption = card.dataset.adoption;
         highlightCard('#adoption-cards .input-card', card);
-        unlockStep('step-sector');
-        scrollTo('#step-sector');
+        showView('sector');
       });
     });
 
+    // Sector cards
     $$('#sector-cards .sector-card').forEach(function (card) {
       card.addEventListener('click', function () {
         state.sector = parseInt(card.dataset.sector, 10);
@@ -70,34 +164,41 @@
     selectedEl.classList.add('selected');
   }
 
-  function unlockStep(stepId) {
-    var step = $('#' + stepId);
-    if (!step) return;
-    if (step.classList.contains('step--locked')) {
-      step.classList.remove('step--locked');
-      step.classList.add('step--unlocking');
-      setTimeout(function () { step.classList.remove('step--unlocking'); }, 600);
+  // ─── Back Buttons ───────────────────────────────────────────
+
+  function bindBackButtons() {
+    $$('.btn--back').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var target = btn.dataset.back;
+        if (target) showView(target);
+      });
+    });
+  }
+
+  // ─── Get Started ────────────────────────────────────────────
+
+  function bindGetStarted() {
+    var btn = $('#btn-get-started');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        showView('capability');
+      });
     }
   }
 
-  function scrollTo(sel) {
-    var el = $(sel);
-    if (el) {
-      setTimeout(function () {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 150);
-    }
-  }
-
-  // ─── Change Assumptions ────────────────────────────────────
+  // ─── Change Assumptions ─────────────────────────────────────
 
   function bindChangeAssumptions() {
     var btn = $('#btn-change-assumptions');
     if (btn) {
       btn.addEventListener('click', function () {
-        $('#results-section').style.display = 'none';
+        // Clear briefing
         $('#briefing-text').innerHTML = '';
-        scrollTo('#input-section');
+        var titleEl = $('#briefing-title');
+        if (titleEl) titleEl.textContent = '';
+
+        // Go back to landing
+        showView('landing');
       });
     }
 
@@ -109,7 +210,7 @@
     });
   }
 
-  // ─── Run Diagnostic ────────────────────────────────────────
+  // ─── Run Diagnostic ─────────────────────────────────────────
 
   function runDiagnostic() {
     if (!state.capability || !state.horizon || !state.adoption || !state.sector) return;
@@ -117,17 +218,17 @@
     var results = Engine.computeAll(state.sector, state.capability, state.horizon, state.adoption);
     state.results = results;
 
-    // Show results section
-    var resultsSection = $('#results-section');
-    resultsSection.style.display = '';
-    setTimeout(function () {
-      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+    // Inject briefing title
+    var titleEl = $('#briefing-title');
+    if (titleEl) {
+      titleEl.textContent = 'AI Disruption Briefing: ' + results.sectorName;
+    }
 
-    // Render assumption pills
+    // Show results view
+    showView('results');
+
+    // Render pills and start streaming
     renderScenarioPills(results);
-
-    // Start streaming briefing
     streamBriefing(results);
   }
 
@@ -157,7 +258,7 @@
     });
   }
 
-  // ─── Stream Briefing ───────────────────────────────────────
+  // ─── Stream Briefing ────────────────────────────────────────
 
   function appendMethodologyLink(textEl) {
     var methodLink = document.createElement('div');
@@ -248,7 +349,7 @@
     }
   }
 
-  // ─── Markdown Renderer ─────────────────────────────────────
+  // ─── Markdown Renderer ──────────────────────────────────────
 
   function renderMarkdown(text) {
     return text
@@ -280,7 +381,7 @@
       .replace(/<p>\s*<\/p>/g, '');
   }
 
-  // ─── Boot ──────────────────────────────────────────────────
+  // ─── Boot ───────────────────────────────────────────────────
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

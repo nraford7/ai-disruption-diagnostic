@@ -6,39 +6,50 @@
     <title>AI Disruption Diagnostic</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-    <!-- ═══════════════════════════════════════════════════ -->
-    <!-- SECTION 1: LANDING / INPUT                         -->
-    <!-- ═══════════════════════════════════════════════════ -->
-    <section id="input-section" class="section section--input">
-
-        <header class="hero">
-            <div class="container">
-                <div class="hero__badge">Strategic Intelligence Tool</div>
-                <h1 class="hero__title">AI Disruption Diagnostic</h1>
-                <p class="hero__subtitle">How will AI reshape your industry? Set your beliefs. See the impact.</p>
-                <p class="hero__attribution">
+    <!-- View 0 — Landing -->
+    <section class="view view--active" data-view="landing" id="view-landing">
+        <div class="landing-hero">
+            <div class="landing-hero__content">
+                <div class="landing-hero__badge">Strategic Intelligence Tool</div>
+                <h1 class="landing-hero__title">AI Disruption<br>Diagnostic</h1>
+                <p class="landing-hero__subtitle">How will AI reshape your industry? Set your beliefs. See the impact.</p>
+                <p class="landing-hero__attribution">
                     Grounded in Autor, Levy &amp; Murnane (2003) &middot; Acemoglu (2024) &middot;
                     Hampole, Papanikolaou, Schmidt &amp; Seegmiller (2025) &middot; Catalini, Hui &amp; Wu (2026)
                 </p>
+                <button class="btn btn--primary btn--large" id="btn-get-started">Get Started</button>
             </div>
-        </header>
+        </div>
+    </section>
 
-        <!-- STEP 1: Capability Level -->
-        <div class="step" id="step-capability">
-            <div class="container">
-                <div class="step__header">
-                    <span class="step__number">01</span>
-                    <div>
-                        <h2 class="step__title">How capable is the AI?</h2>
-                        <p class="step__desc">What do you believe AI can do?</p>
-                    </div>
+    <!-- View 1 — Capability -->
+    <section class="view" data-view="capability" id="view-capability">
+        <div class="view-header">
+            <div class="container view-header__inner">
+                <button class="btn btn--back" data-back="landing">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Back
+                </button>
+                <div class="progress-indicator">
+                    <span class="progress-step progress-step--active" data-step="1">01</span>
+                    <span class="progress-separator">&mdash;</span>
+                    <span class="progress-step" data-step="2">02</span>
+                    <span class="progress-separator">&mdash;</span>
+                    <span class="progress-step" data-step="3">03</span>
+                    <span class="progress-separator">&mdash;</span>
+                    <span class="progress-step" data-step="4">04</span>
                 </div>
-
+            </div>
+        </div>
+        <div class="question-page">
+            <div class="container">
+                <h1 class="question-title">How capable is the AI?</h1>
+                <p class="question-subtitle">What do you believe AI can do?</p>
                 <div class="card-row card-row--5" id="capability-cards">
                     <button class="input-card" data-capability="T1">
                         <h3 class="input-card__label">Narrow Assistants</h3>
@@ -63,18 +74,31 @@
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- STEP 2: Time Horizon -->
-        <div class="step step--locked" id="step-horizon">
-            <div class="container">
-                <div class="step__header">
-                    <span class="step__number">02</span>
-                    <div>
-                        <h2 class="step__title">Over what timeframe?</h2>
-                        <p class="step__desc">When does this level of AI become widely available?</p>
-                    </div>
+    <!-- View 2 — Horizon -->
+    <section class="view" data-view="horizon" id="view-horizon">
+        <div class="view-header">
+            <div class="container view-header__inner">
+                <button class="btn btn--back" data-back="capability">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Back
+                </button>
+                <div class="progress-indicator">
+                    <span class="progress-step progress-step--completed" data-step="1">01</span>
+                    <span class="progress-separator">&mdash;</span>
+                    <span class="progress-step progress-step--active" data-step="2">02</span>
+                    <span class="progress-separator">&mdash;</span>
+                    <span class="progress-step" data-step="3">03</span>
+                    <span class="progress-separator">&mdash;</span>
+                    <span class="progress-step" data-step="4">04</span>
                 </div>
-
+            </div>
+        </div>
+        <div class="question-page">
+            <div class="container">
+                <h1 class="question-title">Over what timeframe?</h1>
+                <p class="question-subtitle">When does this level of AI become widely available?</p>
                 <div class="card-row card-row--4" id="horizon-cards">
                     <button class="input-card input-card--compact" data-horizon="H1">
                         <h3 class="input-card__label">2&ndash;5 years</h3>
@@ -95,18 +119,31 @@
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- STEP 3: Adoption Speed -->
-        <div class="step step--locked" id="step-adoption">
-            <div class="container">
-                <div class="step__header">
-                    <span class="step__number">03</span>
-                    <div>
-                        <h2 class="step__title">How fast does your industry adopt?</h2>
-                        <p class="step__desc">Once the capability exists, how quickly does it spread?</p>
-                    </div>
+    <!-- View 3 — Adoption -->
+    <section class="view" data-view="adoption" id="view-adoption">
+        <div class="view-header">
+            <div class="container view-header__inner">
+                <button class="btn btn--back" data-back="horizon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Back
+                </button>
+                <div class="progress-indicator">
+                    <span class="progress-step progress-step--completed" data-step="1">01</span>
+                    <span class="progress-separator">&mdash;</span>
+                    <span class="progress-step progress-step--completed" data-step="2">02</span>
+                    <span class="progress-separator">&mdash;</span>
+                    <span class="progress-step progress-step--active" data-step="3">03</span>
+                    <span class="progress-separator">&mdash;</span>
+                    <span class="progress-step" data-step="4">04</span>
                 </div>
-
+            </div>
+        </div>
+        <div class="question-page">
+            <div class="container">
+                <h1 class="question-title">How fast does your industry adopt?</h1>
+                <p class="question-subtitle">Once the capability exists, how quickly does it spread?</p>
                 <div class="card-row card-row--3" id="adoption-cards">
                     <button class="input-card input-card--compact" data-adoption="low">
                         <h3 class="input-card__label">Slow</h3>
@@ -123,18 +160,31 @@
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- STEP 4: Sector Selection -->
-        <div class="step step--locked" id="step-sector">
-            <div class="container">
-                <div class="step__header">
-                    <span class="step__number">04</span>
-                    <div>
-                        <h2 class="step__title">Your Sector</h2>
-                        <p class="step__desc">Select your industry to run the diagnostic.</p>
-                    </div>
+    <!-- View 4 — Sector -->
+    <section class="view" data-view="sector" id="view-sector">
+        <div class="view-header">
+            <div class="container view-header__inner">
+                <button class="btn btn--back" data-back="adoption">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    Back
+                </button>
+                <div class="progress-indicator">
+                    <span class="progress-step progress-step--completed" data-step="1">01</span>
+                    <span class="progress-separator">&mdash;</span>
+                    <span class="progress-step progress-step--completed" data-step="2">02</span>
+                    <span class="progress-separator">&mdash;</span>
+                    <span class="progress-step progress-step--completed" data-step="3">03</span>
+                    <span class="progress-separator">&mdash;</span>
+                    <span class="progress-step progress-step--active" data-step="4">04</span>
                 </div>
-
+            </div>
+        </div>
+        <div class="question-page">
+            <div class="container">
+                <h1 class="question-title">Your Sector</h1>
+                <p class="question-subtitle">Select your industry to run the diagnostic.</p>
                 <div class="sector-grid" id="sector-cards">
                     <button class="sector-card" data-sector="1">
                         <span class="sector-card__icon">🏦</span>
@@ -205,10 +255,8 @@
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════ -->
-    <!-- SECTION 2: RESULTS (hidden until computed)         -->
-    <!-- ═══════════════════════════════════════════════════ -->
-    <section id="results-section" class="section section--results" style="display:none;">
+    <!-- View 5 — Results -->
+    <section class="view" data-view="results" id="view-results">
         <div class="results-layer" id="layer-briefing">
             <div class="container">
 
@@ -220,6 +268,9 @@
                         Change Assumptions
                     </button>
                 </div>
+
+                <!-- Briefing title -->
+                <h1 id="briefing-title" class="briefing-title"></h1>
 
                 <!-- Loading state -->
                 <div class="briefing-loading" id="briefing-loading">
@@ -246,10 +297,8 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
     <script src="js/data.js"></script>
     <script src="js/engine.js"></script>
     <script src="js/app.js"></script>
-
 </body>
 </html>
