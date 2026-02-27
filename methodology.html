@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methodology — AI Disruption Diagnostic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* ─── METHODOLOGY PAGE STYLES ─── */
+
+        .method-page {
+            padding: var(--sp-16) 0 var(--sp-20);
+        }
+
+        .method-page .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            margin-bottom: var(--sp-8);
+            transition: color var(--dur-normal) var(--ease-out);
+        }
+
+        .method-page .back-link:hover {
+            color: #fff;
+        }
+
+        .method-page h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: var(--sp-12);
+            background: linear-gradient(135deg, #fff 0%, #a0a0b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .method-section {
+            margin-bottom: var(--sp-16);
+        }
+
+        .method-section h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: var(--sp-6);
+            padding-bottom: var(--sp-3);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .method-section h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: var(--sp-8);
+            margin-bottom: var(--sp-3);
+        }
+
+        .method-section p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: var(--sp-4);
+            max-width: 780px;
+        }
+
+        .method-section strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .method-section ul {
+            list-style: none;
+            padding: 0;
+            margin: var(--sp-4) 0 var(--sp-6);
+        }
+
+        .method-section ul li {
+            position: relative;
+            padding-left: 1.2rem;
+            margin-bottom: var(--sp-3);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .method-section ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.65em;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .method-section ol {
+            padding-left: 0;
+            margin: var(--sp-4) 0 var(--sp-6);
+            counter-reset: task-counter;
+            list-style: none;
+        }
+
+        .method-section ol li {
+            position: relative;
+            padding-left: 2.2rem;
+            margin-bottom: var(--sp-2);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            counter-increment: task-counter;
+        }
+
+        .method-section ol li::before {
+            content: counter(task-counter) ".";
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 600;
+            width: 1.8rem;
+            text-align: right;
+        }
+
+        .task-category {
+            margin-top: var(--sp-6);
+            margin-bottom: var(--sp-4);
+            padding: var(--sp-5) var(--sp-6);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+        }
+
+        .task-category__label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: var(--sp-3);
+        }
+
+        .task-category ol {
+            margin: 0;
+        }
+
+        .task-category ol li {
+            margin-bottom: var(--sp-1);
+        }
+
+        .code-block {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: var(--sp-5) var(--sp-6);
+            margin: var(--sp-4) 0 var(--sp-6);
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.8;
+            color: var(--text-primary);
+        }
+
+        .dim-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--sp-4) 0 var(--sp-6);
+            font-size: 0.95rem;
+        }
+
+        .dim-table th,
+        .dim-table td {
+            text-align: left;
+            padding: var(--sp-3) var(--sp-4);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .dim-table th {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .dim-table td {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .dim-table td:first-child {
+            font-family: var(--font-mono);
+            font-weight: 600;
+            color: var(--accent);
+            white-space: nowrap;
+            width: 40px;
+        }
+
+        .dim-table td:nth-child(2) {
+            color: var(--text-primary);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .scenario-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: var(--sp-5) var(--sp-6);
+            margin-bottom: var(--sp-4);
+        }
+
+        .scenario-card__name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--sp-2);
+        }
+
+        .scenario-card__detail {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .scenario-card__detail code {
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            padding: 0.1em 0.4em;
+            border-radius: 3px;
+        }
+
+        .severity-scale {
+            display: flex;
+            gap: var(--sp-4);
+            margin: var(--sp-4) 0;
+            flex-wrap: wrap;
+        }
+
+        .severity-scale__item {
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .severity-scale__dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .severity-scale__dot--none { background: var(--text-muted); }
+        .severity-scale__dot--moderate { background: var(--yellow); }
+        .severity-scale__dot--severe { background: var(--red); }
+
+        .timeline-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: var(--sp-4) 0 var(--sp-6);
+            font-size: 0.9rem;
+        }
+
+        .timeline-table th,
+        .timeline-table td {
+            text-align: center;
+            padding: var(--sp-3) var(--sp-4);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .timeline-table th {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .timeline-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .timeline-table td {
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        .footer-back {
+            margin-top: var(--sp-16);
+            padding-top: var(--sp-8);
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-back a {
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color var(--dur-normal) var(--ease-out);
+        }
+
+        .footer-back a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .method-page {
+                padding: var(--sp-10) 0 var(--sp-12);
+            }
+
+            .dim-table,
+            .timeline-table {
+                font-size: 0.85rem;
+            }
+
+            .dim-table th,
+            .dim-table td,
+            .timeline-table th,
+            .timeline-table td {
+                padding: var(--sp-2) var(--sp-3);
+            }
+
+            .task-category {
+                padding: var(--sp-4);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="method-page">
+        <div class="container">
+
+            <a href="/" class="back-link">&larr; Back to Diagnostic</a>
+            <h1>Methodology</h1>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- SECTION 1: RESEARCH FOUNDATIONS             -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section class="method-section">
+                <h2>Research Foundations</h2>
+                <p>The AI Disruption Diagnostic is built on four bodies of academic research that together provide a rigorous, task-level framework for understanding how AI transforms industries.</p>
+
+                <ul>
+                    <li><strong>Autor, Levy &amp; Murnane (2003)</strong> &mdash; &ldquo;The Skill Content of Recent Technological Change.&rdquo; Established the routine/non-routine task taxonomy that underpins how we classify work activities. Their framework distinguishes cognitive from manual labor, and routine from non-routine tasks &mdash; creating the foundational grid on which all modern automation-impact research is built.</li>
+                    <li><strong>Acemoglu (2024)</strong> &mdash; Task-based production function framework showing how AI automation affects wages, employment, and firm structure at the task level. This work formalizes the economic logic of what happens when specific tasks become automatable: how labor demand shifts, how wages respond, and how firms reorganize around new capability frontiers.</li>
+                    <li><strong>Hampole, Papanikolaou, Schmidt &amp; Seegmiller (2025)</strong> &mdash; Empirical measurement of AI exposure scores across occupational tasks, providing the basis for our per-task impact ratings. Their large-scale analysis maps which tasks are most exposed to current and near-future AI systems, grounding our impact dimensions in measured data rather than speculation.</li>
+                    <li><strong>Catalini, Hui &amp; Wu (2026)</strong> &mdash; Models of AI adoption speed, competitive dynamics, and market equilibrium under diffusion &mdash; informing our adoption modifier curves. Their work captures how fast industries actually absorb new capabilities, accounting for regulatory friction, coordination costs, and competitive pressure.</li>
+                </ul>
+            </section>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- SECTION 2: THE TASK FRAMEWORK               -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section class="method-section">
+                <h2>The Task Framework</h2>
+                <p>All work can be decomposed into 35 universal activities, organized into 6 categories. This taxonomy draws on Autor, Levy &amp; Murnane&rsquo;s original routine/non-routine distinction, extended to capture the full spectrum of modern professional and manual work.</p>
+                <p>Every sector is defined by its unique weighting of these 35 tasks. When you select a sector, you&rsquo;re activating a weight profile that determines which tasks dominate the analysis.</p>
+
+                <div class="task-category">
+                    <div class="task-category__label">Routine Cognitive (Tasks 1&ndash;7)</div>
+                    <ol>
+                        <li>Data entry &amp; record-keeping</li>
+                        <li>Transaction processing</li>
+                        <li>Scheduling &amp; resource allocation</li>
+                        <li>Regulatory compliance filing</li>
+                        <li>Bookkeeping &amp; financial reporting</li>
+                        <li>Quality control / inspection (standard)</li>
+                        <li>Document review &amp; classification</li>
+                    </ol>
+                </div>
+
+                <div class="task-category">
+                    <div class="task-category__label">Routine Manual (Tasks 8&ndash;12)</div>
+                    <ol start="8">
+                        <li>Assembly &amp; fabrication</li>
+                        <li>Material handling &amp; warehousing</li>
+                        <li>Vehicle / equipment operation (fixed route)</li>
+                        <li>Cleaning, maintenance &amp; facility ops</li>
+                        <li>Harvesting &amp; extraction</li>
+                    </ol>
+                </div>
+
+                <div class="task-category">
+                    <div class="task-category__label">Non-Routine Analytical (Tasks 13&ndash;20)</div>
+                    <ol start="13">
+                        <li>Data analysis &amp; business intelligence</li>
+                        <li>Software development &amp; engineering</li>
+                        <li>Research &amp; knowledge synthesis</li>
+                        <li>Financial analysis &amp; risk modeling</li>
+                        <li>Engineering design &amp; simulation</li>
+                        <li>Diagnostics &amp; troubleshooting</li>
+                        <li>Market research &amp; competitive analysis</li>
+                        <li>Supply chain optimization</li>
+                    </ol>
+                </div>
+
+                <div class="task-category">
+                    <div class="task-category__label">Non-Routine Interactive (Tasks 21&ndash;28)</div>
+                    <ol start="21">
+                        <li>Sales &amp; client relationship management</li>
+                        <li>Negotiation &amp; deal structuring</li>
+                        <li>Teaching, training &amp; mentoring</li>
+                        <li>Customer service &amp; support</li>
+                        <li>People management &amp; team leadership</li>
+                        <li>Stakeholder communication &amp; PR</li>
+                        <li>Strategic planning &amp; executive decision-making</li>
+                        <li>Creative direction &amp; content creation</li>
+                    </ol>
+                </div>
+
+                <div class="task-category">
+                    <div class="task-category__label">Non-Routine Manual (Tasks 29&ndash;33)</div>
+                    <ol start="29">
+                        <li>Surgical / clinical procedures</li>
+                        <li>Skilled trades &amp; craft work</li>
+                        <li>Emergency response &amp; crisis operations</li>
+                        <li>Field work in unstructured environments</li>
+                        <li>Caregiving &amp; patient interaction</li>
+                    </ol>
+                </div>
+
+                <div class="task-category">
+                    <div class="task-category__label">Cross-Cutting (Tasks 34&ndash;35)</div>
+                    <ol start="34">
+                        <li>Verification &amp; audit</li>
+                        <li>Cybersecurity &amp; threat monitoring</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- SECTION 3: FIVE IMPACT DIMENSIONS           -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section class="method-section">
+                <h2>Five Impact Dimensions</h2>
+                <p>Each of the 35 tasks is rated across five impact dimensions for each capability tier. Together, these dimensions capture the full economic and organizational footprint of AI on a given activity.</p>
+
+                <table class="dim-table">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Dimension</th>
+                            <th>What It Measures</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>H</td>
+                            <td>Headcount</td>
+                            <td>How many roles are displaced or consolidated. Captures direct labor impact &mdash; from modest headcount optimization to wholesale elimination of role categories.</td>
+                        </tr>
+                        <tr>
+                            <td>M</td>
+                            <td>Margins</td>
+                            <td>Profit margin compression from automation-driven competition. As AI lowers cost-to-serve, competitors pass savings to customers, compressing margins industry-wide.</td>
+                        </tr>
+                        <tr>
+                            <td>V</td>
+                            <td>Velocity</td>
+                            <td>How much faster work gets done. Measures throughput acceleration &mdash; from incremental speed gains to order-of-magnitude compression of cycle times.</td>
+                        </tr>
+                        <tr>
+                            <td>B</td>
+                            <td>Barrier Erosion</td>
+                            <td>Reduction in entry barriers and competitive moats. Captures how AI democratizes capabilities that previously required scale, expertise, or capital to access.</td>
+                        </tr>
+                        <tr>
+                            <td>R</td>
+                            <td>Restructuring</td>
+                            <td>Degree of organizational and industry restructuring required. Measures how fundamentally workflows, team structures, and value chains must be redesigned.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p><strong>Scale:</strong> 0 = no measurable impact, 1 = emerging, 2 = significant, 3 = transformative</p>
+            </section>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- SECTION 4: SCORING METHODOLOGY              -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section class="method-section">
+                <h2>Scoring Methodology</h2>
+                <p>The diagnostic produces a single 0&ndash;100 disruption score for each sector, derived from a bottom-up aggregation of task-level impacts.</p>
+
+                <h3>Task Score</h3>
+                <p>Each task receives a raw score by summing its five dimension impacts and dividing by the theoretical maximum:</p>
+                <div class="code-block">
+                    <code>task_score = (H + M + V + B + R) / 15</code>
+                </div>
+                <p>This yields a value between 0 and 1, where 1 means every dimension is at maximum (transformative) impact.</p>
+
+                <h3>Sector Score</h3>
+                <p>The sector score is the weighted average of all task scores, using the sector&rsquo;s unique weight profile:</p>
+                <div class="code-block">
+                    <code>sector_score = &Sigma;(task_score_i &times; weight_i) / &Sigma;(weight_i)</code>
+                </div>
+                <p>This is then normalized to a 0&ndash;100 scale.</p>
+
+                <h3>Adoption Modifiers</h3>
+                <p>The raw score is adjusted by the selected adoption speed, which models real-world friction in how fast organizations absorb AI capabilities:</p>
+                <div class="code-block">
+                    <code>Slow adoption:     adjusted = score &times; 0.70 + 15
+Moderate adoption: adjusted = score &times; 0.85 + 8
+Rapid adoption:    adjusted = score  (no modification)</code>
+                </div>
+
+                <h3>Risk Zones</h3>
+                <p>The final score maps to one of five risk zones:</p>
+                <div class="code-block">
+                    <code>  0&ndash;20   Resilient      &mdash; Minimal disruption pressure
+ 21&ndash;40   Adapting       &mdash; Manageable change required
+ 41&ndash;60   Transforming   &mdash; Significant structural shifts ahead
+ 61&ndash;80   Disrupting     &mdash; Major industry reconfiguration
+ 81&ndash;100  Restructuring  &mdash; Fundamental reinvention required</code>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- SECTION 5: FIVE SCENARIO MODELS             -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section class="method-section">
+                <h2>Five Scenario Models</h2>
+                <p>Beyond the aggregate score, the diagnostic runs five targeted scenario models that detect specific structural dynamics. Each scenario isolates a particular pattern of disruption and evaluates whether it applies to the selected sector.</p>
+
+                <div class="severity-scale">
+                    <div class="severity-scale__item">
+                        <span class="severity-scale__dot severity-scale__dot--none"></span>
+                        &lt;1.2 = None
+                    </div>
+                    <div class="severity-scale__item">
+                        <span class="severity-scale__dot severity-scale__dot--moderate"></span>
+                        1.2&ndash;2.0 = Moderate
+                    </div>
+                    <div class="severity-scale__item">
+                        <span class="severity-scale__dot severity-scale__dot--severe"></span>
+                        &ge;2.0 = Severe
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-card__name">1. The Pyramid Inverts</div>
+                    <div class="scenario-card__detail">
+                        <strong>Detects:</strong> Junior vs. senior headcount pressure gap. When AI automates routine and entry-level work faster than it replaces senior judgment, the traditional organizational pyramid inverts &mdash; fewer juniors, same number of seniors, collapsing career ladders.<br>
+                        <strong>Input tasks:</strong> Tasks 1&ndash;12 (routine cognitive + routine manual) vs. Tasks 22, 25, 27, 28 (negotiation, people management, strategic planning, creative direction).<br>
+                        <strong>Threshold:</strong> <code>&ge;2.0 = severe</code>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-card__name">2. The Price Floor Drops</div>
+                    <div class="scenario-card__detail">
+                        <strong>Detects:</strong> Margin compression + moat erosion in analytical work. When AI commoditizes the analytical capabilities that justified premium pricing, the price floor of the industry drops and margins compress structurally.<br>
+                        <strong>Input tasks:</strong> Tasks 13&ndash;20 (non-routine analytical).<br>
+                        <strong>Formula:</strong> <code>M &times; 0.6 + B &times; 0.4</code><br>
+                        <strong>Threshold:</strong> <code>&ge;2.0 = severe</code>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-card__name">3. The Solo Operator</div>
+                    <div class="scenario-card__detail">
+                        <strong>Detects:</strong> High velocity + low barriers in coordination tasks. When AI enables individuals to perform work that previously required teams, the &ldquo;solo operator&rdquo; becomes viable &mdash; one person with AI can compete with a ten-person firm.<br>
+                        <strong>Input tasks:</strong> Tasks 3, 20&ndash;24 (scheduling, supply chain optimization, sales, negotiation, teaching, customer service).<br>
+                        <strong>Formula:</strong> <code>V &times; 0.7 + (3 &minus; B) &times; 0.3</code><br>
+                        <strong>Threshold:</strong> <code>&ge;2.0 = severe</code>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-card__name">4. The Verification Bottleneck</div>
+                    <div class="scenario-card__detail">
+                        <strong>Detects:</strong> Execution automation outpaces verification capacity. When AI can produce work faster than humans can verify it, quality assurance becomes the binding constraint &mdash; creating a bottleneck that limits the value of automation.<br>
+                        <strong>Input tasks:</strong> Execution tasks (all automated tasks) vs. Task 34 (verification &amp; audit).<br>
+                        <strong>Threshold:</strong> <code>&ge;2.0 = severe</code>
+                    </div>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-card__name">5. The Speed Trap</div>
+                    <div class="scenario-card__detail">
+                        <strong>Detects:</strong> Sector-wide velocity + restructuring pressure. When AI accelerates everything simultaneously, the industry enters a &ldquo;speed trap&rdquo; &mdash; everyone moves faster, but the faster pace demands restructuring that most organizations cannot execute quickly enough.<br>
+                        <strong>Input tasks:</strong> All tasks, weighted by sector profile.<br>
+                        <strong>Formula:</strong> <code>V &times; 0.5 + R &times; 0.5</code><br>
+                        <strong>Threshold:</strong> <code>&ge;2.0 = severe</code>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- SECTION 6: TIMELINE PROJECTIONS             -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section class="method-section">
+                <h2>Timeline Projections</h2>
+                <p>The diagnostic projects disruption over four time horizons &mdash; 2, 5, 10, and 20 years &mdash; by interpolating between a baseline score (T1 capability) and the selected tier&rsquo;s final score using adoption-speed curves.</p>
+
+                <h3>Adoption Curves</h3>
+                <p>Each adoption speed defines how much of the total disruption potential is realized at each time horizon:</p>
+
+                <table class="timeline-table">
+                    <thead>
+                        <tr>
+                            <th>Adoption Speed</th>
+                            <th>2 yr</th>
+                            <th>5 yr</th>
+                            <th>10 yr</th>
+                            <th>20 yr</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Slow</td>
+                            <td>5%</td>
+                            <td>15%</td>
+                            <td>40%</td>
+                            <td>75%</td>
+                        </tr>
+                        <tr>
+                            <td>Moderate</td>
+                            <td>15%</td>
+                            <td>35%</td>
+                            <td>70%</td>
+                            <td>90%</td>
+                        </tr>
+                        <tr>
+                            <td>Rapid</td>
+                            <td>30%</td>
+                            <td>65%</td>
+                            <td>90%</td>
+                            <td>98%</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Horizon Shifts</h3>
+                <p>The selected horizon shifts the adoption curve rightward, representing the delay before capabilities reach the selected level:</p>
+                <div class="code-block">
+                    <code>H1 (Narrow Assistants)      = no shift
+H2 (Skilled Specialists)    = +1 position
+H3 (Autonomous Professionals) = +2 positions
+H4 (Organizational AI)      = +3 positions</code>
+                </div>
+                <p>For example, under Moderate adoption at H3, the 2-year realization shifts to what would have been the 10-year mark &mdash; reflecting that more advanced capabilities take longer to diffuse.</p>
+            </section>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- SECTION 7: HOW THE BRIEFING IS GENERATED    -->
+            <!-- ═══════════════════════════════════════════ -->
+            <section class="method-section">
+                <h2>How the Briefing is Generated</h2>
+                <p>The entire computation &mdash; task scoring, sector weighting, scenario detection, timeline projection &mdash; runs in your browser. No data leaves your machine during the calculation phase.</p>
+                <p>Once the structured output is computed (scores, dimension breakdowns, scenario results, top-impacted tasks), it is sent to Claude, Anthropic&rsquo;s AI model, which generates a five-section strategic briefing:</p>
+                <ul>
+                    <li><strong>The Verdict</strong> &mdash; A direct, one-paragraph assessment of the sector&rsquo;s disruption exposure.</li>
+                    <li><strong>What Happens to Your Industry</strong> &mdash; Concrete analysis of which functions, roles, and economics shift.</li>
+                    <li><strong>Who Wins, Who Loses</strong> &mdash; Asymmetric impact analysis across incumbents, challengers, and adjacent players.</li>
+                    <li><strong>Three Plausible Futures</strong> &mdash; Scenario-grounded narratives of how the sector could evolve.</li>
+                    <li><strong>What To Do About It</strong> &mdash; Actionable strategic recommendations.</li>
+                </ul>
+                <p>The prompt constrains Claude to write dense, CEO-level prose grounded in the specific computed data &mdash; not generic AI commentary. Every claim in the briefing traces back to the task scores, dimension impacts, and scenario results calculated from your inputs.</p>
+            </section>
+
+            <!-- ═══════════════════════════════════════════ -->
+            <!-- FOOTER LINK                                 -->
+            <!-- ═══════════════════════════════════════════ -->
+            <div class="footer-back">
+                <a href="/">&larr; Back to Diagnostic</a>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>
