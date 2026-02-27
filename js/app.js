@@ -246,7 +246,7 @@
   }
 
   function getTierLabel(tier) {
-    var labels = { T1: 'Current Tools', T2: 'Enhanced Copilots', T3: 'Domain-Autonomous Agents', T4: 'AGI', T5: 'Superintelligence' };
+    var labels = { T1: "Today's Tools", T2: 'Reliable Analysts', T3: 'Autonomous Operators', T4: 'Strategic Partners', T5: 'Beyond Human' };
     return labels[tier] || tier;
   }
 
