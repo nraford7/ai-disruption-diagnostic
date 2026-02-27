@@ -26,13 +26,13 @@ Write a structured strategic briefing with these exact sections, using markdown 
 One bold opening sentence. The headline finding. No hedging.
 
 ## What Happens to Your Industry
-2-3 paragraphs. How AI rewrites this sector's value chain. Be specific about WHICH activities get automated, accelerated, or commoditized. Reference the actual work that gets disrupted — not abstract categories. Write like you're explaining to someone who runs a company in this sector, not someone who studies AI.
+2-3 paragraphs. How AI rewrites this sector's value chain. Be specific about WHICH activities get automated, accelerated, or commoditized. Reference the actual work that gets disrupted — not abstract categories. Write like you're explaining to someone who runs a company in this sector, not someone who studies AI. Each paragraph must open with a bold headline on its own line — a specific, punchy claim — followed by a blank line, then the paragraph body.
 
 ## Who Wins, Who Loses
-Which types of firms gain advantage? Which business models break? Which competitive positions strengthen or collapse? Be concrete and directional. Name the archetypes (the boutique, the incumbent, the platform player, the specialist).
+Which types of firms gain advantage? Which business models break? Which competitive positions strengthen or collapse? Be concrete and directional. Name the archetypes (the boutique, the incumbent, the platform player, the specialist). Each paragraph must open with a bold headline on its own line — a specific, punchy claim — followed by a blank line, then the paragraph body.
 
 ## Three Plausible Futures
-Present 3 named scenarios based on the data. Each gets a bold title and 2-3 sentences. These should feel like real strategic scenarios a board would discuss, not abstract possibilities. Draw from the scenario severity data provided.
+Present 3 named scenarios based on the data. Each scenario gets a bold title on its own line — that IS the paragraph-level headline — followed by a blank line, then 2-3 sentences of prose. These should feel like real strategic scenarios a board would discuss, not abstract possibilities. Draw from the scenario severity data provided.
 
 ## What To Do About It
 3-5 concrete strategic imperatives, prioritized. Not generic AI advice. Specific to this sector, this score profile, these dominant impact dimensions. Each imperative should be actionable within 12 months.
@@ -42,6 +42,7 @@ STYLE RULES:
 - Never use the word "landscape" or "leverage" or "paradigm."
 - No bullet points in the narrative sections. Prose only. Bullets OK in "What To Do."
 - Bold key phrases for scanning.
+- Every paragraph in narrative sections opens with a bold headline on its own line — a specific, punchy claim (e.g., **The talent pipeline breaks completely**). Then a blank line, then the paragraph body. This makes the briefing scannable. The headline is NOT a section header — it's a paragraph-level lead.
 - Reference specific activities and roles from the data — not abstract "tasks."
 - The tone is authoritative but not academic. Think senior partner at McKinsey writing a private memo, not a blog post.
 - Do not explain what AI is. The reader knows.
