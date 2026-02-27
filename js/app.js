@@ -159,6 +159,13 @@
 
   // ─── Stream Briefing ───────────────────────────────────────
 
+  function appendMethodologyLink(textEl) {
+    var methodLink = document.createElement('div');
+    methodLink.className = 'briefing-methodology-link';
+    methodLink.innerHTML = '<a href="/methodology.html">Learn about our Methodology &rarr;</a>';
+    textEl.appendChild(methodLink);
+  }
+
   function streamBriefing(results) {
     var textEl = $('#briefing-text');
     var loadingEl = $('#briefing-loading');
@@ -193,6 +200,7 @@
           if (result.done) {
             cursor.remove();
             textEl.innerHTML = renderMarkdown(fullText);
+            appendMethodologyLink(textEl);
             return;
           }
 
@@ -207,6 +215,7 @@
             if (payload === '[DONE]') {
               cursor.remove();
               textEl.innerHTML = renderMarkdown(fullText);
+              appendMethodologyLink(textEl);
               return;
             }
             try {
