@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -210,180 +209,33 @@
     <!-- SECTION 2: RESULTS (hidden until computed)         -->
     <!-- ═══════════════════════════════════════════════════ -->
     <section id="results-section" class="section section--results" style="display:none;">
-
-        <!-- LAYER 1: Headline Score -->
-        <div class="results-layer" id="layer-headline">
+        <div class="results-layer" id="layer-briefing">
             <div class="container">
 
-                <div class="headline-grid">
-                    <!-- Gauge -->
-                    <div class="gauge-container">
-                        <div class="gauge" id="score-gauge">
-                            <svg viewBox="0 0 200 120" class="gauge__svg">
-                                <defs>
-                                    <linearGradient id="gauge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                        <stop offset="0%" style="stop-color:#22c55e"/>
-                                        <stop offset="25%" style="stop-color:#eab308"/>
-                                        <stop offset="50%" style="stop-color:#f97316"/>
-                                        <stop offset="75%" style="stop-color:#ef4444"/>
-                                        <stop offset="100%" style="stop-color:#991b1b"/>
-                                    </linearGradient>
-                                </defs>
-                                <!-- Track -->
-                                <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="12" stroke-linecap="round"/>
-                                <!-- Fill -->
-                                <path id="gauge-fill" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gauge-gradient)" stroke-width="12" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
-                                <!-- Needle -->
-                                <line id="gauge-needle" x1="100" y1="100" x2="100" y2="28" stroke="#fff" stroke-width="2" stroke-linecap="round" transform="rotate(-90, 100, 100)"/>
-                                <circle cx="100" cy="100" r="5" fill="#fff"/>
-                            </svg>
-                            <div class="gauge__score" id="gauge-score-value">0</div>
-                        </div>
-                        <div class="gauge__zone" id="gauge-zone-label">--</div>
-                    </div>
-
-                    <!-- Narrative + Timeline -->
-                    <div class="headline-detail">
-                        <p class="narrative" id="narrative-text"></p>
-
-                        <div class="timeline-sparkline">
-                            <h4 class="timeline-sparkline__title">Score Progression</h4>
-                            <div class="sparkline-row">
-                                <div class="sparkline-point" data-year="2yr">
-                                    <div class="sparkline-bar-wrap">
-                                        <div class="sparkline-bar" id="spark-2yr"></div>
-                                    </div>
-                                    <span class="sparkline-label">2 yr</span>
-                                    <span class="sparkline-value" id="spark-val-2yr">--</span>
-                                </div>
-                                <div class="sparkline-point" data-year="5yr">
-                                    <div class="sparkline-bar-wrap">
-                                        <div class="sparkline-bar" id="spark-5yr"></div>
-                                    </div>
-                                    <span class="sparkline-label">5 yr</span>
-                                    <span class="sparkline-value" id="spark-val-5yr">--</span>
-                                </div>
-                                <div class="sparkline-point" data-year="10yr">
-                                    <div class="sparkline-bar-wrap">
-                                        <div class="sparkline-bar" id="spark-10yr"></div>
-                                    </div>
-                                    <span class="sparkline-label">10 yr</span>
-                                    <span class="sparkline-value" id="spark-val-10yr">--</span>
-                                </div>
-                                <div class="sparkline-point" data-year="20yr">
-                                    <div class="sparkline-bar-wrap">
-                                        <div class="sparkline-bar" id="spark-20yr"></div>
-                                    </div>
-                                    <span class="sparkline-label">20 yr</span>
-                                    <span class="sparkline-value" id="spark-val-20yr">--</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button class="btn btn--ghost" id="btn-change-assumptions">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 11.5V14h2.5l7.37-7.37-2.5-2.5L2 11.5zM14.71 3.29a1 1 0 000-1.42l-1.58-1.58a1 1 0 00-1.42 0L10.42 1.58l2.5 2.5 1.79-1.79z" fill="currentColor"/></svg>
-                            Change Assumptions
-                        </button>
-                    </div>
+                <!-- Assumption pills + change button -->
+                <div class="briefing-header">
+                    <div class="scenario-pills" id="scenario-pills"></div>
+                    <button class="btn btn--ghost" id="btn-change-assumptions">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 11.5V14h2.5l7.37-7.37-2.5-2.5L2 11.5zM14.71 3.29a1 1 0 000-1.42l-1.58-1.58a1 1 0 00-1.42 0L10.42 1.58l2.5 2.5 1.79-1.79z" fill="currentColor"/></svg>
+                        Change Assumptions
+                    </button>
                 </div>
 
-                <!-- Scenario summary pill -->
-                <div class="scenario-pills" id="scenario-pills"></div>
+                <!-- Loading state -->
+                <div class="briefing-loading" id="briefing-loading">
+                    <span class="briefing-loading__text">Analyzing your sector...</span>
+                </div>
+
+                <!-- Streaming briefing content -->
+                <div class="briefing-text" id="briefing-text"></div>
+
+                <!-- Error state -->
+                <div class="briefing-error" id="briefing-error" style="display:none;">
+                    <p><span id="briefing-error-msg">Analysis unavailable.</span> <button class="btn btn--ghost btn--small" id="btn-retry">Try again</button></p>
+                </div>
 
             </div>
         </div>
-
-        <!-- LAYER 2: Impact Breakdown (collapsible) -->
-        <div class="results-layer" id="layer-impact">
-            <div class="container">
-                <button class="collapse-toggle" data-target="impact-content" aria-expanded="true">
-                    <span class="collapse-toggle__title">Impact Breakdown</span>
-                    <svg class="collapse-toggle__icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
-                <div class="collapse-content collapse-content--open" id="impact-content">
-                    <div class="impact-grid">
-                        <div class="impact-grid__chart">
-                            <h4 class="subsection-title">Where AI Hits</h4>
-                            <div class="radar-wrap">
-                                <canvas id="radar-chart" width="360" height="360"></canvas>
-                            </div>
-                        </div>
-                        <div class="impact-grid__shifts">
-                            <h4 class="subsection-title">Scenarios</h4>
-                            <div id="scenarios-container">
-                                <!-- Populated by JS -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- LAYER 3: What Changes (replaces Risk Assessment + Task Table) -->
-        <div class="results-layer" id="layer-what-changes">
-            <div class="container">
-                <button class="collapse-toggle" data-target="what-changes-content" aria-expanded="true">
-                    <span class="collapse-toggle__title">What Changes</span>
-                    <svg class="collapse-toggle__icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
-                <div class="collapse-content collapse-content--open" id="what-changes-content">
-                    <div class="what-changes-grid">
-                        <div class="what-changes-card what-changes-card--first">
-                            <div class="what-changes-card__header">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v16M3 10l7-8 7 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                <div>
-                                    <h4>Changes First</h4>
-                                    <span class="what-changes-card__sub">What gets faster immediately</span>
-                                </div>
-                            </div>
-                            <div id="changes-first" class="what-changes-card__body">
-                                <!-- Populated by JS -->
-                            </div>
-                        </div>
-                        <div class="what-changes-card what-changes-card--most">
-                            <div class="what-changes-card__header">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v5M10 13.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                                <div>
-                                    <h4>Changes Most</h4>
-                                    <span class="what-changes-card__sub">Where the people pressure is</span>
-                                </div>
-                            </div>
-                            <div id="changes-most" class="what-changes-card__body">
-                                <!-- Populated by JS -->
-                            </div>
-                        </div>
-                        <div class="what-changes-card what-changes-card--human">
-                            <div class="what-changes-card__header">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l8 16H2L10 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 8v4M10 14.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                                <div>
-                                    <h4>Stays Human</h4>
-                                    <span class="what-changes-card__sub">Where your moat actually lives</span>
-                                </div>
-                            </div>
-                            <div id="stays-human" class="what-changes-card__body">
-                                <!-- Populated by JS -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- LAYER 4: Actions -->
-        <div class="results-layer" id="layer-actions">
-            <div class="container">
-                <button class="collapse-toggle" data-target="actions-content" aria-expanded="true">
-                    <span class="collapse-toggle__title">What To Do About It</span>
-                    <svg class="collapse-toggle__icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </button>
-                <div class="collapse-content collapse-content--open" id="actions-content">
-                    <ul id="risk-actions" class="actions-list">
-                        <!-- Populated by JS -->
-                    </ul>
-                </div>
-            </div>
-        </div>
-
     </section>
 
     <!-- Footer -->
@@ -397,7 +249,6 @@
     <!-- Scripts -->
     <script src="js/data.js"></script>
     <script src="js/engine.js"></script>
-    <script src="js/charts.js"></script>
     <script src="js/app.js"></script>
 
 </body>
