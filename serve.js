@@ -35,7 +35,15 @@ Which types of firms gain advantage? Which business models break? Which competit
 Present 3 named scenarios based on the data. Each scenario gets a bold title on its own line — that IS the paragraph-level headline — followed by a blank line, then 2-3 sentences of prose. These should feel like real strategic scenarios a board would discuss, not abstract possibilities. Draw from the scenario severity data provided.
 
 ## What To Do About It
-3-5 concrete strategic imperatives, prioritized. Not generic AI advice. Specific to this sector, this score profile, these dominant impact dimensions. Each imperative should be actionable within 12 months.
+3-5 concrete strategic imperatives, prioritized. Not generic AI advice. Specific to this sector, this score profile, these dominant impact dimensions, and the regulatory environment. Each imperative should be actionable within 12 months. At least one imperative should directly address the regulatory environment — how to exploit it, defend against it, or position for its evolution.
+
+REGULATORY CONTEXT RULES:
+- The user selected a regulatory environment. It shapes WHICH dimensions of disruption hit hardest — it is NOT a uniform speed modifier.
+- "Fortress regulation" dampens velocity and moat erosion but barely slows headcount pressure — compliance becomes the moat.
+- "Patchwork/arbitrageable" amplifies moat erosion and restructuring — jurisdiction-shopping becomes a strategic capability.
+- "Open field" amplifies everything evenly — market forces dominate, first movers win.
+- "State-backed acceleration" amplifies velocity and headcount pressure but suppresses restructuring — the government absorbs transition costs.
+- Weave regulatory implications into every section, not just "What To Do." How regulation shapes winners/losers, which futures become more likely, which activities are shielded or exposed.
 
 STYLE RULES:
 - Write for a CEO who has 5 minutes. Dense, specific, no filler.
@@ -58,11 +66,15 @@ function buildUserMessage(data) {
   const dominant = dominantArr.join(" and ");
   const dominantLabel = dominantArr.map(k => dimNames[k] || k).join(" and ");
 
-  const tierLabels = { T1: 'Narrow Assistants', T2: 'Skilled Specialists', T3: 'Autonomous Professionals', T4: 'Cross-Domain Experts', T5: 'Superhuman Intelligence' };
+  const tierLabels = { T1: 'Narrow Assistants', T2: 'Very Good at a Few Things', T3: 'Average Human Professional', T4: 'Genius Level', T5: 'Superhuman Intelligence' };
+  const regulationLabels = { restrictive: 'fortress (strict compliance)', fragmented: 'patchwork (arbitrageable)', permissive: 'open field (minimal rules)', supportive: 'state-backed acceleration' };
 
   let msg = `SECTOR: ${data.sectorName}
 DISRUPTION SCORE: ${Math.round(data.score)}/100 (Zone: ${data.zone})
-ASSUMPTIONS: ${tierLabels[data.selectedTier] || data.selectedTier} capability, ${data.horizon} horizon, ${data.adoptionLevel} adoption
+ASSUMPTIONS: ${tierLabels[data.selectedTier] || data.selectedTier} capability, ${data.horizon} horizon, ${data.adoptionLevel} adoption, ${regulationLabels[data.regulationLevel] || data.regulationLevel} regulation
+
+REGULATORY ENVIRONMENT: ${regulationLabels[data.regulationLevel] || data.regulationLevel}
+${data.regulationLevel === 'restrictive' ? 'Strict compliance regimes, precautionary principle, high liability exposure. Slows deployment velocity and moat erosion but barely touches headcount pressure. Compliance infrastructure becomes a competitive advantage.' : data.regulationLevel === 'fragmented' ? 'Rules vary by jurisdiction — companies shop for favorable regimes. Amplifies moat erosion and restructuring pressure as firms arbitrage across borders. Favors scale players who can navigate complexity.' : data.regulationLevel === 'permissive' ? 'Minimal AI-specific rules, market forces dominate. All disruption dimensions amplified roughly evenly. First movers and fast movers win. No regulatory shield for incumbents.' : data.regulationLevel === 'supportive' ? 'Government subsidizes AI deployment, builds regulatory sandboxes, handles liability frameworks. Accelerates velocity and headcount impact but suppresses restructuring pressure — the state absorbs transition costs.' : 'Unknown regulatory environment.'}
 
 DOMINANT IMPACT DIMENSION: ${dominant} (${dominantLabel})
 

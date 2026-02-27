@@ -12,6 +12,7 @@
     capability: null,
     horizon: null,
     adoption: null,
+    regulation: null,
     sector: null,
     results: null
   };
@@ -22,7 +23,7 @@
 
   // ─── View Router ────────────────────────────────────────────
 
-  var VIEW_ORDER = ['landing', 'capability', 'horizon', 'adoption', 'sector', 'results'];
+  var VIEW_ORDER = ['landing', 'capability', 'horizon', 'adoption', 'regulation', 'sector', 'results'];
   var currentView = 'landing';
 
   function showView(viewName) {
@@ -76,7 +77,7 @@
   // ─── Progress Indicator ─────────────────────────────────────
 
   function updateProgress(viewName) {
-    var stepMap = { capability: 1, horizon: 2, adoption: 3, sector: 4 };
+    var stepMap = { capability: 1, horizon: 2, adoption: 3, regulation: 4, sector: 5 };
     var activeStep = stepMap[viewName] || 0;
 
     // Update step numbers
@@ -145,6 +146,15 @@
       card.addEventListener('click', function () {
         state.adoption = card.dataset.adoption;
         highlightCard('#adoption-cards .input-card', card);
+        showView('regulation');
+      });
+    });
+
+    // Regulation cards
+    $$('#regulation-cards .input-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        state.regulation = card.dataset.regulation;
+        highlightCard('#regulation-cards .input-card', card);
         showView('sector');
       });
     });
@@ -213,15 +223,15 @@
   // ─── Run Diagnostic ─────────────────────────────────────────
 
   function runDiagnostic() {
-    if (!state.capability || !state.horizon || !state.adoption || !state.sector) return;
+    if (!state.capability || !state.horizon || !state.adoption || !state.regulation || !state.sector) return;
 
-    var results = Engine.computeAll(state.sector, state.capability, state.horizon, state.adoption);
+    var results = Engine.computeAll(state.sector, state.capability, state.horizon, state.adoption, state.regulation);
     state.results = results;
 
     // Inject briefing title
     var titleEl = $('#briefing-title');
     if (titleEl) {
-      titleEl.textContent = 'AI Disruption Briefing: ' + results.sectorName;
+      titleEl.textContent = results.sectorName;
     }
 
     // Show results view
@@ -242,11 +252,13 @@
     var tierLabels = { T1: 'Narrow Assistants', T2: 'Very Good at a Few Things', T3: 'Average Human Professional', T4: 'Genius Level', T5: 'Superhuman Intelligence' };
     var horizonLabels = { H1: '2\u20135 years', H2: '5\u201310 years', H3: '10\u201320 years', H4: '20+ years' };
     var adoptionLabels = { low: 'slow', medium: 'moderate', high: 'rapid' };
+    var regulationLabels = { restrictive: 'fortress', fragmented: 'patchwork', permissive: 'open field', supportive: 'state-backed' };
 
     var pills = [
       { key: 'Capability', value: tierLabels[r.selectedTier] || r.selectedTier },
       { key: 'Horizon', value: horizonLabels[r.horizon] || r.horizon },
       { key: 'Adoption', value: adoptionLabels[r.adoptionLevel] || r.adoptionLevel },
+      { key: 'Regulation', value: regulationLabels[r.regulationLevel] || r.regulationLevel },
       { key: 'Sector', value: r.sectorName }
     ];
 

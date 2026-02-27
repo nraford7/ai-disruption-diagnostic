@@ -24,6 +24,14 @@
   var TIME_POINTS = [2, 5, 10, 20];
   var HORIZONS = ['H1', 'H2', 'H3', 'H4'];
 
+  // Regulation dimension multipliers: applied to raw H/M/V/B/R before summing
+  var REGULATION_MODIFIERS = {
+    restrictive: { H: 0.80, M: 0.90, V: 0.65, B: 0.55, R: 0.85 },
+    fragmented:  { H: 1.00, M: 1.10, V: 0.90, B: 1.35, R: 1.25 },
+    permissive:  { H: 1.10, M: 1.10, V: 1.15, B: 1.20, R: 1.00 },
+    supportive:  { H: 1.25, M: 1.00, V: 1.30, B: 1.10, R: 0.75 }
+  };
+
   // Physical / manual task IDs (routine manual 8-12, non-routine manual 29-32)
   var PHYSICAL_TASK_IDS = [8, 9, 10, 11, 12, 29, 30, 31, 32];
 
@@ -82,22 +90,31 @@
     return idx;
   }
 
-  /** Sum impact values at a given tier for a task. */
-  function impactSum(task, tier) {
+  /** Sum impact values at a given tier for a task, with optional regulation modifiers. */
+  function impactSum(task, tier, regulationLevel) {
     var impacts = task.impacts[tier];
     if (!impacts) return 0;
+    var mods = regulationLevel ? REGULATION_MODIFIERS[regulationLevel] : null;
     var sum = 0;
     for (var i = 0; i < IMPACT_KEYS.length; i++) {
-      sum += (impacts[IMPACT_KEYS[i]] || 0);
+      var key = IMPACT_KEYS[i];
+      var val = impacts[key] || 0;
+      if (mods) val *= mods[key];
+      sum += val;
     }
     return sum;
   }
 
-  /** Get a single impact value for a task at a tier. */
-  function impactValue(task, tier, key) {
+  /** Get a single impact value for a task at a tier, with optional regulation modifier. */
+  function impactValue(task, tier, key, regulationLevel) {
     var impacts = task.impacts[tier];
     if (!impacts) return 0;
-    return impacts[key] || 0;
+    var val = impacts[key] || 0;
+    if (regulationLevel) {
+      var mods = REGULATION_MODIFIERS[regulationLevel];
+      if (mods) val *= mods[key];
+    }
+    return val;
   }
 
   // ---------------------------------------------------------------------------
@@ -116,9 +133,9 @@
   // computeTaskScore
   // ---------------------------------------------------------------------------
 
-  function computeTaskScore(taskId, selectedTier) {
+  function computeTaskScore(taskId, selectedTier, regulationLevel) {
     var task = getTask(taskId);
-    var sum = impactSum(task, selectedTier);
+    var sum = impactSum(task, selectedTier, regulationLevel);
     return sum / THEORETICAL_MAX;
   }
 
@@ -126,14 +143,14 @@
   // rawSectorScore
   // ---------------------------------------------------------------------------
 
-  function rawSectorScore(sector, tier) {
+  function rawSectorScore(sector, tier, regulationLevel) {
     var weights = sector.weights;
     var raw = 0;
     var taskIds = Object.keys(weights);
     for (var i = 0; i < taskIds.length; i++) {
       var tid = Number(taskIds[i]);
       var weight = weights[tid];
-      raw += computeTaskScore(tid, tier) * weight;
+      raw += computeTaskScore(tid, tier, regulationLevel) * weight;
     }
     return raw;
   }
@@ -142,9 +159,9 @@
   // computeSectorScore
   // ---------------------------------------------------------------------------
 
-  function computeSectorScore(sectorId, selectedTier, adoptionLevel) {
+  function computeSectorScore(sectorId, selectedTier, adoptionLevel, regulationLevel) {
     var sector = getSector(sectorId);
-    var raw = rawSectorScore(sector, selectedTier);
+    var raw = rawSectorScore(sector, selectedTier, regulationLevel);
     var range = computeGlobalRange();
 
     var span = range.max - range.min;
@@ -171,9 +188,9 @@
   // computeTimeline
   // ---------------------------------------------------------------------------
 
-  function computeTimeline(sectorId, selectedTier, horizon, adoptionLevel) {
-    var baseline = computeSectorScore(sectorId, 'T1', adoptionLevel);
-    var finalScore = computeSectorScore(sectorId, selectedTier, adoptionLevel);
+  function computeTimeline(sectorId, selectedTier, horizon, adoptionLevel, regulationLevel) {
+    var baseline = computeSectorScore(sectorId, 'T1', adoptionLevel, regulationLevel);
+    var finalScore = computeSectorScore(sectorId, selectedTier, adoptionLevel, regulationLevel);
 
     var data = getData();
     var pctTable = data.TIMELINE_PERCENTAGES;
@@ -232,7 +249,7 @@
    * @param {string} selectedTier
    * @returns {Array<{id: string, label: string, severity: string, score: number, description: string}>}
    */
-  function evaluateScenarios(sectorId, selectedTier) {
+  function evaluateScenarios(sectorId, selectedTier, regulationLevel) {
     var sector = getSector(sectorId);
     var weights = sector.weights;
     var taskIds = Object.keys(weights).map(Number);
@@ -247,7 +264,7 @@
         var tid = filteredIds[i];
         var w = weights[tid] || 0;
         var task = getTask(tid);
-        sumVal += impactValue(task, selectedTier, dim) * w;
+        sumVal += impactValue(task, selectedTier, dim, regulationLevel) * w;
         sumW += w;
       }
       return sumW > 0 ? sumVal / sumW : 0;
@@ -260,7 +277,7 @@
       var sum = 0;
       for (var i = 0; i < filteredIds.length; i++) {
         var task = getTask(filteredIds[i]);
-        sum += impactValue(task, selectedTier, dim);
+        sum += impactValue(task, selectedTier, dim, regulationLevel);
       }
       return sum / filteredIds.length;
     }
@@ -319,8 +336,8 @@
     // Execution automates but verification doesn't → value shifts to "who can check"
     var execH = avgDim(EXECUTION_TASK_IDS, 'H');
     var verifyTask = getTask(VERIFICATION_TASK_ID);
-    var verifyH = impactValue(verifyTask, selectedTier, 'H');
-    var verifyB = impactValue(verifyTask, selectedTier, 'B');
+    var verifyH = impactValue(verifyTask, selectedTier, 'H', regulationLevel);
+    var verifyB = impactValue(verifyTask, selectedTier, 'B', regulationLevel);
     var verificationGap = Math.max(0, execH - verifyH);
     var verificationScore = verificationGap * 0.5 + verifyB * 0.5;
     scenarios.push({
@@ -351,7 +368,7 @@
   // computeDominantImpact
   // ---------------------------------------------------------------------------
 
-  function computeDominantImpact(sectorId, selectedTier) {
+  function computeDominantImpact(sectorId, selectedTier, regulationLevel) {
     var sector = getSector(sectorId);
     var weights = sector.weights;
     var taskIds = Object.keys(weights).map(Number);
@@ -365,7 +382,7 @@
         var tid = taskIds[i];
         var task = getTask(tid);
         var w = weights[tid];
-        weightedSum += impactValue(task, selectedTier, key) * w;
+        weightedSum += impactValue(task, selectedTier, key, regulationLevel) * w;
         totalWeight += w;
       }
       scores[key] = totalWeight > 0 ? weightedSum / totalWeight : 0;
@@ -399,10 +416,11 @@
    * @param {string} selectedTier
    * @returns {{ changesFirst: Array, changesMost: Array, staysHuman: Array }}
    */
-  function computeWhatChanges(sectorId, selectedTier) {
+  function computeWhatChanges(sectorId, selectedTier, regulationLevel) {
     var sector = getSector(sectorId);
     var weights = sector.weights;
     var taskIds = Object.keys(weights).map(Number);
+    var mods = regulationLevel ? REGULATION_MODIFIERS[regulationLevel] : null;
 
     // Build scored task list
     var taskScores = taskIds.map(function (tid) {
@@ -413,6 +431,9 @@
       var v = impacts.V || 0;
       var b = impacts.B || 0;
       var r = impacts.R || 0;
+      if (mods) {
+        h *= mods.H; m *= mods.M; v *= mods.V; b *= mods.B; r *= mods.R;
+      }
       var total = h + m + v + b + r;
       return {
         id: tid,
@@ -420,7 +441,7 @@
         weight: weights[tid],
         impacts: { H: h, M: m, V: v, B: b, R: r },
         total: total,
-        score: computeTaskScore(tid, selectedTier)
+        score: computeTaskScore(tid, selectedTier, regulationLevel)
       };
     });
 
@@ -453,13 +474,13 @@
   // generateRecommendations
   // ---------------------------------------------------------------------------
 
-  function generateRecommendations(sectorId, selectedTier, adoptionLevel) {
+  function generateRecommendations(sectorId, selectedTier, adoptionLevel, regulationLevel) {
     var sector = getSector(sectorId);
     var weights = sector.weights;
     var taskIds = Object.keys(weights).map(Number);
 
-    var dominantResult = computeDominantImpact(sectorId, selectedTier);
-    var scenarios = evaluateScenarios(sectorId, selectedTier);
+    var dominantResult = computeDominantImpact(sectorId, selectedTier, regulationLevel);
+    var scenarios = evaluateScenarios(sectorId, selectedTier, regulationLevel);
     var level = (adoptionLevel || 'medium').toLowerCase();
 
     var recs = [];
@@ -482,9 +503,21 @@
       }
     }
 
+    // --- Regulation-specific recommendations ---
+    var reg = (regulationLevel || '').toLowerCase();
+    if (reg === 'restrictive') {
+      recs.push('Compliance is your moat — invest in AI governance infrastructure now. Competitors who treat regulation as overhead will fall behind those who weaponize it as a barrier to entry.');
+    } else if (reg === 'fragmented') {
+      recs.push('Regulatory arbitrage is your moat — build jurisdiction-flexible operations. The patchwork gives you room to move fast where rules allow and lock in advantages before harmonization.');
+    } else if (reg === 'permissive') {
+      recs.push('Move now while the field is open — first movers in unregulated spaces set the de facto standards. Build market position before regulation inevitably arrives.');
+    } else if (reg === 'supportive') {
+      recs.push('Align with government AI initiatives — subsidies, sandboxes, and liability frameworks are your accelerant. Organizations that partner with the state\'s AI agenda get structural advantages.');
+    }
+
     // --- Verification bottleneck ---
     var verifyTask = getTask(VERIFICATION_TASK_ID);
-    var verifyH = impactValue(verifyTask, selectedTier, 'H');
+    var verifyH = impactValue(verifyTask, selectedTier, 'H', regulationLevel);
     if (verifyH <= 1) {
       recs.push('Invest in verification infrastructure — as AI does more execution, the ability to check the work becomes your most defensible capability.');
     }
@@ -532,14 +565,14 @@
   // computeAll
   // ---------------------------------------------------------------------------
 
-  function computeAll(sectorId, selectedTier, horizon, adoptionLevel) {
+  function computeAll(sectorId, selectedTier, horizon, adoptionLevel, regulationLevel) {
     var sector = getSector(sectorId);
-    var score = computeSectorScore(sectorId, selectedTier, adoptionLevel);
-    var timeline = computeTimeline(sectorId, selectedTier, horizon, adoptionLevel);
-    var scenarios = evaluateScenarios(sectorId, selectedTier);
-    var dominant = computeDominantImpact(sectorId, selectedTier);
-    var whatChanges = computeWhatChanges(sectorId, selectedTier);
-    var recommendations = generateRecommendations(sectorId, selectedTier, adoptionLevel);
+    var score = computeSectorScore(sectorId, selectedTier, adoptionLevel, regulationLevel);
+    var timeline = computeTimeline(sectorId, selectedTier, horizon, adoptionLevel, regulationLevel);
+    var scenarios = evaluateScenarios(sectorId, selectedTier, regulationLevel);
+    var dominant = computeDominantImpact(sectorId, selectedTier, regulationLevel);
+    var whatChanges = computeWhatChanges(sectorId, selectedTier, regulationLevel);
+    var recommendations = generateRecommendations(sectorId, selectedTier, adoptionLevel, regulationLevel);
 
     // Risk zone label
     var zone;
@@ -552,22 +585,21 @@
     // Per-task detail for the sector (kept for backward compat / debug)
     var weights = sector.weights;
     var taskIds = Object.keys(weights).map(Number);
+    var regMods = regulationLevel ? REGULATION_MODIFIERS[regulationLevel] : null;
     var taskDetails = taskIds.map(function (tid) {
       var task = getTask(tid);
-      var taskScore = computeTaskScore(tid, selectedTier);
+      var taskScore = computeTaskScore(tid, selectedTier, regulationLevel);
       var impacts = task.impacts[selectedTier] || {};
+      var h = impacts.H || 0, m = impacts.M || 0, v = impacts.V || 0, b = impacts.B || 0, r = impacts.R || 0;
+      if (regMods) {
+        h *= regMods.H; m *= regMods.M; v *= regMods.V; b *= regMods.B; r *= regMods.R;
+      }
       return {
         id: tid,
         name: task.name || ('Task ' + tid),
         weight: weights[tid],
         score: taskScore,
-        impacts: {
-          H: impacts.H || 0,
-          M: impacts.M || 0,
-          V: impacts.V || 0,
-          B: impacts.B || 0,
-          R: impacts.R || 0,
-        },
+        impacts: { H: h, M: m, V: v, B: b, R: r },
       };
     }).sort(function (a, b) {
       return (b.score * b.weight) - (a.score * a.weight);
@@ -579,6 +611,7 @@
       selectedTier: selectedTier,
       horizon: horizon,
       adoptionLevel: adoptionLevel,
+      regulationLevel: regulationLevel,
       score: score,
       zone: zone,
       timeline: timeline,
