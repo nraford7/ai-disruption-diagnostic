@@ -1,6 +1,7 @@
 /**
- * AI Disruption Diagnostic — App Controller
+ * AI Disruption Diagnostic — App Controller (v2: Executive-Native)
  * Wires inputs, engine, charts, and DOM together.
+ * Dimensions: H(eadcount) / M(argin) / V(elocity) / B(arrier) / R(estructuring)
  */
 (function () {
   'use strict';
@@ -34,7 +35,6 @@
   // ─── Input Binding ──────────────────────────────────────────
 
   function bindInputCards() {
-    // Capability
     $$('#capability-cards .input-card').forEach(function (card) {
       card.addEventListener('click', function () {
         state.capability = card.dataset.capability;
@@ -44,7 +44,6 @@
       });
     });
 
-    // Horizon
     $$('#horizon-cards .input-card').forEach(function (card) {
       card.addEventListener('click', function () {
         state.horizon = card.dataset.horizon;
@@ -54,7 +53,6 @@
       });
     });
 
-    // Adoption
     $$('#adoption-cards .input-card').forEach(function (card) {
       card.addEventListener('click', function () {
         state.adoption = card.dataset.adoption;
@@ -64,7 +62,6 @@
       });
     });
 
-    // Sector
     $$('#sector-cards .sector-card').forEach(function (card) {
       card.addEventListener('click', function () {
         state.sector = parseInt(card.dataset.sector, 10);
@@ -162,9 +159,9 @@
     renderSparkline(r.timeline, r.score);
     renderScenarioPills(r);
     renderRadar(r.dominantImpact.scores);
-    renderStructuralShifts(r.higherOrderImpacts, r.sectorId);
-    renderRiskBlocks(r);
-    renderTaskTable(r.taskDetails, r.selectedTier);
+    renderScenarios(r.scenarios, r.sectorId);
+    renderWhatChanges(r);
+    renderActions(r);
   }
 
   // ─── Gauge (SVG animation) ─────────────────────────────────
@@ -175,21 +172,17 @@
     var scoreEl = $('#gauge-score-value');
     var zoneEl = $('#gauge-zone-label');
 
-    // Arc total length = pi * 80 (radius) = ~251.2
     var totalLen = 251.2;
     var targetOffset = totalLen * (1 - score / 100);
-
-    // Needle: -90 deg = score 0 (left), +90 deg = score 100 (right)
     var targetAngle = -90 + (score / 100) * 180;
 
-    // Animate
     var duration = 1200;
     var start = null;
 
     function animate(ts) {
       if (!start) start = ts;
       var t = Math.min((ts - start) / duration, 1);
-      var eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      var eased = 1 - Math.pow(1 - t, 3);
 
       var currentOffset = totalLen - (totalLen - targetOffset) * eased;
       fill.setAttribute('stroke-dashoffset', currentOffset);
@@ -207,16 +200,13 @@
       }
     }
 
-    // Reset before animating
     fill.setAttribute('stroke-dashoffset', totalLen);
     needle.setAttribute('transform', 'rotate(-90, 100, 100)');
     scoreEl.textContent = '0';
 
-    // Zone label
     zoneEl.textContent = zone;
     zoneEl.setAttribute('data-zone', zone.toLowerCase());
 
-    // Score color on the number
     scoreEl.style.color = Charts.getZoneColor(score);
 
     requestAnimationFrame(animate);
@@ -237,7 +227,6 @@
       '<strong>' + r.sectorName + '</strong> faces a Disruption score of <strong>' +
       Math.round(r.score) + '</strong>. ';
 
-    // Try sector-specific dominant narrative first
     var dom = r.dominantImpact.dominant;
     var domKey = Array.isArray(dom) ? dom[0] : dom;
     var sectorNarrative = getNarrative(r.sectorId, 'dominant', domKey);
@@ -273,11 +262,11 @@
 
   function getDominantSentence(dominant) {
     var sentences = {
-      A: 'Most core work faces direct automation \u2014 the tasks your people spend the most hours on are the tasks AI does best.',
-      C: 'The cost basis of your operations is compressing \u2014 work that required teams will require tools.',
-      P: 'Your workforce will do dramatically more with dramatically fewer people \u2014 headcount pressure is the primary risk.',
-      T: 'The expertise premium is collapsing \u2014 AI makes your juniors perform like your seniors, flattening the value of experience.',
-      D: 'Decision quality improves radically \u2014 but competitive advantage shifts from who has the best analysts to who acts on better decisions fastest.'
+      H: 'The primary pressure is on headcount \u2014 the roles your people fill today are the roles AI fills tomorrow.',
+      M: 'Your margin structure is compressing \u2014 AI makes the work cheaper, and competitors will pass those savings to your customers.',
+      V: 'Speed is the story \u2014 AI accelerates your core work so dramatically that organizations running at human pace become competitively irrelevant.',
+      B: 'Your defensible advantages are eroding \u2014 the expertise, knowledge, and specialized capability that made you hard to compete with is becoming available to everyone.',
+      R: 'The org chart is the casualty \u2014 AI doesn\'t just change what gets done, it changes how many people and layers you need to do it.'
     };
 
     if (Array.isArray(dominant)) {
@@ -292,7 +281,6 @@
 
   function renderSparkline(timeline, maxScore) {
     var years = [2, 5, 10, 20];
-    var maxVal = Math.max(maxScore, 1);
 
     years.forEach(function (yr) {
       var point = timeline.find(function (t) { return t.year === yr; });
@@ -304,7 +292,6 @@
 
       if (bar) {
         bar.style.height = '0%';
-        // Trigger reflow for animation
         bar.offsetHeight;
         bar.style.height = pct + '%';
         bar.style.background = 'linear-gradient(180deg, ' + Charts.getZoneColor(score) + ' 0%, ' + Charts.getZoneColor(score) + '66 100%)';
@@ -340,7 +327,6 @@
   // ─── Radar Chart ───────────────────────────────────────────
 
   function renderRadar(scores) {
-    // Destroy existing
     if (radarChart) {
       radarChart.destroy();
       radarChart = null;
@@ -349,8 +335,8 @@
     var canvas = $('#radar-chart');
     if (!canvas) return;
 
-    var labels = ['Automates', 'Compresses Costs', 'Productivity', 'Augments Talent', 'Decision-making'];
-    var data = [scores.A || 0, scores.C || 0, scores.P || 0, scores.T || 0, scores.D || 0];
+    var labels = ['Headcount', 'Margins', 'Speed', 'Moat', 'Reorg'];
+    var data = [scores.H || 0, scores.M || 0, scores.V || 0, scores.B || 0, scores.R || 0];
 
     radarChart = new Chart(canvas, {
       type: 'radar',
@@ -396,124 +382,119 @@
     });
   }
 
-  // ─── Structural Shifts ─────────────────────────────────────
+  // ─── Scenarios (replaces Structural Shifts) ────────────────
 
-  function renderStructuralShifts(higherOrder, sectorId) {
-    var container = $('#structural-shifts');
+  function renderScenarios(scenarios, sectorId) {
+    var container = $('#scenarios-container');
     if (!container) return;
     container.innerHTML = '';
 
-    var triggered = higherOrder.filter(function (h) { return h.triggered; });
+    var active = scenarios.filter(function (s) { return s.severity !== 'none'; });
 
-    if (triggered.length === 0) {
-      container.innerHTML = '<div class="shifts-empty">No structural shifts triggered under this scenario. Your sector\'s task profile doesn\'t cross the thresholds at this capability level.</div>';
+    if (active.length === 0) {
+      container.innerHTML = '<div class="shifts-empty">No structural scenarios triggered under this capability level. Your sector\'s task profile doesn\'t cross the thresholds yet.</div>';
       return;
     }
 
-    var descriptions = {
-      scarce_knowledge: 'What your senior specialists know is becoming available to anyone with AI tools. The expertise premium that underpinned your talent strategy and pricing power is dissolving. Knowledge scarcity no longer equals value.',
-      coordination_zero: 'The cost of coordinating work across people, teams, and organizations is collapsing. Firm boundaries drawn around coordination advantages will need to be redrawn. What you outsource vs. build in-house changes fundamentally.',
-      unbundling: 'Execution is being broadly automated, but judgment and verification remain human. Your value chain is unbundling \u2014 the bottleneck shifts from "who can do the work" to "who can verify the work was done right."'
-    };
+    active.forEach(function (scenario) {
+      var sectorDesc = getNarrative(sectorId, 'scenarios', scenario.id);
+      var desc = sectorDesc || scenario.description;
 
-    triggered.forEach(function (h) {
-      var desc = getNarrative(sectorId, 'shifts', h.id) || descriptions[h.id] || '';
       var card = document.createElement('div');
-      card.className = 'shift-card';
-      card.innerHTML = '<div class="shift-card__title">' + h.label + '</div>' +
-        '<div class="shift-card__desc">' + desc + '</div>';
+      card.className = 'scenario-card';
+      card.innerHTML =
+        '<div class="scenario-card__header">' +
+          '<span class="scenario-card__title">' + scenario.label + '</span>' +
+          '<span class="scenario-card__badge scenario-card__badge--' + scenario.severity + '">' + scenario.severity + '</span>' +
+        '</div>' +
+        '<div class="scenario-card__desc">' + desc + '</div>';
       container.appendChild(card);
     });
   }
 
-  // ─── Risk Blocks ───────────────────────────────────────────
+  // ─── What Changes Cards (replaces Task Table + Risk Blocks) ──
 
-  function renderRiskBlocks(r) {
-    renderExposed(r);
-    renderShifting(r);
-    renderActions(r);
+  function renderWhatChanges(r) {
+    var wc = r.whatChanges;
+
+    renderWhatChangesCard('#changes-first', 'Changes First', 'What gets faster immediately', wc.changesFirst, r, 'V');
+    renderWhatChangesCard('#changes-most', 'Changes Most', 'Where the people pressure is', wc.changesMost, r, 'H');
+    renderWhatChangesCard('#stays-human', 'Stays Human', 'Where your moat actually lives', wc.staysHuman, r, null);
   }
 
-  function renderExposed(r) {
-    var ul = $('#risk-exposed');
-    if (!ul) return;
-    ul.innerHTML = '';
+  function renderWhatChangesCard(selector, title, subtitle, tasks, r, highlightDim) {
+    var container = $(selector);
+    if (!container) return;
+    container.innerHTML = '';
 
-    var sorted = r.taskDetails.slice().sort(function (a, b) {
-      return (b.score * b.weight) - (a.score * a.weight);
-    });
-    var top = sorted.slice(0, 3);
-
-    top.forEach(function (task) {
-      var sectorNarrative = getNarrative(r.sectorId, 'exposure', task.id);
-      var li = document.createElement('li');
-      if (sectorNarrative) {
-        li.textContent = sectorNarrative;
+    tasks.forEach(function (task) {
+      var sectorNarrative = null;
+      if (highlightDim === 'V') {
+        sectorNarrative = getNarrative(r.sectorId, 'changesFirst', task.id);
+      } else if (highlightDim === 'H') {
+        sectorNarrative = getNarrative(r.sectorId, 'changesMost', task.id);
       } else {
-        var pct = (task.weight * 100).toFixed(0);
-        var impactSum = task.impacts.A + task.impacts.C + task.impacts.P + task.impacts.T + task.impacts.D;
-        var impactWord = impactSum >= 10 ? 'near-complete disruption' : impactSum >= 6 ? 'significant disruption' : 'meaningful impact';
-        li.textContent = task.name + ' represents ' + pct + '% of workforce time and faces ' + impactWord + ' under this scenario.';
+        sectorNarrative = getNarrative(r.sectorId, 'staysHuman', task.id);
       }
-      ul.appendChild(li);
+
+      var item = document.createElement('div');
+      item.className = 'what-changes__item';
+
+      var taskName = document.createElement('div');
+      taskName.className = 'what-changes__task-name';
+      taskName.textContent = task.name;
+      item.appendChild(taskName);
+
+      if (highlightDim) {
+        var badge = document.createElement('span');
+        badge.className = 'what-changes__dim-badge';
+        var dimVal = task.impacts[highlightDim] || 0;
+        badge.setAttribute('data-intensity', String(dimVal));
+        var dimLabels = { H: 'Headcount', M: 'Margins', V: 'Speed', B: 'Moat', R: 'Reorg' };
+        badge.textContent = (dimLabels[highlightDim] || highlightDim) + ': ' + dimVal + '/3';
+        item.appendChild(badge);
+      }
+
+      if (sectorNarrative) {
+        var desc = document.createElement('div');
+        desc.className = 'what-changes__desc';
+        desc.textContent = sectorNarrative;
+        item.appendChild(desc);
+      } else {
+        // Generate a generic sentence
+        var generic = document.createElement('div');
+        generic.className = 'what-changes__desc';
+        var pct = (task.weight * 100).toFixed(0);
+        if (highlightDim === 'V') {
+          var vScore = task.impacts.V || 0;
+          var vWord = vScore >= 3 ? 'transformative' : vScore >= 2 ? 'significant' : 'emerging';
+          generic.textContent = task.name + ' (' + pct + '% of effort) faces ' + vWord + ' velocity gains under this scenario.';
+        } else if (highlightDim === 'H') {
+          var hScore = task.impacts.H || 0;
+          var hWord = hScore >= 3 ? 'severe' : hScore >= 2 ? 'significant' : 'emerging';
+          generic.textContent = task.name + ' (' + pct + '% of effort) faces ' + hWord + ' headcount pressure.';
+        } else {
+          var total = task.total || 0;
+          generic.textContent = task.name + ' (' + pct + '% of effort) remains relatively protected \u2014 low overall AI impact at this capability level.';
+        }
+        item.appendChild(generic);
+      }
+
+      container.appendChild(item);
     });
   }
 
-  function renderShifting(r) {
-    var ul = $('#risk-shifting');
-    if (!ul) return;
-    ul.innerHTML = '';
-
-    var shiftMessages = {
-      scarce_knowledge: 'The expertise premium is collapsing \u2014 what your senior analysts know is becoming available to anyone with access to AI tools.',
-      coordination_zero: 'Coordination costs are approaching zero \u2014 the boundaries between firms, teams, and roles are being redrawn by free coordination.',
-      unbundling: 'Execution is automating but verification isn\'t \u2014 the bottleneck is shifting from doing work to proving it was done right.'
-    };
-
-    var triggered = r.higherOrderImpacts.filter(function (h) { return h.triggered; });
-
-    if (triggered.length === 0) {
-      var dom = r.dominantImpact.dominant;
-      var domArr = Array.isArray(dom) ? dom : [dom];
-      var fallbacks = {
-        A: 'Core tasks are being directly replaced \u2014 the question isn\'t whether roles change, but which roles survive.',
-        C: 'Cost structures are compressing industry-wide \u2014 margin advantages built on labor costs are evaporating.',
-        P: 'Productivity per person is multiplying \u2014 the same output requires fewer people, reshaping headcount assumptions.',
-        T: 'The talent hierarchy is flattening \u2014 juniors armed with AI perform at senior levels, eroding seniority-based value.',
-        D: 'Decision quality is improving faster than decision-making culture \u2014 the bottleneck shifts from analysis to action.'
-      };
-      domArr.forEach(function (d) {
-        var sectorMsg = getNarrative(r.sectorId, 'shiftingFallback', d);
-        var msg = sectorMsg || fallbacks[d];
-        if (msg) {
-          var li = document.createElement('li');
-          li.textContent = msg;
-          ul.appendChild(li);
-        }
-      });
-    } else {
-      triggered.forEach(function (h) {
-        var sectorMsg = getNarrative(r.sectorId, 'shifting', h.id);
-        var msg = sectorMsg || shiftMessages[h.id];
-        if (msg) {
-          var li = document.createElement('li');
-          li.textContent = msg;
-          ul.appendChild(li);
-        }
-      });
-    }
-  }
+  // ─── Actions ───────────────────────────────────────────────
 
   function renderActions(r) {
     var ul = $('#risk-actions');
     if (!ul) return;
     ul.innerHTML = '';
 
-    // Check if this sector has narrative recommendations
-    var sectorHasRecs = getNarrative(r.sectorId, 'recommendations', 'A') !== null;
+    // Check if sector has narrative recommendations
+    var sectorHasRecs = getNarrative(r.sectorId, 'recommendations', 'H') !== null;
 
     if (sectorHasRecs) {
-      // Build rec list from signals, using sector-specific text
       var recs = [];
 
       // Dominant impact recs
@@ -524,10 +505,10 @@
         if (rec) recs.push(rec);
       });
 
-      // Higher-order trigger recs
-      r.higherOrderImpacts.forEach(function (h) {
-        if (h.triggered) {
-          var rec = getNarrative(r.sectorId, 'recommendations', h.id);
+      // Scenario recs
+      r.scenarios.forEach(function (s) {
+        if (s.severity !== 'none') {
+          var rec = getNarrative(r.sectorId, 'recommendations', s.id);
           if (rec) recs.push(rec);
         }
       });
@@ -541,139 +522,18 @@
       var adoptionRec = getNarrative(r.sectorId, 'recommendations', adoptionKey);
       if (adoptionRec) recs.push(adoptionRec);
 
-      // Render sector recs
       recs.forEach(function (rec) {
         var li = document.createElement('li');
         li.textContent = rec;
         ul.appendChild(li);
       });
     } else {
-      // Fallback: use engine recommendations
       r.recommendations.forEach(function (rec) {
         var li = document.createElement('li');
         li.textContent = rec;
         ul.appendChild(li);
       });
     }
-  }
-
-  // ─── Task Table ────────────────────────────────────────────
-
-  function renderTaskTable(taskDetails) {
-    var tbody = $('#task-table-body');
-    if (!tbody) return;
-    tbody.innerHTML = '';
-
-    var catLabels = {
-      routine_cognitive: 'Routine Cognitive',
-      routine_manual: 'Routine Manual',
-      non_routine_analytical: 'Non-Routine Analytical',
-      non_routine_interactive: 'Non-Routine Interactive',
-      non_routine_manual: 'Non-Routine Manual',
-      cross_cutting: 'Cross-Cutting'
-    };
-
-    // Find the task category from data
-    var taskMap = {};
-    if (Data && Data.TASKS) {
-      Data.TASKS.forEach(function (t) { taskMap[t.id] = t; });
-    }
-
-    taskDetails.forEach(function (task) {
-      var tr = document.createElement('tr');
-      var fullTask = taskMap[task.id];
-      var category = fullTask ? (catLabels[fullTask.category] || fullTask.category) : '\u2014';
-      var totalImpact = task.impacts.A + task.impacts.C + task.impacts.P + task.impacts.T + task.impacts.D;
-
-      // Task name
-      var tdName = document.createElement('td');
-      tdName.textContent = task.name;
-      tr.appendChild(tdName);
-
-      // Category
-      var tdCat = document.createElement('td');
-      tdCat.textContent = category;
-      tr.appendChild(tdCat);
-
-      // Weight
-      var tdWeight = document.createElement('td');
-      tdWeight.className = 'task-table__num';
-      tdWeight.textContent = (task.weight * 100).toFixed(0) + '%';
-      tr.appendChild(tdWeight);
-
-      // Impact dimensions
-      ['A', 'C', 'P', 'T', 'D'].forEach(function (dim) {
-        var td = document.createElement('td');
-        td.className = 'impact-cell task-table__num';
-        td.setAttribute('data-intensity', String(task.impacts[dim]));
-        td.textContent = task.impacts[dim];
-        tr.appendChild(td);
-      });
-
-      // Total
-      var tdTotal = document.createElement('td');
-      tdTotal.className = 'total-cell task-table__num';
-      tdTotal.textContent = totalImpact;
-      var level = totalImpact <= 3 ? 'low' : totalImpact <= 6 ? 'moderate' : totalImpact <= 9 ? 'high' : totalImpact <= 12 ? 'very-high' : 'extreme';
-      tdTotal.setAttribute('data-level', level);
-      tr.appendChild(tdTotal);
-
-      tbody.appendChild(tr);
-    });
-
-    // Bind sorting
-    bindTableSort(taskDetails, taskMap, catLabels);
-  }
-
-  function bindTableSort(taskDetails, taskMap, catLabels) {
-    var currentSort = { col: null, asc: true };
-
-    $$('#task-table .task-table__sortable').forEach(function (th) {
-      // Remove old listeners by cloning
-      var newTh = th.cloneNode(true);
-      th.parentNode.replaceChild(newTh, th);
-
-      newTh.addEventListener('click', function () {
-        var col = newTh.dataset.sort;
-        if (currentSort.col === col) {
-          currentSort.asc = !currentSort.asc;
-        } else {
-          currentSort.col = col;
-          currentSort.asc = true;
-        }
-
-        // Update sort indicators
-        $$('#task-table .task-table__sortable').forEach(function (h) {
-          h.classList.remove('sort-active', 'sort-asc', 'sort-desc');
-        });
-        newTh.classList.add('sort-active', currentSort.asc ? 'sort-asc' : 'sort-desc');
-
-        // Sort data
-        var sorted = taskDetails.slice().sort(function (a, b) {
-          var va, vb;
-          if (col === 'name') {
-            va = a.name; vb = b.name;
-            return currentSort.asc ? va.localeCompare(vb) : vb.localeCompare(va);
-          } else if (col === 'category') {
-            var ftA = taskMap[a.id]; var ftB = taskMap[b.id];
-            va = ftA ? (catLabels[ftA.category] || '') : '';
-            vb = ftB ? (catLabels[ftB.category] || '') : '';
-            return currentSort.asc ? va.localeCompare(vb) : vb.localeCompare(va);
-          } else if (col === 'weight') {
-            va = a.weight; vb = b.weight;
-          } else if (col === 'total') {
-            va = a.impacts.A + a.impacts.C + a.impacts.P + a.impacts.T + a.impacts.D;
-            vb = b.impacts.A + b.impacts.C + b.impacts.P + b.impacts.T + b.impacts.D;
-          } else {
-            va = 0; vb = 0;
-          }
-          return currentSort.asc ? va - vb : vb - va;
-        });
-
-        // Re-render with sorted data
-        renderTaskTable(sorted);
-      });
-    });
   }
 
   // ─── Boot ──────────────────────────────────────────────────

@@ -1,11 +1,13 @@
 /**
- * AI Disruption Diagnostic — Scoring Engine
+ * AI Disruption Diagnostic — Scoring Engine (v2: Executive-Native)
+ *
+ * Dimensions: H(eadcount) / M(argin) / V(elocity) / B(arrier) / R(estructuring)
  *
  * Reads from window.DiagnosticData which provides:
- *   TASKS           – array of 35 task objects, each with .impacts[tier] = {A, C, P, T, D}
+ *   TASKS           – array of 35 task objects, each with .impacts[tier] = {H, M, V, B, R}
  *   SECTORS         – array of sector objects, each with .weights = { task_id: decimal }
  *   TIMELINE_PERCENTAGES – adoption speed x time point lookup
- *   RECOMMENDATION_RULES – array of { condition: fn, text: string }
+ *   SCENARIO_DEFINITIONS – 5 named scenarios with severity computation
  *
  * Exposes window.DiagnosticEngine with all scoring methods.
  */
@@ -14,22 +16,44 @@
   'use strict';
 
   // ---------------------------------------------------------------------------
-  // Helpers
+  // Constants
   // ---------------------------------------------------------------------------
 
-  const TIERS = ['T1', 'T2', 'T3', 'T4', 'T5'];
-  const IMPACT_KEYS = ['A', 'C', 'P', 'T', 'D'];
-  const TIME_POINTS = [2, 5, 10, 20];
-  const HORIZONS = ['H1', 'H2', 'H3', 'H4'];
+  var TIERS = ['T1', 'T2', 'T3', 'T4', 'T5'];
+  var IMPACT_KEYS = ['H', 'M', 'V', 'B', 'R'];
+  var TIME_POINTS = [2, 5, 10, 20];
+  var HORIZONS = ['H1', 'H2', 'H3', 'H4'];
 
   // Physical / manual task IDs (routine manual 8-12, non-routine manual 29-32)
-  const PHYSICAL_TASK_IDS = [8, 9, 10, 11, 12, 29, 30, 31, 32];
+  var PHYSICAL_TASK_IDS = [8, 9, 10, 11, 12, 29, 30, 31, 32];
 
-  // Analytical task IDs (non-routine analytical 13-20)
-  const ANALYTICAL_TASK_IDS = [13, 14, 15, 16, 17, 18, 19, 20];
+  // Junior/routine task IDs (routine cognitive 1-7, routine manual 8-12)
+  var JUNIOR_TASK_IDS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-  // Coordination task IDs (scheduling, supply chain, sales, negotiation, teaching, customer service)
-  const COORDINATION_TASK_IDS = [3, 20, 21, 22, 23, 24];
+  // Senior/strategic task IDs (strategic planning, negotiation, leadership, creative)
+  var SENIOR_TASK_IDS = [22, 25, 27, 28];
+
+  // Coordination task IDs
+  var COORDINATION_TASK_IDS = [3, 20, 21, 22, 23, 24];
+
+  // Analytical task IDs
+  var ANALYTICAL_TASK_IDS = [13, 14, 15, 16, 17, 18, 19, 20];
+
+  // Execution-heavy task IDs (tasks that automate fast)
+  var EXECUTION_TASK_IDS = [1, 2, 3, 4, 5, 6, 7, 13, 14, 19, 24, 28];
+
+  // Verification task
+  var VERIFICATION_TASK_ID = 34;
+
+  // Strategic planning task
+  var STRATEGIC_TASK_ID = 27;
+
+  // Theoretical max: 5 dimensions × 3 max intensity = 15
+  var THEORETICAL_MAX = 15;
+
+  // ---------------------------------------------------------------------------
+  // Helpers
+  // ---------------------------------------------------------------------------
 
   function getData() {
     if (!window.DiagnosticData) {
@@ -39,15 +63,15 @@
   }
 
   function getTask(taskId) {
-    const data = getData();
-    const task = data.TASKS.find(function (t) { return t.id === taskId; });
+    var data = getData();
+    var task = data.TASKS.find(function (t) { return t.id === taskId; });
     if (!task) throw new Error('Unknown task id: ' + taskId);
     return task;
   }
 
   function getSector(sectorId) {
-    const data = getData();
-    const sector = data.SECTORS.find(function (s) { return s.id === sectorId; });
+    var data = getData();
+    var sector = data.SECTORS.find(function (s) { return s.id === sectorId; });
     if (!sector) throw new Error('Unknown sector id: ' + sectorId);
     return sector;
   }
@@ -58,7 +82,7 @@
     return idx;
   }
 
-  /** Sum impact values at a given tier for a task. Missing keys default to 0. */
+  /** Sum impact values at a given tier for a task. */
   function impactSum(task, tier) {
     var impacts = task.impacts[tier];
     if (!impacts) return 0;
@@ -77,60 +101,31 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Global min/max cache (computed once)
+  // Global range (fixed)
   // ---------------------------------------------------------------------------
 
-  var _globalRange = null;
-
   function computeGlobalRange() {
-    // Fix 3: Fixed-range normalization — eliminates cross-sector normalization ripple.
-    // Score = raw * 100 before adoption modifier. No sector iteration needed.
     return { min: 0, max: 1.0 };
   }
 
-  /** Reset cached global range (call if data changes). */
   function resetCache() {
-    _globalRange = null;
+    // No cache to reset with fixed range, but keep API stable
   }
 
   // ---------------------------------------------------------------------------
   // computeTaskScore
   // ---------------------------------------------------------------------------
 
-  /**
-   * Compute normalized task disruption score at a given tier.
-   *
-   * 1. Sum impact intensities at selectedTier (A+C+P+T+D)
-   * 2. Find peak sum across ALL tiers for this task
-   * 3. Normalize: sum / peakSum
-   * 4. Apply monotonic floor: score at tier N >= score at tier N-1
-   *
-   * @param {number} taskId
-   * @param {string} selectedTier – e.g. 'T3'
-   * @returns {number} 0–1
-   */
   function computeTaskScore(taskId, selectedTier) {
     var task = getTask(taskId);
-
-    // Fix 1: Fixed theoretical max of 15 (5 dimensions × 3 max intensity)
-    // Tasks no longer guaranteed to reach 1.0 at their peak tier.
-    var THEORETICAL_MAX = 15;
-
     var sum = impactSum(task, selectedTier);
-
-    // Fix 2: No monotonic floor — tasks can score lower at higher tiers
-    // if their impact profile genuinely dips. Direct computation.
     return sum / THEORETICAL_MAX;
   }
 
   // ---------------------------------------------------------------------------
-  // rawSectorScore (internal)
+  // rawSectorScore
   // ---------------------------------------------------------------------------
 
-  /**
-   * Compute raw weighted sector score (0–1) at a given tier.
-   * No normalization or adoption modifier.
-   */
   function rawSectorScore(sector, tier) {
     var weights = sector.weights;
     var raw = 0;
@@ -147,43 +142,27 @@
   // computeSectorScore
   // ---------------------------------------------------------------------------
 
-  /**
-   * Compute the sector disruption score (0–100).
-   *
-   * 1. Weighted sum of task scores -> raw (0–1)
-   * 2. Normalize to 0–100 using global min/max
-   * 3. Apply adoption modifier
-   *
-   * @param {number} sectorId
-   * @param {string} selectedTier
-   * @param {string} adoptionLevel – 'low' | 'medium' | 'high'
-   * @returns {number} 0–100
-   */
   function computeSectorScore(sectorId, selectedTier, adoptionLevel) {
     var sector = getSector(sectorId);
     var raw = rawSectorScore(sector, selectedTier);
     var range = computeGlobalRange();
 
-    // Normalize to 0–100
     var span = range.max - range.min;
     var score;
     if (span === 0) {
-      score = 50; // degenerate: all sectors identical
+      score = 50;
     } else {
       score = ((raw - range.min) / span) * 100;
     }
 
-    // Clamp before adoption modifier
     score = Math.max(0, Math.min(100, score));
 
-    // Adoption modifier
     var level = (adoptionLevel || 'medium').toLowerCase();
     if (level === 'low') {
       score = score * 0.7 + 15;
     } else if (level === 'medium') {
       score = score * 0.85 + 8;
     }
-    // high: score * 1.0
 
     return Math.max(0, Math.min(100, score));
   }
@@ -192,15 +171,6 @@
   // computeTimeline
   // ---------------------------------------------------------------------------
 
-  /**
-   * Compute disruption timeline across 2yr, 5yr, 10yr, 20yr.
-   *
-   * @param {number} sectorId
-   * @param {string} selectedTier
-   * @param {string} horizon – 'H1' | 'H2' | 'H3' | 'H4'
-   * @param {string} adoptionLevel
-   * @returns {Array<{year: number, score: number}>}
-   */
   function computeTimeline(sectorId, selectedTier, horizon, adoptionLevel) {
     var baseline = computeSectorScore(sectorId, 'T1', adoptionLevel);
     var finalScore = computeSectorScore(sectorId, selectedTier, adoptionLevel);
@@ -209,7 +179,6 @@
     var pctTable = data.TIMELINE_PERCENTAGES;
     var level = (adoptionLevel || 'medium').toLowerCase();
 
-    // Horizon shift amount (H1=0, H2=1, H3=2, H4=3)
     var shift = HORIZONS.indexOf(horizon);
     if (shift === -1) shift = 0;
 
@@ -218,9 +187,8 @@
       var sourceIndex = i - shift;
       var pct;
       if (sourceIndex < 0) {
-        pct = 0; // shifted off table — capability hasn't arrived
+        pct = 0;
       } else {
-        // Read from the table. pctTable keyed by adoption level and time point index or year.
         pct = getTimelinePercentage(pctTable, level, sourceIndex);
       }
 
@@ -231,173 +199,163 @@
     return results;
   }
 
-  /**
-   * Read a timeline percentage from the data table.
-   * Supports two table formats:
-   *   1. pctTable[adoptionLevel][timePointIndex] = number
-   *   2. pctTable[adoptionLevel] = array of 4 numbers
-   */
   function getTimelinePercentage(pctTable, level, index) {
     if (index < 0 || index >= TIME_POINTS.length) return 0;
 
     var row = pctTable[level];
     if (!row) {
-      // Try capitalized keys
       var capLevel = level.charAt(0).toUpperCase() + level.slice(1);
       row = pctTable[capLevel];
     }
     if (!row) return 0;
 
-    // Array format
     if (Array.isArray(row)) {
       return row[index] || 0;
     }
 
-    // Object keyed by year or index
     var year = TIME_POINTS[index];
     if (row[year] !== undefined) return row[year];
     if (row[index] !== undefined) return row[index];
-
-    // Object keyed by string year
     if (row[String(year)] !== undefined) return row[String(year)];
 
     return 0;
   }
 
   // ---------------------------------------------------------------------------
-  // evaluateHigherOrderImpacts
+  // evaluateScenarios — replaces evaluateHigherOrderImpacts
   // ---------------------------------------------------------------------------
 
   /**
-   * Evaluate the three higher-order structural shift triggers.
-   * Uses HIGH-WATER MARK logic: best score across T1 through selected tier.
+   * Evaluate 5 named scenarios with graded severity (none / moderate / severe).
    *
    * @param {number} sectorId
    * @param {string} selectedTier
-   * @returns {Array<{id: string, label: string, triggered: boolean}>}
+   * @returns {Array<{id: string, label: string, severity: string, score: number, description: string}>}
    */
-  function evaluateHigherOrderImpacts(sectorId, selectedTier) {
+  function evaluateScenarios(sectorId, selectedTier) {
     var sector = getSector(sectorId);
-    var selIdx = tierIndex(selectedTier);
     var weights = sector.weights;
     var taskIds = Object.keys(weights).map(Number);
 
-    // --- "Scarce knowledge -> zero value" ---
-    // Across analytical tasks (13-20):
-    //   high-water mark of avg T >= 2.0 at any tier up to selected
-    //   AND avg A at selected tier >= 1.5
-    var scarceKnowledge = (function () {
-      var analyticalInSector = taskIds.filter(function (id) {
-        return ANALYTICAL_TASK_IDS.indexOf(id) !== -1;
-      });
-
-      if (analyticalInSector.length === 0) return false;
-
-      // High-water mark of avg T across tiers T1..selected
-      var hwmAvgT = 0;
-      for (var t = 0; t <= selIdx; t++) {
-        var sumT = 0;
-        for (var i = 0; i < analyticalInSector.length; i++) {
-          var task = getTask(analyticalInSector[i]);
-          sumT += impactValue(task, TIERS[t], 'T');
-        }
-        var avgT = sumT / analyticalInSector.length;
-        if (avgT > hwmAvgT) hwmAvgT = avgT;
+    // Helper: weighted average of a dimension across a subset of tasks
+    function weightedAvgDim(ids, dim) {
+      var filteredIds = ids.filter(function (id) { return weights[id] !== undefined; });
+      if (filteredIds.length === 0) return 0;
+      var sumW = 0;
+      var sumVal = 0;
+      for (var i = 0; i < filteredIds.length; i++) {
+        var tid = filteredIds[i];
+        var w = weights[tid] || 0;
+        var task = getTask(tid);
+        sumVal += impactValue(task, selectedTier, dim) * w;
+        sumW += w;
       }
+      return sumW > 0 ? sumVal / sumW : 0;
+    }
 
-      // Avg A at selected tier
-      var sumA = 0;
-      for (var j = 0; j < analyticalInSector.length; j++) {
-        var taskA = getTask(analyticalInSector[j]);
-        sumA += impactValue(taskA, selectedTier, 'A');
+    // Helper: simple average of a dimension across task subset
+    function avgDim(ids, dim) {
+      var filteredIds = ids.filter(function (id) { return weights[id] !== undefined; });
+      if (filteredIds.length === 0) return 0;
+      var sum = 0;
+      for (var i = 0; i < filteredIds.length; i++) {
+        var task = getTask(filteredIds[i]);
+        sum += impactValue(task, selectedTier, dim);
       }
-      var avgA = sumA / analyticalInSector.length;
+      return sum / filteredIds.length;
+    }
 
-      // Fix 4: Raised thresholds — triggers discriminate instead of firing universally
-      return hwmAvgT >= 2.5 && avgA >= 2.0;
-    })();
+    // Helper: severity from score (0-3)
+    function severity(score) {
+      if (score < 1.2) return 'none';
+      if (score < 2.0) return 'moderate';
+      return 'severe';
+    }
 
-    // --- "Coordination costs -> zero" ---
-    // Tasks 3, 20, 21-24: combined avg of max(A, P) >= 2.0 at selected tier
-    var coordinationZero = (function () {
-      var coordInSector = taskIds.filter(function (id) {
-        return COORDINATION_TASK_IDS.indexOf(id) !== -1;
-      });
+    var scenarios = [];
 
-      if (coordInSector.length === 0) return false;
+    // ── 1. "The Pyramid Inverts" ──
+    // Junior/routine tasks have high H but senior tasks don't → staffing pyramid breaks
+    var juniorH = avgDim(JUNIOR_TASK_IDS, 'H');
+    var seniorH = avgDim(SENIOR_TASK_IDS, 'H');
+    var pyramidScore = Math.max(0, juniorH - seniorH);
+    // Scale: if gap >= 2, severe; if gap >= 1, moderate
+    var pyramidSeverity = pyramidScore < 1.0 ? 'none' : pyramidScore < 2.0 ? 'moderate' : 'severe';
+    scenarios.push({
+      id: 'pyramid_inverts',
+      label: 'The Pyramid Inverts',
+      severity: pyramidSeverity,
+      score: pyramidScore,
+      description: 'Junior and routine roles face high headcount exposure while senior roles don\'t. The staffing pyramid that feeds your talent pipeline breaks.'
+    });
 
-      var sumMaxAP = 0;
-      for (var i = 0; i < coordInSector.length; i++) {
-        var task = getTask(coordInSector[i]);
-        var a = impactValue(task, selectedTier, 'A');
-        var p = impactValue(task, selectedTier, 'P');
-        sumMaxAP += Math.max(a, p);
-      }
-      var avgMaxAP = sumMaxAP / coordInSector.length;
+    // ── 2. "The Price Floor Drops" ──
+    // AI enables comparable services at a fraction of the cost → M across analytical tasks
+    var analyticalM = avgDim(ANALYTICAL_TASK_IDS, 'M');
+    var analyticalB = avgDim(ANALYTICAL_TASK_IDS, 'B');
+    var priceFloorScore = (analyticalM * 0.6 + analyticalB * 0.4);
+    scenarios.push({
+      id: 'price_floor_drops',
+      label: 'The Price Floor Drops',
+      severity: severity(priceFloorScore),
+      score: priceFloorScore,
+      description: 'AI enables comparable services at a fraction of the cost. New entrants undercut your pricing model because the expertise barrier is gone.'
+    });
 
-      // Fix 4: Raised threshold
-      return avgMaxAP >= 2.5;
-    })();
+    // ── 3. "The Solo Operator" ──
+    // Coordination tasks face high V + low B → one person does what a team did
+    var coordV = avgDim(COORDINATION_TASK_IDS, 'V');
+    var coordB = avgDim(COORDINATION_TASK_IDS, 'B');
+    var soloScore = coordV * 0.7 + (3 - coordB) * 0.3; // high V + low B (inverted)
+    scenarios.push({
+      id: 'solo_operator',
+      label: 'The Solo Operator',
+      severity: severity(soloScore),
+      score: soloScore,
+      description: 'Coordination tasks face massive velocity gains with weak defensible barriers. One person with AI does what a team of ten did.'
+    });
 
-    // --- "Unbundling & new bottlenecks" ---
-    // Avg A across all sector tasks >= 1.5
-    // AND task 34 (verification) A score <= 1
-    // AND task 27 (strategic planning) A score <= 1
-    var unbundling = (function () {
-      if (taskIds.length === 0) return false;
+    // ── 4. "The Verification Bottleneck" ──
+    // Execution automates but verification doesn't → value shifts to "who can check"
+    var execH = avgDim(EXECUTION_TASK_IDS, 'H');
+    var verifyTask = getTask(VERIFICATION_TASK_ID);
+    var verifyH = impactValue(verifyTask, selectedTier, 'H');
+    var verifyB = impactValue(verifyTask, selectedTier, 'B');
+    var verificationGap = Math.max(0, execH - verifyH);
+    var verificationScore = verificationGap * 0.5 + verifyB * 0.5;
+    scenarios.push({
+      id: 'verification_bottleneck',
+      label: 'The Verification Bottleneck',
+      severity: severity(verificationScore),
+      score: verificationScore,
+      description: 'Execution automates but verification doesn\'t. Value shifts from "who can do the work" to "who can check the work was done right."'
+    });
 
-      var sumA = 0;
-      for (var i = 0; i < taskIds.length; i++) {
-        var task = getTask(taskIds[i]);
-        sumA += impactValue(task, selectedTier, 'A');
-      }
-      var avgA = sumA / taskIds.length;
+    // ── 5. "The Speed Trap" ──
+    // Velocity gains so extreme that unrestructured orgs become irrelevant
+    var avgV = weightedAvgDim(taskIds, 'V');
+    var avgR = weightedAvgDim(taskIds, 'R');
+    var speedTrapScore = avgV * 0.5 + avgR * 0.5;
+    scenarios.push({
+      id: 'speed_trap',
+      label: 'The Speed Trap',
+      severity: severity(speedTrapScore),
+      score: speedTrapScore,
+      description: 'Velocity gains are so extreme that organizations that don\'t restructure become competitively irrelevant. Speed becomes table stakes.'
+    });
 
-      var task34 = getTask(34);
-      var task27 = getTask(27);
-      var verifyA = impactValue(task34, selectedTier, 'A');
-      var stratA = impactValue(task27, selectedTier, 'A');
-
-      // Fix 4: Raised threshold (verifyA/stratA conditions unchanged — different logic)
-      return avgA >= 2.0 && verifyA <= 1 && stratA <= 1;
-    })();
-
-    return [
-      {
-        id: 'scarce_knowledge',
-        label: 'Scarce knowledge \u2192 zero value',
-        triggered: scarceKnowledge,
-      },
-      {
-        id: 'coordination_zero',
-        label: 'Coordination costs \u2192 zero',
-        triggered: coordinationZero,
-      },
-      {
-        id: 'unbundling',
-        label: 'Unbundling & new bottlenecks',
-        triggered: unbundling,
-      },
-    ];
+    return scenarios;
   }
 
   // ---------------------------------------------------------------------------
   // computeDominantImpact
   // ---------------------------------------------------------------------------
 
-  /**
-   * Compute the dominant impact type for a sector at a given tier.
-   *
-   * @param {number} sectorId
-   * @param {string} selectedTier
-   * @returns {{ dominant: string|string[], scores: {A:number,C:number,P:number,T:number,D:number} }}
-   */
   function computeDominantImpact(sectorId, selectedTier) {
     var sector = getSector(sectorId);
     var weights = sector.weights;
     var taskIds = Object.keys(weights).map(Number);
 
-    // Weighted average for each impact type
     var scores = {};
     for (var k = 0; k < IMPACT_KEYS.length; k++) {
       var key = IMPACT_KEYS[k];
@@ -413,7 +371,6 @@
       scores[key] = totalWeight > 0 ? weightedSum / totalWeight : 0;
     }
 
-    // Sort impact types by score descending
     var sorted = IMPACT_KEYS.slice().sort(function (a, b) {
       return scores[b] - scores[a];
     });
@@ -422,11 +379,9 @@
     var second = sorted[1];
 
     var dominant;
-    // Fix 5: Widened co-dominance threshold — fewer false single-dominant calls
     if (scores[top] - scores[second] >= 0.5) {
       dominant = top;
     } else {
-      // Co-dominant: top two
       dominant = [top, second];
     }
 
@@ -434,24 +389,77 @@
   }
 
   // ---------------------------------------------------------------------------
-  // generateRecommendations
+  // computeWhatChanges — replaces task table with 3 executive cards
   // ---------------------------------------------------------------------------
 
   /**
-   * Generate strategic recommendations for a sector/tier/adoption combination.
+   * Compute the "What Changes" cards: Changes First (V), Changes Most (H), Stays Human.
    *
    * @param {number} sectorId
    * @param {string} selectedTier
-   * @param {string} adoptionLevel
-   * @returns {string[]}
+   * @returns {{ changesFirst: Array, changesMost: Array, staysHuman: Array }}
    */
+  function computeWhatChanges(sectorId, selectedTier) {
+    var sector = getSector(sectorId);
+    var weights = sector.weights;
+    var taskIds = Object.keys(weights).map(Number);
+
+    // Build scored task list
+    var taskScores = taskIds.map(function (tid) {
+      var task = getTask(tid);
+      var impacts = task.impacts[selectedTier] || {};
+      var h = impacts.H || 0;
+      var m = impacts.M || 0;
+      var v = impacts.V || 0;
+      var b = impacts.B || 0;
+      var r = impacts.R || 0;
+      var total = h + m + v + b + r;
+      return {
+        id: tid,
+        name: task.name || ('Task ' + tid),
+        weight: weights[tid],
+        impacts: { H: h, M: m, V: v, B: b, R: r },
+        total: total,
+        score: computeTaskScore(tid, selectedTier)
+      };
+    });
+
+    // Changes First: top 3 by V impact (weighted)
+    var byVelocity = taskScores.slice().sort(function (a, b) {
+      return (b.impacts.V * b.weight) - (a.impacts.V * a.weight);
+    });
+    var changesFirst = byVelocity.slice(0, 3);
+
+    // Changes Most: top 3 by H impact (weighted)
+    var byHeadcount = taskScores.slice().sort(function (a, b) {
+      return (b.impacts.H * b.weight) - (a.impacts.H * a.weight);
+    });
+    var changesMost = byHeadcount.slice(0, 3);
+
+    // Stays Human: bottom 3 by total impact (weighted)
+    var byTotal = taskScores.slice().sort(function (a, b) {
+      return (a.total * a.weight) - (b.total * b.weight);
+    });
+    var staysHuman = byTotal.slice(0, 3);
+
+    return {
+      changesFirst: changesFirst,
+      changesMost: changesMost,
+      staysHuman: staysHuman
+    };
+  }
+
+  // ---------------------------------------------------------------------------
+  // generateRecommendations
+  // ---------------------------------------------------------------------------
+
   function generateRecommendations(sectorId, selectedTier, adoptionLevel) {
     var sector = getSector(sectorId);
     var weights = sector.weights;
     var taskIds = Object.keys(weights).map(Number);
 
     var dominantResult = computeDominantImpact(sectorId, selectedTier);
-    var higherOrder = evaluateHigherOrderImpacts(sectorId, selectedTier);
+    var scenarios = evaluateScenarios(sectorId, selectedTier);
     var level = (adoptionLevel || 'medium').toLowerCase();
 
     var recs = [];
@@ -461,11 +469,11 @@
     var domArr = Array.isArray(dom) ? dom : [dom];
 
     var dominantRecs = {
-      A: 'Restructure workforce around non-automatable tasks; plan headcount transition.',
-      C: 'Prepare for compressed cost structures \u2014 margins will shift industry-wide, not just for early adopters.',
-      P: 'Model workforce at 2\u20133x current productivity; plan for smaller, higher-output teams.',
-      T: 'Compress talent pyramid; redefine role boundaries; fewer mid-level specialists.',
-      D: 'Invest in AI-augmented strategy; don\u2019t replace strategists, arm them.',
+      H: 'Map your headcount exposure by role and timeline. Build transition plans for the roles that automate first — retraining, redeployment, or managed attrition.',
+      M: 'Your cost structure is compressing industry-wide. Re-baseline operating models now — competitors with AI-native cost structures will undercut your pricing within 18 months.',
+      V: 'Your competitors will move 3-5x faster with AI. Match their speed or lose on responsiveness. Mandate AI tool adoption across high-velocity tasks within 90 days.',
+      B: 'Your defensible advantages are eroding. Shift competitive moat from knowledge scarcity to proprietary data, trusted relationships, and judgment that AI can\'t replicate.',
+      R: 'Your org chart was designed for a pre-AI world. Restructure around AI-augmented pods: fewer layers, smaller teams, higher output per person.'
     };
 
     for (var d = 0; d < domArr.length; d++) {
@@ -475,22 +483,24 @@
     }
 
     // --- Verification bottleneck ---
-    var task34 = getTask(34);
-    var verifyA = impactValue(task34, selectedTier, 'A');
-    if (verifyA <= 1) {
-      recs.push('Invest in verification infrastructure \u2014 this becomes your most defensible capability.');
+    var verifyTask = getTask(VERIFICATION_TASK_ID);
+    var verifyH = impactValue(verifyTask, selectedTier, 'H');
+    if (verifyH <= 1) {
+      recs.push('Invest in verification infrastructure — as AI does more execution, the ability to check the work becomes your most defensible capability.');
     }
 
-    // --- Higher-order impact recommendations ---
-    var hoRecs = {
-      scarce_knowledge: 'Protect proprietary data; build differentiation beyond expertise.',
-      coordination_zero: 'Rethink firm boundaries \u2014 what you outsource vs. build changes when coordination is free.',
-      unbundling: 'Shift competitive moat from knowledge to judgment, trust, and risk management.',
+    // --- Scenario-driven recommendations ---
+    var scenarioRecs = {
+      pyramid_inverts: 'Redesign your talent pipeline — the junior roles that fed your senior pipeline are disappearing. Build new on-ramps or face a senior talent cliff in 3-5 years.',
+      price_floor_drops: 'Develop tiered service offerings — AI-automated basic tier, human-premium advisory tier. If you only sell the expensive version, AI-native entrants take the floor.',
+      solo_operator: 'Rethink team composition — AI makes individual contributors as productive as small teams. Restructure around capability, not headcount.',
+      verification_bottleneck: 'Build or acquire verification capability — as execution commoditizes, the premium shifts to trust, audit, and quality assurance.',
+      speed_trap: 'Restructure or die — the velocity gap between AI-native and traditional organizations will become competitively lethal. This isn\'t optional.'
     };
 
-    for (var h = 0; h < higherOrder.length; h++) {
-      if (higherOrder[h].triggered && hoRecs[higherOrder[h].id]) {
-        recs.push(hoRecs[higherOrder[h].id]);
+    for (var s = 0; s < scenarios.length; s++) {
+      if (scenarios[s].severity !== 'none' && scenarioRecs[scenarios[s].id]) {
+        recs.push(scenarioRecs[scenarios[s].id]);
       }
     }
 
@@ -503,44 +513,16 @@
       }
     }
     if (physicalWeight >= 0.30) {
-      recs.push('Develop robotics/automation roadmap; timeline is longer, invest in transition.');
+      recs.push('Develop a robotics/automation roadmap — physical automation moves slower than cognitive, giving you a longer runway but not an infinite one.');
     }
 
-    // --- Adoption speed recommendation (always included) ---
+    // --- Adoption speed recommendation ---
     if (level === 'high') {
-      recs.push('Act now \u2014 competitive pressure leaves no runway for delayed response.');
+      recs.push('Act now — competitive pressure leaves no runway for delayed response.');
     } else if (level === 'low') {
-      recs.push('Build capability over 3\u20135 years \u2014 you have time but not unlimited time.');
+      recs.push('Build capability over 3–5 years — you have time but not unlimited time.');
     } else {
       recs.push('Begin strategic repositioning now; moderate adoption gives you a window, not a wall.');
-    }
-
-    // --- Apply any custom recommendation rules from data ---
-    var data = getData();
-    if (data.RECOMMENDATION_RULES && Array.isArray(data.RECOMMENDATION_RULES)) {
-      var context = {
-        sectorId: sectorId,
-        selectedTier: selectedTier,
-        adoptionLevel: level,
-        dominantImpact: dominantResult,
-        higherOrderImpacts: higherOrder,
-        sector: sector,
-        scores: dominantResult.scores,
-        physicalWeight: physicalWeight,
-      };
-      for (var r = 0; r < data.RECOMMENDATION_RULES.length; r++) {
-        var rule = data.RECOMMENDATION_RULES[r];
-        try {
-          if (typeof rule.condition === 'function' && rule.condition(context)) {
-            // Avoid duplicates
-            if (recs.indexOf(rule.text) === -1) {
-              recs.push(rule.text);
-            }
-          }
-        } catch (e) {
-          // Swallow bad rules silently
-        }
-      }
     }
 
     return recs;
@@ -550,21 +532,13 @@
   // computeAll
   // ---------------------------------------------------------------------------
 
-  /**
-   * Compute the full diagnostic result set for a given scenario.
-   *
-   * @param {number} sectorId
-   * @param {string} selectedTier
-   * @param {string} horizon
-   * @param {string} adoptionLevel
-   * @returns {Object} Complete results object
-   */
   function computeAll(sectorId, selectedTier, horizon, adoptionLevel) {
     var sector = getSector(sectorId);
     var score = computeSectorScore(sectorId, selectedTier, adoptionLevel);
     var timeline = computeTimeline(sectorId, selectedTier, horizon, adoptionLevel);
-    var higherOrder = evaluateHigherOrderImpacts(sectorId, selectedTier);
+    var scenarios = evaluateScenarios(sectorId, selectedTier);
     var dominant = computeDominantImpact(sectorId, selectedTier);
+    var whatChanges = computeWhatChanges(sectorId, selectedTier);
     var recommendations = generateRecommendations(sectorId, selectedTier, adoptionLevel);
 
     // Risk zone label
@@ -575,7 +549,7 @@
     else if (score <= 80) zone = 'Disrupting';
     else zone = 'Restructuring';
 
-    // Per-task detail for the sector
+    // Per-task detail for the sector (kept for backward compat / debug)
     var weights = sector.weights;
     var taskIds = Object.keys(weights).map(Number);
     var taskDetails = taskIds.map(function (tid) {
@@ -588,15 +562,14 @@
         weight: weights[tid],
         score: taskScore,
         impacts: {
-          A: impacts.A || 0,
-          C: impacts.C || 0,
-          P: impacts.P || 0,
-          T: impacts.T || 0,
-          D: impacts.D || 0,
+          H: impacts.H || 0,
+          M: impacts.M || 0,
+          V: impacts.V || 0,
+          B: impacts.B || 0,
+          R: impacts.R || 0,
         },
       };
     }).sort(function (a, b) {
-      // Sort by weighted score descending
       return (b.score * b.weight) - (a.score * a.weight);
     });
 
@@ -610,7 +583,8 @@
       zone: zone,
       timeline: timeline,
       dominantImpact: dominant,
-      higherOrderImpacts: higherOrder,
+      scenarios: scenarios,
+      whatChanges: whatChanges,
       recommendations: recommendations,
       taskDetails: taskDetails,
     };
@@ -624,8 +598,9 @@
     computeTaskScore: computeTaskScore,
     computeSectorScore: computeSectorScore,
     computeTimeline: computeTimeline,
-    evaluateHigherOrderImpacts: evaluateHigherOrderImpacts,
+    evaluateScenarios: evaluateScenarios,
     computeDominantImpact: computeDominantImpact,
+    computeWhatChanges: computeWhatChanges,
     generateRecommendations: generateRecommendations,
     computeAll: computeAll,
     resetCache: resetCache,

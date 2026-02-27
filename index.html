@@ -308,14 +308,14 @@
                 <div class="collapse-content collapse-content--open" id="impact-content">
                     <div class="impact-grid">
                         <div class="impact-grid__chart">
-                            <h4 class="subsection-title">Immediate Impacts</h4>
+                            <h4 class="subsection-title">Where AI Hits</h4>
                             <div class="radar-wrap">
                                 <canvas id="radar-chart" width="360" height="360"></canvas>
                             </div>
                         </div>
                         <div class="impact-grid__shifts">
-                            <h4 class="subsection-title">Structural Shifts</h4>
-                            <div id="structural-shifts">
+                            <h4 class="subsection-title">Scenarios</h4>
+                            <div id="scenarios-container">
                                 <!-- Populated by JS -->
                             </div>
                         </div>
@@ -324,76 +324,67 @@
             </div>
         </div>
 
-        <!-- LAYER 3: Risk Assessment (collapsible) -->
-        <div class="results-layer" id="layer-risk">
+        <!-- LAYER 3: What Changes (replaces Risk Assessment + Task Table) -->
+        <div class="results-layer" id="layer-what-changes">
             <div class="container">
-                <button class="collapse-toggle" data-target="risk-content" aria-expanded="true">
-                    <span class="collapse-toggle__title">Risk Assessment &amp; Actions</span>
+                <button class="collapse-toggle" data-target="what-changes-content" aria-expanded="true">
+                    <span class="collapse-toggle__title">What Changes</span>
                     <svg class="collapse-toggle__icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
-                <div class="collapse-content collapse-content--open" id="risk-content">
-                    <div class="risk-grid">
-                        <div class="risk-block risk-block--exposed">
-                            <div class="risk-block__header">
+                <div class="collapse-content collapse-content--open" id="what-changes-content">
+                    <div class="what-changes-grid">
+                        <div class="what-changes-card what-changes-card--first">
+                            <div class="what-changes-card__header">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2v16M3 10l7-8 7 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <div>
+                                    <h4>Changes First</h4>
+                                    <span class="what-changes-card__sub">What gets faster immediately</span>
+                                </div>
+                            </div>
+                            <div id="changes-first" class="what-changes-card__body">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                        <div class="what-changes-card what-changes-card--most">
+                            <div class="what-changes-card__header">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v5M10 13.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                                <h4>Why You're Exposed</h4>
+                                <div>
+                                    <h4>Changes Most</h4>
+                                    <span class="what-changes-card__sub">Where the people pressure is</span>
+                                </div>
                             </div>
-                            <ul id="risk-exposed">
+                            <div id="changes-most" class="what-changes-card__body">
                                 <!-- Populated by JS -->
-                            </ul>
-                        </div>
-                        <div class="risk-block risk-block--shifting">
-                            <div class="risk-block__header">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10h14M12 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                <h4>What's Shifting</h4>
                             </div>
-                            <ul id="risk-shifting">
-                                <!-- Populated by JS -->
-                            </ul>
                         </div>
-                        <div class="risk-block risk-block--action">
-                            <div class="risk-block__header">
+                        <div class="what-changes-card what-changes-card--human">
+                            <div class="what-changes-card__header">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l8 16H2L10 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M10 8v4M10 14.5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-                                <h4>What To Do About It</h4>
+                                <div>
+                                    <h4>Stays Human</h4>
+                                    <span class="what-changes-card__sub">Where your moat actually lives</span>
+                                </div>
                             </div>
-                            <ul id="risk-actions">
+                            <div id="stays-human" class="what-changes-card__body">
                                 <!-- Populated by JS -->
-                            </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- LAYER 4: Task Detail (collapsible) -->
-        <div class="results-layer" id="layer-tasks">
+        <!-- LAYER 4: Actions -->
+        <div class="results-layer" id="layer-actions">
             <div class="container">
-                <button class="collapse-toggle" data-target="tasks-content" aria-expanded="false">
-                    <span class="collapse-toggle__title">Task Detail</span>
-                    <span class="collapse-toggle__badge">For strategy teams</span>
+                <button class="collapse-toggle" data-target="actions-content" aria-expanded="true">
+                    <span class="collapse-toggle__title">What To Do About It</span>
                     <svg class="collapse-toggle__icon" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>
-                <div class="collapse-content" id="tasks-content">
-                    <div class="table-wrap">
-                        <table class="task-table" id="task-table">
-                            <thead>
-                                <tr>
-                                    <th class="task-table__sortable" data-sort="name">Task <span class="sort-icon"></span></th>
-                                    <th class="task-table__sortable" data-sort="category">Category <span class="sort-icon"></span></th>
-                                    <th class="task-table__sortable task-table__num" data-sort="weight">Weight <span class="sort-icon"></span></th>
-                                    <th class="task-table__num">A</th>
-                                    <th class="task-table__num">C</th>
-                                    <th class="task-table__num">P</th>
-                                    <th class="task-table__num">T</th>
-                                    <th class="task-table__num">D</th>
-                                    <th class="task-table__sortable task-table__num" data-sort="total">Total <span class="sort-icon"></span></th>
-                                </tr>
-                            </thead>
-                            <tbody id="task-table-body">
-                                <!-- Populated by JS -->
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="collapse-content collapse-content--open" id="actions-content">
+                    <ul id="risk-actions" class="actions-list">
+                        <!-- Populated by JS -->
+                    </ul>
                 </div>
             </div>
         </div>

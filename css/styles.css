@@ -1026,6 +1026,203 @@ body {
 .total-cell[data-level="extreme"]   { color: #ff6b6b; }
 
 
+/* ─── SCENARIO CARDS (replaces Structural Shifts) ─── */
+
+.scenario-card {
+    padding: var(--sp-5);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--sp-3);
+    border-left: 3px solid var(--orange);
+    transition: border-color var(--dur-normal) var(--ease-out);
+}
+
+.scenario-card:hover {
+    border-left-color: var(--accent);
+}
+
+.scenario-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--sp-3);
+}
+
+.scenario-card__title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.scenario-card__badge {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 10px;
+    border-radius: 999px;
+}
+
+.scenario-card__badge--moderate {
+    background: var(--orange-dim);
+    color: var(--orange);
+}
+
+.scenario-card__badge--severe {
+    background: var(--red-dim);
+    color: var(--red);
+}
+
+.scenario-card__desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+}
+
+
+/* ─── WHAT CHANGES CARDS (replaces Risk Grid + Task Table) ─── */
+
+.what-changes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-5);
+    padding-top: var(--sp-6);
+}
+
+.what-changes-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--sp-6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.what-changes-card__header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-5);
+    padding-bottom: var(--sp-4);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.what-changes-card__header h4 {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.what-changes-card__sub {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.what-changes-card--first .what-changes-card__header {
+    color: var(--accent);
+}
+.what-changes-card--first .what-changes-card__header svg {
+    color: var(--accent);
+}
+
+.what-changes-card--most .what-changes-card__header {
+    color: var(--red);
+}
+.what-changes-card--most .what-changes-card__header svg {
+    color: var(--red);
+}
+
+.what-changes-card--human .what-changes-card__header {
+    color: var(--green);
+}
+.what-changes-card--human .what-changes-card__header svg {
+    color: var(--green);
+}
+
+.what-changes__item {
+    padding: var(--sp-3) 0;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.what-changes__item:last-child {
+    border-bottom: none;
+}
+
+.what-changes__task-name {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--sp-1);
+}
+
+.what-changes__dim-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    padding: 1px 8px;
+    border-radius: 999px;
+    margin-bottom: var(--sp-2);
+}
+
+.what-changes__dim-badge[data-intensity="0"] {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+}
+.what-changes__dim-badge[data-intensity="1"] {
+    background: var(--yellow-dim);
+    color: var(--yellow);
+}
+.what-changes__dim-badge[data-intensity="2"] {
+    background: var(--orange-dim);
+    color: var(--orange);
+}
+.what-changes__dim-badge[data-intensity="3"] {
+    background: var(--red-dim);
+    color: var(--red);
+}
+
+.what-changes__desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+}
+
+
+/* ─── ACTIONS LIST ─── */
+
+.actions-list {
+    list-style: none;
+    padding-top: var(--sp-4);
+}
+
+.actions-list li {
+    position: relative;
+    padding-left: var(--sp-5);
+    margin-bottom: var(--sp-4);
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+.actions-list li:last-child {
+    margin-bottom: 0;
+}
+
+.actions-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px rgba(59, 130, 246, 0.4);
+}
+
+
 /* ─── FOOTER ─── */
 
 .site-footer {
@@ -1109,6 +1306,9 @@ body {
         grid-template-columns: 1fr;
     }
     .risk-grid {
+        grid-template-columns: 1fr;
+    }
+    .what-changes-grid {
         grid-template-columns: 1fr;
     }
     .sector-grid {

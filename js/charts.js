@@ -29,11 +29,11 @@
   ];
 
   const DIMENSION_LABELS = {
-    A: 'Automates',
-    C: 'Compresses Costs',
-    P: 'Productivity',
-    T: 'Augments Talent',
-    D: 'Decision-making',
+    H: 'Headcount',
+    M: 'Margins',
+    V: 'Speed',
+    B: 'Moat',
+    R: 'Reorg',
   };
 
   // ── Chart.js Instance Registry ────────────────────────────────────────
@@ -232,7 +232,7 @@
     const canvas = document.createElement('canvas');
     container.appendChild(canvas);
 
-    const labels = ['A', 'C', 'P', 'T', 'D'];
+    const labels = ['H', 'M', 'V', 'B', 'R'];
     const data = labels.map(k => impactScores[k] || 0);
     const fullLabels = labels.map(k => DIMENSION_LABELS[k]);
 
@@ -404,7 +404,7 @@
       return;
     }
 
-    const dims = ['A', 'C', 'P', 'T', 'D'];
+    const dims = ['H', 'M', 'V', 'B', 'R'];
     let sortCol = null;
     let sortAsc = true;
     let rows = taskData.slice();
