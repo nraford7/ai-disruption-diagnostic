@@ -239,7 +239,7 @@
     if (!container) return;
     container.innerHTML = '';
 
-    var tierLabels = { T1: 'Narrow Assistants', T2: 'Skilled Specialists', T3: 'Autonomous Professionals', T4: 'Cross-Domain Experts', T5: 'Superhuman Intelligence' };
+    var tierLabels = { T1: 'Narrow Assistants', T2: 'Very Good at a Few Things', T3: 'Average Human Professional', T4: 'Genius Level', T5: 'Superhuman Intelligence' };
     var horizonLabels = { H1: '2\u20135 years', H2: '5\u201310 years', H3: '10\u201320 years', H4: '20+ years' };
     var adoptionLabels = { low: 'slow', medium: 'moderate', high: 'rapid' };
 
