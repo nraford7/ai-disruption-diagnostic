@@ -50,17 +50,18 @@ STYLE RULES:
 
 function buildUserMessage(data) {
   const dims = data.dominantImpact.scores;
-  const dominant = Array.isArray(data.dominantImpact.dominant)
-    ? data.dominantImpact.dominant.join(" and ")
-    : data.dominantImpact.dominant;
-
   const dimNames = { H: "Headcount", M: "Margins", V: "Velocity/Speed", B: "Barrier/Moat Erosion", R: "Restructuring" };
+  const dominantArr = Array.isArray(data.dominantImpact.dominant)
+    ? data.dominantImpact.dominant
+    : [data.dominantImpact.dominant];
+  const dominant = dominantArr.join(" and ");
+  const dominantLabel = dominantArr.map(k => dimNames[k] || k).join(" and ");
 
   let msg = `SECTOR: ${data.sectorName}
 DISRUPTION SCORE: ${Math.round(data.score)}/100 (Zone: ${data.zone})
 ASSUMPTIONS: ${data.selectedTier} capability, ${data.horizon} horizon, ${data.adoptionLevel} adoption
 
-DOMINANT IMPACT DIMENSION: ${dominant} (${dimNames[Array.isArray(data.dominantImpact.dominant) ? data.dominantImpact.dominant[0] : data.dominantImpact.dominant]})
+DOMINANT IMPACT DIMENSION: ${dominant} (${dominantLabel})
 
 DIMENSION SCORES (0-3 scale):
 - Headcount pressure: ${dims.H.toFixed(1)}
