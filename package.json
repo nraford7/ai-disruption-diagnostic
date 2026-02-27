@@ -1,7 +1,11 @@
 {
   "name": "ai-disruption-diagnostic",
   "private": true,
+  "type": "module",
   "scripts": {
     "start": "node serve.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0"
   }
 }
