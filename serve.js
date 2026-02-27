@@ -58,9 +58,11 @@ function buildUserMessage(data) {
   const dominant = dominantArr.join(" and ");
   const dominantLabel = dominantArr.map(k => dimNames[k] || k).join(" and ");
 
+  const tierLabels = { T1: 'Narrow Assistants', T2: 'Skilled Specialists', T3: 'Autonomous Professionals', T4: 'Cross-Domain Experts', T5: 'Superhuman Intelligence' };
+
   let msg = `SECTOR: ${data.sectorName}
 DISRUPTION SCORE: ${Math.round(data.score)}/100 (Zone: ${data.zone})
-ASSUMPTIONS: ${data.selectedTier} capability, ${data.horizon} horizon, ${data.adoptionLevel} adoption
+ASSUMPTIONS: ${tierLabels[data.selectedTier] || data.selectedTier} capability, ${data.horizon} horizon, ${data.adoptionLevel} adoption
 
 DOMINANT IMPACT DIMENSION: ${dominant} (${dominantLabel})
 

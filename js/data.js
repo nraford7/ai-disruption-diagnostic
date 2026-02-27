@@ -1377,24 +1377,24 @@
   // ---------------------------------------------------------------------------
   var TIER_LABELS = {
     T1: {
-      label: 'Current Tools',
-      description: 'Better autocomplete, chatbots, narrow ML \u2014 improved versions of today\'s tools'
+      label: 'Narrow Assistants',
+      description: 'Pattern-matching tools \u2014 autocomplete, chatbots, search. Useful but brittle outside their training.'
     },
     T2: {
-      label: 'Enhanced Copilots',
-      description: 'AI assists across domains, human drives all decisions'
+      label: 'Skilled Specialists',
+      description: 'Reliably handles defined knowledge tasks \u2014 analysis, drafting, coding \u2014 with human oversight for edge cases.'
     },
     T3: {
-      label: 'Domain-Autonomous Agents',
-      description: 'AI executes whole tasks independently in bounded domains'
+      label: 'Autonomous Professionals',
+      description: 'Independently runs complex workflows, adapts to novel situations, exercises judgment within a domain.'
     },
     T4: {
-      label: 'AGI',
-      description: 'Human-level capability across all cognitive domains'
+      label: 'Cross-Domain Experts',
+      description: 'Operates at senior-professional level across fields \u2014 strategy, creative work, research \u2014 with general intelligence.'
     },
     T5: {
-      label: 'Superintelligence',
-      description: 'Beyond human capability across everything'
+      label: 'Superhuman Intelligence',
+      description: 'Exceeds the best human performance in every cognitive domain simultaneously.'
     }
   };
 
