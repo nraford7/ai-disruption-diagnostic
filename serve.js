@@ -55,7 +55,8 @@ STYLE RULES:
 - The tone is authoritative but not academic. Think senior partner at McKinsey writing a private memo, not a blog post.
 - Do not explain what AI is. The reader knows.
 - Do not include disclaimers about uncertainty. The reader selected their own assumptions.
-- Use dashes (-) for any lists. Never use numbered lists.`;
+- Use dashes (-) for any lists. Never use numbered lists.
+- Do NOT start with a title or top-level heading (# ...). The title is already displayed in the UI. Begin directly with the first section (## The Verdict).`;
 
 function buildUserMessage(data) {
   const dims = data.dominantImpact.scores;

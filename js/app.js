@@ -365,6 +365,8 @@
 
   function renderMarkdown(text) {
     return text
+      // Strip any leading top-level heading (duplicate title)
+      .replace(/^\s*#\s+.+\n+/, '')
       // Headers
       .replace(/^## (.+)$/gm, '<h2 class="briefing-h2">$1</h2>')
       .replace(/^### (.+)$/gm, '<h3 class="briefing-h3">$1</h3>')
