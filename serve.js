@@ -132,7 +132,7 @@ const server = createServer(async (req, res) => {
       });
 
       const stream = client.messages.stream({
-        model: "claude-sonnet-4-20250514",
+        model: "claude-sonnet-4-6",
         max_tokens: 2048,
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: buildUserMessage(data) }],
