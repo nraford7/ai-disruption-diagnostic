@@ -5,8 +5,17 @@ import { join, extname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
-const client = new Anthropic();
+
+// Lazy client init: a missing key shouldn't stop the server from booting and
+// serving static files / passing healthchecks. The API route reports it instead.
+let client;
+function getClient() {
+  if (!client) client = new Anthropic();
+  return client;
+}
+
 const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || "0.0.0.0";
 
 const MIME = {
   ".html": "text/html",
@@ -110,6 +119,14 @@ Write the strategic briefing now.`;
 }
 
 const server = createServer(async (req, res) => {
+  // Health check — cheap, no file I/O or API key needed. Gives the platform a
+  // reliable probe target so it doesn't recycle a healthy instance.
+  if (req.method === "GET" && req.url === "/health") {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("ok");
+    return;
+  }
+
   // API endpoint
   if (req.method === "POST" && req.url === "/api/briefing") {
     let body = "";
@@ -124,6 +141,15 @@ const server = createServer(async (req, res) => {
       return;
     }
 
+    let activeClient;
+    try {
+      activeClient = getClient();
+    } catch {
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Server not configured: ANTHROPIC_API_KEY is missing." }));
+      return;
+    }
+
     try {
       res.writeHead(200, {
         "Content-Type": "text/event-stream",
@@ -131,7 +157,7 @@ const server = createServer(async (req, res) => {
         Connection: "keep-alive",
       });
 
-      const stream = client.messages.stream({
+      const stream = activeClient.messages.stream({
         model: "claude-sonnet-4-6",
         max_tokens: 2048,
         system: SYSTEM_PROMPT,
@@ -174,4 +200,20 @@ const server = createServer(async (req, res) => {
   }
 });
 
-server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+server.on("error", (err) => {
+  console.error("Server error:", err);
+  process.exit(1);
+});
+
+server.listen(PORT, HOST, () => console.log(`Listening on ${HOST}:${PORT}`));
+
+// Graceful shutdown so platform restarts/deploys don't surface as SIGTERM crashes.
+// SSE streams hold sockets open, so force-exit if close() stalls.
+function shutdown(signal) {
+  console.log(`Received ${signal}, shutting down.`);
+  server.close(() => process.exit(0));
+  setTimeout(() => process.exit(0), 5000).unref();
+}
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+process.on("SIGINT", () => shutdown("SIGINT"));
+process.on("unhandledRejection", (reason) => console.error("Unhandled rejection:", reason));
